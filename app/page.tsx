@@ -12,7 +12,7 @@ export default async function Home() {
     <>
       <Breadcrumbs />
       <Header title="Router.so">Welcome to Router.so</Header>
-      Hello world
+      <div className="grid gap-4 grid-rows-[500px,1fr]">Hello world</div>
     </>
   );
 }
