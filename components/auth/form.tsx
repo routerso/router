@@ -21,10 +21,10 @@ import { useSearchParams } from "next/navigation";
 
 import { Mail } from "lucide-react";
 
+// TODO: change this to allow any emails
 const allowedEmails = [
   "cameron.youngblood@gmail.com",
   "bridgertower@gmail.com",
-  "kylerooneyx@gmail.com",
 ];
 
 const formSchema = z.object({
