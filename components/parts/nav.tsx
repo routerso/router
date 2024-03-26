@@ -12,17 +12,17 @@ import LogoDark from "@/public/logo-dark.svg";
 import {
   BarChart,
   Contact,
-  Upload,
   Layers,
   Settings,
   LifeBuoy,
+  Disc3,
 } from "lucide-react";
 
 const links = [
   { href: "/", text: "Dashboard", icon: BarChart },
-  { href: "/domains", text: "Domains", icon: Layers },
-  { href: "/contacts", text: "Contacts", icon: Contact },
-  { href: "/upload", text: "Upload", icon: Upload },
+  { href: "/endpoints", text: "Endpoints", icon: Layers },
+  { href: "/leads", text: "Leads", icon: Contact },
+  { href: "/logs", text: "Logs", icon: Disc3 },
 ];
 
 const otherLinks = [
@@ -37,14 +37,14 @@ export default function Nav() {
         <Image
           className="dark:block hidden"
           src={Logo}
-          alt="Outr.io Logo"
+          alt="Router.so Logo"
           width={120}
           height={30.86}
         ></Image>
         <Image
           className="dark:hidden block"
           src={LogoDark}
-          alt="Outr.io Logo"
+          alt="Router.so Logo"
           width={120}
           height={30.86}
         ></Image>
@@ -69,7 +69,7 @@ export default function Nav() {
           <div className="flex justify-between items-center gap-2">
             <ModeToggle />
             <p className="text-xs text-muted-foreground opacity-50">
-              © Outr.io / 9d8, 2024
+              © router.so / 9d8, 2024
             </p>
           </div>
         </div>

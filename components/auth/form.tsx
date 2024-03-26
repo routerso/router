@@ -24,6 +24,7 @@ import { Mail } from "lucide-react";
 // TODO: change this to allow any emails
 const allowedEmails = [
   "cameron.youngblood@gmail.com",
+  "cameron@ampry.com",
   "bridgertower@gmail.com",
 ];
 
