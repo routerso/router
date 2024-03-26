@@ -3,11 +3,13 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth/auth";
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
+import CreateForm from "@/components/groups/endpoints/create-form";
+import { Separator } from "@/components/ui/separator";
 
 const pageData = {
-  name: "Dashboard",
-  title: "Dashboard",
-  description: "Snapshot of your endpoints and leads.",
+  name: "Endpoints",
+  title: "Endpoints",
+  description: "Create a new endpoint.",
 };
 
 export default async function Home() {
@@ -18,9 +20,8 @@ export default async function Home() {
     <>
       <Breadcrumbs pageName={pageData?.name} />
       <Header title={pageData?.title}>{pageData?.description}</Header>
-      <div className="grid gap-4 grid-rows-[500px,1fr]">
-        {pageData?.description}
-      </div>
+      <CreateForm />
+      <Separator />
     </>
   );
 }

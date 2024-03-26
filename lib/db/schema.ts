@@ -9,6 +9,8 @@ import {
   pgEnum,
   boolean,
   numeric,
+  json,
+  serial,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccount } from "@auth/core/adapters";
 
@@ -63,3 +65,35 @@ export const verificationTokens = pgTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   })
 );
+
+export const endpoints = pgTable("endpoint", {
+  id: uuid("id").defaultRandom().notNull().primaryKey(),
+  incrementId: serial("incrementId").notNull().unique(),
+  userId: uuid("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  schema: json("schema").notNull(),
+  enabled: boolean("enabled").default(true).notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
+  updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
+});
+
+export const leads = pgTable("lead", {
+  id: uuid("id").defaultRandom().notNull().primaryKey(),
+  endpointId: uuid("endpointId")
+    .notNull()
+    .references(() => endpoints.id, { onDelete: "cascade" }),
+  data: json("data").notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
+  updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
+});
+
+export const logTypeEnum = pgEnum("logType", ["success", "error"]);
+
+export const logs = pgTable("log", {
+  id: uuid("id").defaultRandom().notNull().primaryKey(),
+  type: logTypeEnum("type").notNull(),
+  message: text("message").notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
+});

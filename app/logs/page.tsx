@@ -5,9 +5,9 @@ import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 
 const pageData = {
-  name: "Dashboard",
-  title: "Dashboard",
-  description: "Snapshot of your endpoints and leads.",
+  name: "Logs",
+  title: "Logs",
+  description: "Logs of all your events",
 };
 
 export default async function Home() {
