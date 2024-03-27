@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/data-table/header";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import OptionsDropdown from "./options-dropdown";
 
 export const columns: ColumnDef<Endpoint>[] = [
   {
@@ -80,5 +81,17 @@ export const columns: ColumnDef<Endpoint>[] = [
         </p>
       );
     },
+  },
+  {
+    accessorKey: "id",
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Options" />;
+    },
+    cell: ({ row }) => {
+      const id: string = row.getValue("id");
+      const enabled: boolean = row.getValue("enabled");
+      return <OptionsDropdown id={id} enabled={enabled} />;
+    },
+    enableSorting: false,
   },
 ];
