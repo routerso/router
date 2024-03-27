@@ -38,14 +38,12 @@ import {
 
 const formSchema = z.object({
   name: z.string().min(1, "Not a valid name.").nonempty(),
-  schema: z
-    .array(
-      z.object({
-        key: z.string().min(1, { message: "Please enter a valid field name." }),
-        value: z.string().min(1, { message: "Please select a field type." }),
-      })
-    )
-    .min(1, { message: "Please enter at least one keyword" }),
+  schema: z.array(
+    z.object({
+      key: z.string().min(1, { message: "Please enter a valid field name." }),
+      value: z.string().min(1, { message: "Please select a field type." }),
+    })
+  ),
   webhookEnabled: z.boolean(),
   webhook: z.string().url().optional(),
 });
@@ -56,7 +54,7 @@ const defaultValues: Partial<DomainValues> = {
   name: "",
   schema: [{ key: "", value: "" }],
   webhookEnabled: false,
-  webhook: "",
+  webhook: undefined,
 };
 
 export default function CreateForm() {
@@ -91,6 +89,7 @@ export default function CreateForm() {
         if (response.status === 200) {
           resolve(id);
           router.push(`/endpoints`);
+          router.refresh();
         } else {
           reject(new Error("Something went wrong."));
         }

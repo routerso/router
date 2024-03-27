@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { useSession } from "@/lib/auth/use-session";
 import { db } from "@/lib/db/db";
 import { endpoints } from "@/lib/db/schema";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
   try {
@@ -24,6 +25,8 @@ export async function POST(request: Request) {
         updatedAt: new Date(),
       })
       .returning({ endpointId: endpoints.id });
+
+    revalidatePath("/endpoints");
 
     return NextResponse.json({ id: createdEndpoint[0].endpointId });
   } catch (error) {
