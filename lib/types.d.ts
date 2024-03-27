@@ -21,7 +21,7 @@ type ValidationType =
   | "date"
   | "boolean"
   | "url"
-  | "zipCode";
+  | "zip_code";
 
 type EndpointPayload = {
   userId: string;
@@ -30,4 +30,10 @@ type EndpointPayload = {
   enabled: boolean;
   webhookEnabled: boolean;
   webhook?: string;
+};
+
+type SchemaToZodMap = {
+  [P in GeneralSchema["key"]]: ReturnType<
+    (typeof validations)[GeneralSchema["value"]]
+  >;
 };

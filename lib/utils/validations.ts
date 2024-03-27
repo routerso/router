@@ -24,11 +24,11 @@ export const validationOptions: { name: ValidationType }[] = [
     name: "url",
   },
   {
-    name: "zipCode",
+    name: "zip_code",
   },
 ];
 
-export const validations: { [key: string]: z.ZodType<any, any> } = {
+export const validations: { [key in ValidationType]: z.ZodType<any, any> } = {
   phone: z.string().refine(validator.isMobilePhone, {
     message: "Not a valid phone number.",
   }),

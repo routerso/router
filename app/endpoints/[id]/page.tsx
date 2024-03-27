@@ -19,7 +19,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const endpoint = await getEndpointById(params?.id);
   const schema = endpoint?.schema as GeneralSchema[];
 
-  const url = `https//router.so/api/${endpoint?.incrementId}`;
+  const url = `https//router.so/api/endpoints/${endpoint?.incrementId}`;
   // TODO: generate API key when an endpoint is created
   const apiKey = "8237lkasdf89789sadf";
 
