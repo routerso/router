@@ -2,26 +2,23 @@ import { useSession } from "@/lib/auth/use-session";
 import { redirect } from "next/navigation";
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
-import { DataTable } from "@/components/groups/endpoints/data-table";
-import { columns } from "@/components/groups/endpoints/columns";
-import { getEndpoints } from "@/lib/data/endpoints";
+import CreateForm from "@/components/groups/endpoints/create-form";
 
 const pageData = {
-  name: "Endpoints",
-  title: "Endpoints",
-  description: "All your existing endpoints.",
+  name: "New Endpoint",
+  title: "Create an Endpoint",
+  description: "Create a new endpoint.",
 };
 
 export default async function Home() {
   const session = await useSession();
   if (!session) redirect("/login");
 
-  const endpoints = await getEndpoints(session.user.id);
   return (
     <>
       <Breadcrumbs pageName={pageData?.name} />
       <Header title={pageData?.title}>{pageData?.description}</Header>
-      <DataTable columns={columns} data={endpoints} />
+      <CreateForm />
     </>
   );
 }
