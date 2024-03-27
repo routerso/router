@@ -16,6 +16,11 @@ export async function getEndpoints(userId: string) {
   return data;
 }
 
+export async function getEndpointById(id: string) {
+  const data = await db.select().from(endpoints).where(eq(endpoints.id, id));
+  return data[0];
+}
+
 export async function deleteEndpoint(id: string) {
   await db.delete(endpoints).where(eq(endpoints.id, id));
   revalidatePath("/endpoints");

@@ -1,7 +1,7 @@
 import * as z from "zod";
 import validator from "validator";
 
-export const validationOptions: { name: validationType }[] = [
+export const validationOptions: { name: ValidationType }[] = [
   {
     name: "phone",
   },

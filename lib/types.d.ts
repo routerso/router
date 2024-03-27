@@ -9,7 +9,11 @@ type HeaderProps = {
   children?: React.ReactNode;
 };
 
-type validationType =
+type GeneralSchema = {
+  [key: string]: ValidationType;
+};
+
+type ValidationType =
   | "phone"
   | "email"
   | "string"
@@ -22,7 +26,7 @@ type validationType =
 type EndpointPayload = {
   userId: string;
   name: string;
-  schema: Record<string, validationType>;
+  schema: Record<string, ValidationType>;
   enabled: boolean;
   webhookEnabled: boolean;
   webhook?: string;
