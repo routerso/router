@@ -15,6 +15,13 @@
       "when": 1711488944402,
       "tag": "0001_sharp_jack_murdock",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1711561216289,
+      "tag": "0002_glorious_baron_zemo",
+      "breakpoints": true
     }
   ]
 }

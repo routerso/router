@@ -1,6 +1,5 @@
-import { getServerSession } from "next-auth";
+import { useSession } from "@/lib/auth/use-session";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/lib/auth/auth";
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import CreateForm from "@/components/groups/endpoints/create-form";
@@ -13,7 +12,7 @@ const pageData = {
 };
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
+  const session = await useSession();
   if (!session) redirect("/login");
 
   return (

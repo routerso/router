@@ -70,10 +70,9 @@ export default function CreateForm() {
     name: "schema",
     control: form.control,
   });
-  type FormValues = z.infer<typeof formSchema>;
 
   // router
-  //   const router = useRouter();
+  const router = useRouter();
 
   // state declarations
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -81,38 +80,36 @@ export default function CreateForm() {
   // Form submit function
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
-    // setLoading(true);
-    // const apiCall = new Promise(async (resolve, reject) => {
-    //   try {
-    //     const response = await fetch("/api/campaign", {
-    //       method: "POST",
-    //       body: JSON.stringify(values),
-    //     });
-    //     const { id } = await response.json();
-    //     if (response.status === 200) {
-    //       resolve(id);
-    //       setTimeout(() => {
-    //         router.push(`/campaigns/${id}`);
-    //       }, 1500);
-    //     } else {
-    //       reject(new Error("Something went wrong."));
-    //     }
-    //   } catch (error) {
-    //     reject(new Error("Something went wrong."));
-    //     console.log(error);
-    //   }
-    // });
-    // toast.promise(apiCall, {
-    //   loading: "Creating campaign...",
-    //   success: (data) => "Successfully created. Redirecting...",
-    //   error: (err) => {
-    //     if (err.message === "Something went wrong.") {
-    //       return "You are unauthorized to perform this action.";
-    //     } else {
-    //       return "Something went wrong. Please try again later.";
-    //     }
-    //   },
-    // });
+    setLoading(true);
+    const apiCall = new Promise(async (resolve, reject) => {
+      try {
+        const response = await fetch("/api/endpoints", {
+          method: "POST",
+          body: JSON.stringify(values),
+        });
+        const { id } = await response.json();
+        if (response.status === 200) {
+          resolve(id);
+          router.push(`/endpoints`);
+        } else {
+          reject(new Error("Something went wrong."));
+        }
+      } catch (error) {
+        reject(new Error("Something went wrong."));
+        console.log(error);
+      }
+    });
+    toast.promise(apiCall, {
+      loading: "Creating endpoint...",
+      success: (data) => "Successfully created.",
+      error: (err) => {
+        if (err.message === "Unauthorized.") {
+          return "You are unauthorized to perform this action.";
+        } else {
+          return "Something went wrong. Please try again later.";
+        }
+      },
+    });
   };
 
   return (
@@ -208,6 +205,7 @@ export default function CreateForm() {
           </Button>
         </div>
 
+        {/* Webhook */}
         <div className="space-y-2">
           <FormField
             control={form.control}

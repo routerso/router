@@ -18,3 +18,12 @@ type validationType =
   | "boolean"
   | "url"
   | "zipCode";
+
+type EndpointPayload = {
+  userId: string;
+  name: string;
+  schema: Record<string, validationType>;
+  enabled: boolean;
+  webhookEnabled: boolean;
+  webhook?: string;
+};
