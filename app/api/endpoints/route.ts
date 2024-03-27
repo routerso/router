@@ -3,6 +3,7 @@ import { useSession } from "@/lib/auth/use-session";
 import { db } from "@/lib/db/db";
 import { endpoints } from "@/lib/db/schema";
 import { revalidatePath } from "next/cache";
+import { randomBytes } from "crypto";
 
 export async function POST(request: Request) {
   try {
@@ -11,6 +12,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const data: EndpointPayload = await request.json();
+    const token = randomBytes(64).toString("hex");
 
     const createdEndpoint = await db
       .insert(endpoints)
@@ -21,6 +23,7 @@ export async function POST(request: Request) {
         enabled: data.enabled,
         webhookEnabled: data.webhookEnabled,
         webhook: data.webhook,
+        token: token,
         createdAt: new Date(),
         updatedAt: new Date(),
       })

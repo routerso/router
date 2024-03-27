@@ -1,0 +1,1 @@
+ALTER TABLE "endpoint" ADD COLUMN "token" text NOT NULL;

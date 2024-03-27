@@ -55,14 +55,14 @@ export default async function Page({ params }: { params: { id: string } }) {
         </p>
         <pre>{schemaString}</pre>
         <p>Make sure to include the following API key as a header:</p>
-        <pre>{apiKey}</pre>
+        <pre>{endpoint?.token}</pre>
         <p>A sample CURL request would look like the following:</p>
         <pre>
           {`curl -X POST ${url} \\`}
           <br />
           {`--header "Content-Type: application/json" \\`}
           <br />
-          {`--header "Authorization: ${apiKey}" \\`}
+          {`--header "Authorization: Bearer ${endpoint?.token}" \\`}
           <br />
           {`--data '${schemaString}'`}
         </pre>
