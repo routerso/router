@@ -35,8 +35,8 @@ export default async function Page({ params }: { params: { id: string } }) {
     <>
       <Breadcrumbs pageName={endpoint?.name} />
       <Header
-        title={`${pageData?.title} : ${endpoint?.name}`}
-      >{`${pageData?.description} : ${endpoint?.name}`}</Header>
+        title={`${pageData?.title}: ${endpoint?.name}`}
+      >{`${pageData?.description}: ${endpoint?.name}`}</Header>
       <Separator />
       <SchemaTable schema={schema} />
       <Separator />
