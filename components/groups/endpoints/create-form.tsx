@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
 
+import { validationOptions } from "@/lib/utils/validations";
+
 // next imports
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -20,7 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
+import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
@@ -35,17 +37,17 @@ import {
 } from "@/components/ui/select";
 
 const formSchema = z.object({
-  name: z.string().min(2, "Not a valid name.").nonempty(),
+  name: z.string().min(1, "Not a valid name.").nonempty(),
   schema: z
     .array(
       z.object({
-        key: z.string().nonempty({ message: "Please enter a valid keyword." }),
-        value: z
-          .string()
-          .nonempty({ message: "Please enter a valid headline." }),
+        key: z.string().min(1, { message: "Please enter a valid field name." }),
+        value: z.string().min(1, { message: "Please select a field type." }),
       })
     )
     .min(1, { message: "Please enter at least one keyword" }),
+  webhookEnabled: z.boolean(),
+  webhook: z.string().url().optional(),
 });
 
 type DomainValues = z.infer<typeof formSchema>;
@@ -53,22 +55,9 @@ type DomainValues = z.infer<typeof formSchema>;
 const defaultValues: Partial<DomainValues> = {
   name: "",
   schema: [{ key: "", value: "" }],
+  webhookEnabled: false,
+  webhook: "",
 };
-
-const types = [
-  {
-    id: "1",
-    name: "Offer 1",
-  },
-  {
-    id: "2",
-    name: "Offer 2",
-  },
-  {
-    id: "3",
-    name: "Offer 3",
-  },
-];
 
 export default function CreateForm() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -142,49 +131,15 @@ export default function CreateForm() {
             </FormItem>
           )}
         />
-        {/*  Offer Selection */}
-        {/* <div className="flex gap-4 my-4">
-          <FormField
-            control={form.control}
-            name="offer"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Offer</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl className="bg-secondary">
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {offers.map((offer) => (
-                      <SelectItem key={offer.id} value={offer.id}>
-                        {offer.name}
-                      </SelectItem>
-                    ))}
-                    <Link
-                      href="/offers"
-                      className="w-full text-sm pl-8 py-1 flex gap-2 items-center"
-                    >
-                      Add Offer
-                    </Link>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div> */}
 
         {/* Schema */}
         <div className="border-y py-6 my-6 grid gap-2">
           <h3 className="text-sm font-medium">Schema</h3>
           {fields.map((field: any, index: any) => (
-            <div className="flex items-center w-full gap-4" key={field.id}>
-              {/* Headline Field */}{" "}
+            <div
+              className="grid grid-cols-2 items-start w-full gap-4"
+              key={field.id}
+            >
               <FormField
                 control={form.control}
                 key={field.id}
@@ -220,17 +175,11 @@ export default function CreateForm() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {types.map((type) => (
-                            <SelectItem key={type.id} value={type.id}>
+                          {validationOptions.map((type, index: number) => (
+                            <SelectItem key={index} value={type.name}>
                               {type.name}
                             </SelectItem>
                           ))}
-                          {/* <Link
-                            href="/offers"
-                            className="w-full text-sm pl-8 py-1 flex gap-2 items-center"
-                          >
-                            Add Offer
-                          </Link> */}
                         </SelectContent>
                       </Select>
                       <Button
@@ -248,6 +197,7 @@ export default function CreateForm() {
               />
             </div>
           ))}
+
           <Button
             variant={"outline"}
             onClick={() => {
@@ -256,6 +206,50 @@ export default function CreateForm() {
           >
             Add Field +
           </Button>
+        </div>
+
+        <div className="space-y-2">
+          <FormField
+            control={form.control}
+            name="webhookEnabled"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                <div className="space-y-0.5">
+                  <FormLabel className="">Include Webhook</FormLabel>
+                </div>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    aria-readonly
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          {form.watch("webhookEnabled") && (
+            <FormField
+              control={form.control}
+              name="webhook"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Webhook</FormLabel>
+                  <FormControl className="w-full">
+                    <div className="flex gap-2 items-center">
+                      <Input
+                        {...field}
+                        className="w-full bg-secondary"
+                        placeholder="Webhook URL ..."
+                        disabled={!form.watch("webhookEnabled")}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
         </div>
 
         <Button
