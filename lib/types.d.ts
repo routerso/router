@@ -46,3 +46,14 @@ type LogRow = {
   endpointId: string;
   createdAt: Date;
 };
+
+type LogMessage =
+  | z.SafeParseReturnType<
+      {
+        [x: string]: any;
+      },
+      {
+        [x: string]: any;
+      }
+    >
+  | { success: string };

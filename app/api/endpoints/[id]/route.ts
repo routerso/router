@@ -96,7 +96,7 @@ export async function POST(
 
     await db.insert(logs).values({
       type: "success",
-      message: `{success: ${insertedLead[0].insertedId}}`,
+      message: { success: insertedLead[0].insertedId },
       createdAt: new Date(),
       endpointId: endpoint.id,
     });

@@ -57,7 +57,9 @@ export const columns: ColumnDef<LogRow>[] = [
     },
     cell: ({ row }) => {
       const message: string = row.getValue("message");
-      return <LogModal message={message} />;
+      const type: "success" | "error" = row.getValue("type");
+      const date: Date = row.getValue("createdAt");
+      return <LogModal message={message} type={type} date={date} />;
     },
     enableSorting: false,
   },

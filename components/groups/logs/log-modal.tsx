@@ -8,13 +8,24 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import Link from "next/link";
 
-export default function LogModal({ message }: { message: string }) {
+import { Badge } from "@/components/ui/badge";
+
+export default function LogModal({
+  message,
+  date,
+  type,
+}: {
+  message: LogMessage;
+  date: Date;
+  type: "success" | "error";
+}) {
   const messageString = JSON.stringify(message, null, 2);
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <p className="text-xs">
+        <p className="text-xs border-b">
           {messageString.length > 50
             ? `${messageString.slice(0, 50)}...`
             : messageString}
@@ -24,7 +35,16 @@ export default function LogModal({ message }: { message: string }) {
         <AlertDialogHeader>
           <AlertDialogTitle>Log Details</AlertDialogTitle>
           <AlertDialogDescription>
-            <pre>{messageString}</pre>
+            {type === "success" ? (
+              <Badge variant="outline">success</Badge>
+            ) : (
+              <Badge variant="secondary">error</Badge>
+            )}
+            <p>occured at {date.toISOString()}</p>
+            <pre className="text-xs">{messageString}</pre>
+            {type === "success" && (
+              <Link href={`/leads/${message.success}`}>see lead</Link>
+            )}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
