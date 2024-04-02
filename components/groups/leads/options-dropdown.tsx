@@ -21,10 +21,10 @@ import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
-import { deleteEndpoint } from "@/lib/data/endpoints";
+import { deleteLead } from "@/lib/data/leads";
 
 export default function OptionsDropdown({ id }: { id: string }) {
-  const deleteEndpointWithId = deleteEndpoint.bind(null, id);
+  const deleteLeadWithId = deleteLead.bind(null, id);
   const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
 
   return (
@@ -36,7 +36,7 @@ export default function OptionsDropdown({ id }: { id: string }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel className="sr-only">Options</DropdownMenuLabel>
-          <Link href={`/endpoints/${id}/edit`}>
+          <Link href={`/leads/${id}/edit`}>
             <DropdownMenuItem>Edit</DropdownMenuItem>
           </Link>
           <DropdownMenuItem onClick={() => setShowDeleteAlert(true)}>
@@ -53,13 +53,13 @@ export default function OptionsDropdown({ id }: { id: string }) {
             <AlertDialogDescription>
               This action cannot be undone. This will{" "}
               <span className="font-bold text-red-500">
-                permanently delete this endpoint and all leads in it.
+                permanently delete this lead.
               </span>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <form action={deleteEndpointWithId}>
+            <form action={deleteLeadWithId}>
               <AlertDialogAction type="submit">Delete</AlertDialogAction>
             </form>
           </AlertDialogFooter>
