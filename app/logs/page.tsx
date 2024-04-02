@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import { getLogs } from "@/lib/data/logs";
+import { DataTable } from "@/components/groups/endpoints/data-table";
+import { columns } from "@/components/groups/logs/columns";
 
 const pageData = {
   name: "Logs",
@@ -20,12 +22,7 @@ export default async function Home() {
     <>
       <Breadcrumbs pageName={pageData?.name} />
       <Header title={pageData?.title}>{pageData?.description}</Header>
-      <div className="grid gap-4 grid-rows-[500px,1fr]">
-        {pageData?.description}
-      </div>
-      {logs.map((log) => (
-        <div key={log.log.id}>{log.log.message}</div>
-      ))}
+      <DataTable columns={columns} data={logs} filterColumn="endpoint" />
     </>
   );
 }

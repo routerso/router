@@ -37,3 +37,12 @@ type SchemaToZodMap = {
     (typeof validations)[GeneralSchema["value"]]
   >;
 };
+
+type LogRow = {
+  id: string;
+  type: "success" | "error";
+  message: string;
+  endpoint: string;
+  endpointId: string;
+  createdAt: Date;
+};

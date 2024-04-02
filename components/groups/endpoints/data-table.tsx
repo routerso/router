@@ -34,11 +34,15 @@ import { DataTableViewOptions } from "@/components/data-table/column-toggle";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  filterColumn?: string;
+  createObject?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  filterColumn,
+  createObject,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -68,19 +72,27 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          value={
+            (table
+              .getColumn(filterColumn || "name")
+              ?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table
+              .getColumn(filterColumn || "name")
+              ?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
 
         <DataTableViewOptions table={table} />
-        <Link href="/endpoints/create">
-          <Button size="sm" variant="outline" className="h-8 ml-2">
-            Create endpoint
-          </Button>
-        </Link>
+        {createObject && (
+          <Link href="/endpoints/create">
+            <Button size="sm" variant="outline" className="h-8 ml-2">
+              Create endpoint
+            </Button>
+          </Link>
+        )}
       </div>
       <div className="rounded-md">
         <Table>

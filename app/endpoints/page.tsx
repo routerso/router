@@ -21,7 +21,7 @@ export default async function Home() {
     <>
       <Breadcrumbs pageName={pageData?.name} />
       <Header title={pageData?.title}>{pageData?.description}</Header>
-      <DataTable columns={columns} data={endpoints} />
+      <DataTable columns={columns} data={endpoints} createObject={true} />
     </>
   );
 }
