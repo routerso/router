@@ -25,9 +25,9 @@ export default function LogModal({
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <p className="text-xs border-b">
-          {messageString.length > 50
-            ? `${messageString.slice(0, 50)}...`
+        <p className="text-xs underline underline-offset-4 hover:opacity-70 transition-all">
+          {messageString.length > 25
+            ? `${messageString.slice(0, 25)}...`
             : messageString}
         </p>
       </AlertDialogTrigger>

@@ -41,7 +41,7 @@ type SchemaToZodMap = {
 type LogRow = {
   id: string;
   type: "success" | "error";
-  message: string;
+  message: Record<string, unknown> | unknown;
   endpoint: string;
   endpointId: string;
   createdAt: Date;
@@ -57,3 +57,13 @@ type LogMessage =
       }
     >
   | { success: string };
+
+type LeadRow = {
+  id: string;
+  data: Record<string, unknown> | unknown;
+  schema: Record<string, unknown> | unknown;
+  createdAt: Date;
+  updatedAt: Date;
+  endpointId: string;
+  endpoint: string;
+};

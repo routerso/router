@@ -1,8 +1,10 @@
-import { getServerSession } from "next-auth";
+import { useSession } from "@/lib/auth/use-session";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/lib/auth/auth";
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
+import { getLeads } from "@/lib/data/leads";
+import { DataTable } from "@/components/parts/data-table";
+import { columns } from "@/components/groups/leads/columns";
 
 const pageData = {
   name: "Leads",
@@ -11,16 +13,16 @@ const pageData = {
 };
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
+  const session = await useSession();
   if (!session) redirect("/login");
+
+  const leads = await getLeads(session?.user?.id);
 
   return (
     <>
       <Breadcrumbs pageName={pageData?.name} />
       <Header title={pageData?.title}>{pageData?.description}</Header>
-      <div className="grid gap-4 grid-rows-[500px,1fr]">
-        {pageData?.description}
-      </div>
+      <DataTable columns={columns} data={leads} filterColumn="endpoint" />
     </>
   );
 }

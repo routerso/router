@@ -1,13 +1,13 @@
 "use client";
 
+import { Lead } from "@/lib/db/db";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/data-table/header";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import OptionsDropdown from "./options-dropdown";
-import LogModal from "./log-modal";
 
-export const columns: ColumnDef<LogRow>[] = [
+export const columns: ColumnDef<Lead>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -15,7 +15,14 @@ export const columns: ColumnDef<LogRow>[] = [
     },
     cell: ({ row }) => {
       const id: string = row.getValue("id");
-      return <p className="text-xs">{id}</p>;
+      return (
+        <Link
+          className="text-xs underline underline-offset-4 hover:opacity-70 transition-all"
+          href={`/leads/${id}`}
+        >
+          {id}
+        </Link>
+      );
     },
   },
   {
@@ -27,8 +34,8 @@ export const columns: ColumnDef<LogRow>[] = [
       const endpoint: string = row.getValue("endpoint");
       return (
         <Link
+          className="underline underline-offset-4 hover:opacity-70 transition-all"
           href={`/endpoints/${row.original.endpointId}`}
-          className="text-sm underline underline-offset-4 hover:opacity-70 transition-all"
         >
           {endpoint}
         </Link>
@@ -36,37 +43,9 @@ export const columns: ColumnDef<LogRow>[] = [
     },
   },
   {
-    accessorKey: "type",
-    header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Type" />;
-    },
-    cell: ({ row }) => {
-      const type: "success" | "error" = row.getValue("type");
-      const isError = type === "error";
-      return (
-        <Badge variant={isError ? "secondary" : "outline"}>
-          {isError ? "error" : "success"}
-        </Badge>
-      );
-    },
-  },
-  {
-    accessorKey: "message",
-    header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Message" />;
-    },
-    cell: ({ row }) => {
-      const message: string = row.getValue("message");
-      const type: "success" | "error" = row.getValue("type");
-      const date: Date = row.getValue("createdAt");
-      return <LogModal message={message} type={type} date={date} />;
-    },
-    enableSorting: false,
-  },
-  {
     accessorKey: "createdAt",
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Date" />;
+      return <DataTableColumnHeader column={column} title="Date Created" />;
     },
     cell: ({ row }) => {
       const createdAt: Date = row.getValue("createdAt");
@@ -91,6 +70,7 @@ export const columns: ColumnDef<LogRow>[] = [
     },
     cell: ({ row }) => {
       const id: string = row.getValue("id");
+      const enabled: boolean = row.getValue("enabled");
       return <OptionsDropdown id={id} />;
     },
     enableSorting: false,

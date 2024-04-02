@@ -2,7 +2,7 @@ import { useSession } from "@/lib/auth/use-session";
 import { redirect } from "next/navigation";
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
-import { DataTable } from "@/components/groups/endpoints/data-table";
+import { DataTable } from "@/components/parts/data-table";
 import { columns } from "@/components/groups/endpoints/columns";
 import { getEndpoints } from "@/lib/data/endpoints";
 
