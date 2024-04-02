@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1711404448782,
-      "tag": "0000_clear_sabretooth",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1711488944402,
-      "tag": "0001_sharp_jack_murdock",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1711561216289,
-      "tag": "0002_glorious_baron_zemo",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1711572215654,
-      "tag": "0003_sparkling_human_cannonball",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1712072887598,
-      "tag": "0004_redundant_menace",
+      "when": 1712081073203,
+      "tag": "0000_bouncy_orphan",
       "breakpoints": true
     }
   ]

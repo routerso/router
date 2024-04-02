@@ -11,19 +11,20 @@ import {
 
 export default function LogModal({ message }: { message: string }) {
   const messageString = JSON.stringify(message, null, 2);
-  const test = JSON.parse(messageString);
   return (
     <AlertDialog>
       <AlertDialogTrigger>
         <p className="text-xs">
-          {message.length > 50 ? `${message.slice(0, 50)}...` : message}
+          {messageString.length > 50
+            ? `${messageString.slice(0, 50)}...`
+            : messageString}
         </p>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Log Details</AlertDialogTitle>
           <AlertDialogDescription>
-            <pre>{message}</pre>
+            <pre>{messageString}</pre>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

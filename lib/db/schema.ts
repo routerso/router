@@ -100,6 +100,6 @@ export const logs = pgTable("log", {
     .notNull()
     .references(() => endpoints.id, { onDelete: "cascade" }),
   type: logTypeEnum("type").notNull(),
-  message: text("message").notNull(),
+  message: json("message").notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
 });
