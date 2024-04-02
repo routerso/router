@@ -5,6 +5,7 @@ import { DataTableColumnHeader } from "@/components/data-table/header";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import OptionsDropdown from "./options-dropdown";
+import LogModal from "./log-modal";
 
 export const columns: ColumnDef<LogRow>[] = [
   {
@@ -56,11 +57,7 @@ export const columns: ColumnDef<LogRow>[] = [
     },
     cell: ({ row }) => {
       const message: string = row.getValue("message");
-      return (
-        <p className="text-xs">
-          {message.length > 50 ? `${message.slice(0, 50)}...` : message}
-        </p>
-      );
+      return <LogModal message={message} />;
     },
     enableSorting: false,
   },
