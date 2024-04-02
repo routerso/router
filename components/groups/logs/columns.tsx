@@ -62,6 +62,7 @@ export const columns: ColumnDef<LogRow>[] = [
         </p>
       );
     },
+    enableSorting: false,
   },
   {
     accessorKey: "createdAt",
@@ -85,14 +86,13 @@ export const columns: ColumnDef<LogRow>[] = [
     },
   },
   {
-    accessorKey: "id",
+    accessorKey: "options",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Options" />;
     },
     cell: ({ row }) => {
       const id: string = row.getValue("id");
-      const enabled: boolean = row.getValue("enabled");
-      return <OptionsDropdown id={id} enabled={enabled} />;
+      return <OptionsDropdown id={id} />;
     },
     enableSorting: false,
   },

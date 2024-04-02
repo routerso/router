@@ -19,27 +19,12 @@ import {
 
 import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
 
-import {
-  deleteEndpoint,
-  disableEndpoint,
-  enableEndpoint,
-} from "@/lib/data/endpoints";
+import { deleteLog } from "@/lib/data/logs";
 
-export default function OptionsDropdown({
-  id,
-  enabled,
-}: {
-  id: string;
-  enabled: boolean;
-}) {
-  const deleteEndpointWithId = deleteEndpoint.bind(null, id);
-  const disableEndpointWithId = disableEndpoint.bind(null, id);
-  const enableEndpointWithId = enableEndpoint.bind(null, id);
+export default function OptionsDropdown({ id }: { id: string }) {
+  const deleteLogWithId = deleteLog.bind(null, id);
   const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
-  const [showDisableAlert, setShowDisableAlert] = useState<boolean>(false);
-  const [showEnableAlert, setShowEnableAlert] = useState<boolean>(false);
 
   return (
     <>
@@ -50,21 +35,9 @@ export default function OptionsDropdown({
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel className="sr-only">Options</DropdownMenuLabel>
-          <Link href={`/endpoints/${id}/edit`}>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-          </Link>
           <DropdownMenuItem onClick={() => setShowDeleteAlert(true)}>
             Delete
           </DropdownMenuItem>
-          {enabled ? (
-            <DropdownMenuItem onClick={() => setShowDisableAlert(true)}>
-              Disable
-            </DropdownMenuItem>
-          ) : (
-            <DropdownMenuItem onClick={() => setShowEnableAlert(true)}>
-              Enable
-            </DropdownMenuItem>
-          )}
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -76,50 +49,14 @@ export default function OptionsDropdown({
             <AlertDialogDescription>
               This action cannot be undone. This will{" "}
               <span className="font-bold text-red-500">
-                permanently delete this endpoint and all leads in it.
+                permanently delete this log.
               </span>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <form action={deleteEndpointWithId}>
+            <form action={deleteLogWithId}>
               <AlertDialogAction type="submit">Delete</AlertDialogAction>
-            </form>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      {/* Disable Alert */}
-      <AlertDialog open={showDisableAlert} onOpenChange={setShowDisableAlert}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Disable endpoint?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to disable this endpoint?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <form action={disableEndpointWithId}>
-              <AlertDialogAction type="submit">Disable</AlertDialogAction>
-            </form>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      {/* Enable Alert */}
-      <AlertDialog open={showEnableAlert} onOpenChange={setShowEnableAlert}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Enable endpoint?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to enable this endpoint?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <form action={enableEndpointWithId}>
-              <AlertDialogAction type="submit">Enable</AlertDialogAction>
             </form>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -1,6 +1,7 @@
+"use server";
+
 import { logs, endpoints } from "../db/schema";
 import { eq, desc } from "drizzle-orm";
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { db } from "../db/db";
 
@@ -10,7 +11,7 @@ export async function getLogs(userId: string) {
     .from(logs)
     .leftJoin(endpoints, eq(logs.endpointId, endpoints.id))
     .where(eq(endpoints.userId, userId))
-    .orderBy(desc(endpoints.updatedAt));
+    .orderBy(desc(logs.createdAt));
 
   const data: LogRow[] = logsData.map((log) => ({
     id: log.log.id,
@@ -22,4 +23,9 @@ export async function getLogs(userId: string) {
   }));
 
   return data;
+}
+
+export async function deleteLog(id: string) {
+  await db.delete(logs).where(eq(logs.id, id));
+  revalidatePath("/logs");
 }

@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { db } from "../db/db";
 import { endpoints } from "../db/schema";
 import { eq, desc } from "drizzle-orm";
-import { redirect } from "next/navigation";
 
 export async function getEndpoints(userId: string) {
   const data = await db
@@ -24,7 +23,6 @@ export async function getEndpointById(id: string) {
 export async function deleteEndpoint(id: string) {
   await db.delete(endpoints).where(eq(endpoints.id, id));
   revalidatePath("/endpoints");
-  redirect("/endpoints");
 }
 
 export async function disableEndpoint(id: string) {
@@ -33,7 +31,6 @@ export async function disableEndpoint(id: string) {
     .set({ enabled: false, updatedAt: new Date() })
     .where(eq(endpoints.id, id));
   revalidatePath("/endpoints");
-  redirect("/endpoints");
 }
 
 export async function enableEndpoint(id: string) {
@@ -42,5 +39,4 @@ export async function enableEndpoint(id: string) {
     .set({ enabled: true, updatedAt: new Date() })
     .where(eq(endpoints.id, id));
   revalidatePath("/endpoints");
-  redirect("/endpoints");
 }
