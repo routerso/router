@@ -12,7 +12,7 @@ const pageData = {
   description: "Logs of all your events",
 };
 
-export default async function Home() {
+export default async function Page() {
   const session = await useSession();
   if (!session) redirect("/login");
 

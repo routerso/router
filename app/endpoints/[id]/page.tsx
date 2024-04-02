@@ -1,11 +1,19 @@
 import { useSession } from "@/lib/auth/use-session";
 import { redirect } from "next/navigation";
-import { Breadcrumbs } from "@/components/parts/breadcrumbs";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { Header } from "@/components/parts/header";
 import { getEndpointById } from "@/lib/data/endpoints";
 import SchemaTable from "@/components/groups/endpoints/schema-table";
 import * as Craft from "@/components/craft/layout";
 import { Separator } from "@/components/ui/separator";
+import { Home } from "lucide-react";
 
 const pageData = {
   title: "Endpoint",
@@ -33,7 +41,25 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <Breadcrumbs pageName={endpoint?.name} />
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">
+              <Home size={20} />
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/endpoints">Endpoints</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage className="px-2 py-1 bg-accent rounded-sm">
+              {endpoint?.name}
+            </BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <Header
         title={`${pageData?.title}: ${endpoint?.name}`}
       >{`${pageData?.description}: ${endpoint?.name}`}</Header>

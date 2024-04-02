@@ -10,7 +10,7 @@ const pageData = {
   description: "Snapshot of your endpoints and leads.",
 };
 
-export default async function Home() {
+export default async function Page() {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/login");
 

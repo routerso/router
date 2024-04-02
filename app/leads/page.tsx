@@ -12,7 +12,7 @@ const pageData = {
   description: "Breakdown of all your leads",
 };
 
-export default async function Home() {
+export default async function Page() {
   const session = await useSession();
   if (!session) redirect("/login");
 
