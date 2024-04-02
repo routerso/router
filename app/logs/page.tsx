@@ -1,8 +1,8 @@
-import { getServerSession } from "next-auth";
+import { useSession } from "@/lib/auth/use-session";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/lib/auth/auth";
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
+import { getLogs } from "@/lib/data/logs";
 
 const pageData = {
   name: "Logs",
@@ -11,8 +11,10 @@ const pageData = {
 };
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
+  const session = await useSession();
   if (!session) redirect("/login");
+
+  const logs = await getLogs(session?.user?.id);
 
   return (
     <>
@@ -21,6 +23,9 @@ export default async function Home() {
       <div className="grid gap-4 grid-rows-[500px,1fr]">
         {pageData?.description}
       </div>
+      {logs.map((log) => (
+        <div key={log.log.id}>{log.log.message}</div>
+      ))}
     </>
   );
 }

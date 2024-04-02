@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db/db";
-import { endpoints, logs } from "@/lib/db/schema";
+import { endpoints, logs, leads } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { validations } from "@/lib/utils/validations";
 import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 export async function POST(
   request: Request,
@@ -74,19 +75,43 @@ export async function POST(
         type: "error",
         message: JSON.stringify(parsedData.error.format()),
         createdAt: new Date(),
+        endpointId: endpoint.id,
       });
+      revalidatePath("/logs");
       return NextResponse.json(
         { errors: parsedData.error.format() },
         { status: 400 }
       );
     }
 
-    console.log(JSON.stringify(parsedData));
+    const insertedLead = await db
+      .insert(leads)
+      .values({
+        data: parsedData.data,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        endpointId: endpoint.id,
+      })
+      .returning({ insertedId: leads.id });
 
-    // create a log of the success
-    return NextResponse.json({ id: params.id });
+    await db.insert(logs).values({
+      type: "success",
+      message: `Lead successfully added with ID: ${insertedLead[0].insertedId}`,
+      createdAt: new Date(),
+      endpointId: endpoint.id,
+    });
+    revalidatePath("/logs");
+
+    return NextResponse.json({ id: insertedLead[0].insertedId });
   } catch (error) {
     // create a log of the error
+    await db.insert(logs).values({
+      type: "error",
+      message: JSON.stringify(error),
+      createdAt: new Date(),
+      endpointId: params.id,
+    });
+    revalidatePath("/logs");
     console.error(error);
     return NextResponse.json({ error: "An error occurred." }, { status: 500 });
   }

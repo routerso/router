@@ -96,6 +96,9 @@ export const logTypeEnum = pgEnum("logType", ["success", "error"]);
 
 export const logs = pgTable("log", {
   id: uuid("id").defaultRandom().notNull().primaryKey(),
+  endpointId: uuid("endpointId")
+    .notNull()
+    .references(() => endpoints.id, { onDelete: "cascade" }),
   type: logTypeEnum("type").notNull(),
   message: text("message").notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
