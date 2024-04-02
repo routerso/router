@@ -116,3 +116,14 @@ export async function POST(
     return NextResponse.json({ error: "An error occurred." }, { status: 500 });
   }
 }
+
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  console.log(request.redirect);
+  const { searchParams } = new URL(request.url);
+  console.log(searchParams.toString());
+  console.log(params.id);
+  return NextResponse.json({ message: "GET request" });
+}
