@@ -121,9 +121,12 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  console.log(request.redirect);
+  const headersList = headers();
+  const referer = headersList.get("referer") as string;
+
   const { searchParams } = new URL(request.url);
   console.log(searchParams.toString());
   console.log(params.id);
-  return NextResponse.json({ message: "GET request" });
+  // return NextResponse.json({ message: "GET request" });
+  return NextResponse.redirect(new URL(referer));
 }

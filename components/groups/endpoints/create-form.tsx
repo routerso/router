@@ -37,13 +37,16 @@ import {
 } from "@/components/ui/select";
 
 const formSchema = z.object({
-  name: z.string().min(1, "Not a valid name.").nonempty(),
+  name: z.string().min(1, "Not a valid name."),
   schema: z.array(
     z.object({
       key: z.string().min(1, { message: "Please enter a valid field name." }),
       value: z.string().min(1, { message: "Please select a field type." }),
     })
   ),
+  formEnabled: z.boolean(),
+  successUrl: z.string().url().optional(),
+  failUrl: z.string().url().optional(),
   webhookEnabled: z.boolean(),
   webhook: z.string().url().optional(),
 });
@@ -53,6 +56,9 @@ type DomainValues = z.infer<typeof formSchema>;
 const defaultValues: Partial<DomainValues> = {
   name: "",
   schema: [{ key: "", value: "" }],
+  formEnabled: false,
+  successUrl: undefined,
+  failUrl: undefined,
   webhookEnabled: false,
   webhook: undefined,
 };
@@ -202,6 +208,69 @@ export default function CreateForm() {
           >
             Add Field +
           </Button>
+        </div>
+
+        {/* Redirect Urls */}
+        <div className="border-b pb-6 my-6 space-y-2">
+          <FormField
+            control={form.control}
+            name="formEnabled"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                <div className="space-y-0.5">
+                  <FormLabel className="">Enable HTML Form Posting</FormLabel>
+                </div>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    aria-readonly
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          {form.watch("formEnabled") && (
+            <>
+              <p className="text-muted-foreground italic text-xs">
+                *Redirect URLs are only used when posting a lead by HTML form
+              </p>
+              <FormField
+                control={form.control}
+                name="successUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Success Redirect URL</FormLabel>
+                    <FormControl className="bg-secondary">
+                      <Input
+                        placeholder="Success URL..."
+                        {...field}
+                        disabled={!form.watch("formEnabled")}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="failUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Fail Redirect URL</FormLabel>
+                    <FormControl className="bg-secondary">
+                      <Input
+                        placeholder="Fail URL..."
+                        {...field}
+                        disabled={!form.watch("formEnabled")}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </>
+          )}
         </div>
 
         {/* Webhook */}

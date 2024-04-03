@@ -28,6 +28,9 @@ type EndpointPayload = {
   name: string;
   schema: Record<string, ValidationType>;
   enabled: boolean;
+  formEnabled: boolean;
+  successUrl: string;
+  failUrl: string;
   webhookEnabled: boolean;
   webhook?: string;
 };

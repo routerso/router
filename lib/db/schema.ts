@@ -77,7 +77,10 @@ export const endpoints = pgTable("endpoint", {
   enabled: boolean("enabled").default(true).notNull(),
   webhookEnabled: boolean("webhookEnabled").default(false).notNull(),
   webhook: text("webhook"),
-  token: text("token").notNull(),
+  formEnabled: boolean("formEnabled").default(false).notNull(),
+  successUrl: text("successUrl").notNull(),
+  failUrl: text("failUrl"),
+  token: text("token"),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
 });
