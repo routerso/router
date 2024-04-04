@@ -80,6 +80,7 @@ export async function POST(
     if (!parsedData.success) {
       await db.insert(logs).values({
         type: "error",
+        postType: "http",
         message: JSON.stringify(parsedData.error.format()),
         createdAt: new Date(),
         endpointId: endpoint.id,
@@ -103,6 +104,7 @@ export async function POST(
 
     await db.insert(logs).values({
       type: "success",
+      postType: "http",
       message: { success: insertedLead[0].insertedId },
       createdAt: new Date(),
       endpointId: endpoint.id,
@@ -114,6 +116,7 @@ export async function POST(
     // create a log of the error
     await db.insert(logs).values({
       type: "error",
+      postType: "http",
       message: JSON.stringify(error),
       createdAt: new Date(),
       endpointId: params.id,
@@ -192,6 +195,7 @@ export async function GET(
   if (!parsedData.success) {
     await db.insert(logs).values({
       type: "error",
+      postType: "form",
       message: JSON.stringify(parsedData.error.format()),
       createdAt: new Date(),
       endpointId: endpoint.id,
@@ -215,13 +219,16 @@ export async function GET(
 
   await db.insert(logs).values({
     type: "success",
+    postType: "form",
     message: { success: insertedLead[0].insertedId },
     createdAt: new Date(),
     endpointId: endpoint.id,
   });
   revalidatePath("/logs");
 
-  return NextResponse.redirect(new URL(endpoint?.successUrl));
+  return NextResponse.redirect(
+    new URL(endpoint?.successUrl || referer || "/success")
+  );
 }
 
 // TODO: Move this to be its own file

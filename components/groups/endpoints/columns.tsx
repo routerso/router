@@ -83,12 +83,12 @@ export const columns: ColumnDef<Endpoint>[] = [
     },
   },
   {
-    accessorKey: "id",
+    accessorKey: "options",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Options" />;
     },
     cell: ({ row }) => {
-      const id: string = row.getValue("id");
+      const id: string = row.original.id;
       const enabled: boolean = row.getValue("enabled");
       return <OptionsDropdown id={id} enabled={enabled} />;
     },

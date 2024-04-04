@@ -1,4 +1,10 @@
 DO $$ BEGIN
+ CREATE TYPE "logPostType" AS ENUM('http', 'form');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  CREATE TYPE "logType" AS ENUM('success', 'error');
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -28,7 +34,10 @@ CREATE TABLE IF NOT EXISTS "endpoint" (
 	"enabled" boolean DEFAULT true NOT NULL,
 	"webhookEnabled" boolean DEFAULT false NOT NULL,
 	"webhook" text,
-	"token" text NOT NULL,
+	"formEnabled" boolean DEFAULT false NOT NULL,
+	"successUrl" text,
+	"failUrl" text,
+	"token" text,
 	"createdAt" timestamp NOT NULL,
 	"updatedAt" timestamp NOT NULL,
 	CONSTRAINT "endpoint_incrementId_unique" UNIQUE("incrementId")
@@ -46,6 +55,7 @@ CREATE TABLE IF NOT EXISTS "log" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"endpointId" uuid NOT NULL,
 	"type" "logType" NOT NULL,
+	"postType" "logPostType" NOT NULL,
 	"message" json NOT NULL,
 	"createdAt" timestamp NOT NULL
 );

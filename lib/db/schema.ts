@@ -78,7 +78,7 @@ export const endpoints = pgTable("endpoint", {
   webhookEnabled: boolean("webhookEnabled").default(false).notNull(),
   webhook: text("webhook"),
   formEnabled: boolean("formEnabled").default(false).notNull(),
-  successUrl: text("successUrl").notNull(),
+  successUrl: text("successUrl"),
   failUrl: text("failUrl"),
   token: text("token"),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
@@ -96,6 +96,7 @@ export const leads = pgTable("lead", {
 });
 
 export const logTypeEnum = pgEnum("logType", ["success", "error"]);
+export const logPostTypeEnum = pgEnum("logPostType", ["http", "form"]);
 
 export const logs = pgTable("log", {
   id: uuid("id").defaultRandom().notNull().primaryKey(),
@@ -103,6 +104,7 @@ export const logs = pgTable("log", {
     .notNull()
     .references(() => endpoints.id, { onDelete: "cascade" }),
   type: logTypeEnum("type").notNull(),
+  postType: logPostTypeEnum("postType").notNull(),
   message: json("message").notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
 });

@@ -1,5 +1,5 @@
 {
-  "id": "8b1ed996-5c1d-419a-985e-73aeed7f9e21",
+  "id": "93b61710-8cac-4479-b44a-a98a4dccaab1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -157,11 +157,30 @@
           "primaryKey": false,
           "notNull": false
         },
+        "formEnabled": {
+          "name": "formEnabled",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "successUrl": {
+          "name": "successUrl",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "failUrl": {
+          "name": "failUrl",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "token": {
           "name": "token",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "createdAt": {
           "name": "createdAt",
@@ -278,6 +297,12 @@
         "type": {
           "name": "type",
           "type": "logType",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "postType": {
+          "name": "postType",
+          "type": "logPostType",
           "primaryKey": false,
           "notNull": true
         },
@@ -434,6 +459,13 @@
     }
   },
   "enums": {
+    "logPostType": {
+      "name": "logPostType",
+      "values": {
+        "http": "http",
+        "form": "form"
+      }
+    },
     "logType": {
       "name": "logType",
       "values": {

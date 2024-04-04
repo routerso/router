@@ -51,6 +51,21 @@ export const columns: ColumnDef<LogRow>[] = [
     },
   },
   {
+    accessorKey: "postType",
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Method" />;
+    },
+    cell: ({ row }) => {
+      const postType: "http" | "form" = row.getValue("postType");
+      const isForm = postType === "form";
+      return (
+        <Badge variant={isForm ? "secondary" : "outline"}>
+          {isForm ? "Form" : "HTTP"}
+        </Badge>
+      );
+    },
+  },
+  {
     accessorKey: "message",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Message" />;

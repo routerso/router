@@ -16,6 +16,7 @@ export async function getLogs(userId: string) {
   const data: LogRow[] = logsData.map((log) => ({
     id: log.log.id,
     type: log.log.type,
+    postType: log.log.postType,
     message: log.log.message,
     createdAt: log.log.createdAt,
     endpointId: log.endpoint?.id || "",

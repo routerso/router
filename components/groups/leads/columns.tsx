@@ -70,7 +70,6 @@ export const columns: ColumnDef<Lead>[] = [
     },
     cell: ({ row }) => {
       const id: string = row.getValue("id");
-      const enabled: boolean = row.getValue("enabled");
       return <OptionsDropdown id={id} />;
     },
     enableSorting: false,
