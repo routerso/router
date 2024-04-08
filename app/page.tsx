@@ -20,9 +20,7 @@ export default async function Page() {
       <Breadcrumbs pageName={pageData?.name} />
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
-        <div className="grid gap-4 grid-rows-[500px,1fr]">
-          {pageData?.description}
-        </div>
+        <div className="grid gap-4 grid-rows-[500px,1fr]">Coming soon ...</div>
       </PageWrapper>
     </>
   );
