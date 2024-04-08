@@ -38,7 +38,7 @@ export default function Nav() {
         className="border bg-muted/50 flex items-center gap-2 rounded-lg p-6"
       >
         <Image
-          className="dark:invert"
+          className="dark:invert -mt-px mb-px"
           src={Logo}
           width={100}
           height={18.53}
