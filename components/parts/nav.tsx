@@ -6,7 +6,7 @@ import { ModeToggle } from "../mode-toggle";
 
 // Image Imports
 import Logo from "@/public/logo.svg";
-import LogoDark from "@/public/logo-dark.svg";
+import Icon from "@/public/icon.svg";
 
 // Icon Imports
 import {
@@ -33,14 +33,14 @@ const otherLinks = [
 export default function Nav() {
   return (
     <nav className="p-4 flex flex-col gap-4 justify-between h-screen">
-      <div className="border bg-muted/25 rounded-lg p-6">
+      <div className="border bg-muted/25 flex items-center gap-2 rounded-lg p-6">
         <Image
-          className="dark:invert"
+          className="pb-1 dark:invert"
           src={Logo}
-          alt="Router.so Logo"
-          width={120}
-          height={22.24}
-        ></Image>
+          width={100}
+          height={22.53}
+          alt="Router.so Wordmark"
+        />
       </div>
       <div className="border bg-muted/25 rounded-lg flex flex-col justify-between p-6 h-full">
         <div className="flex flex-col gap-8">
@@ -78,7 +78,7 @@ export default function Nav() {
 const NavLink = ({ href, children, icon: Icon }: NavLinkProps) => {
   return (
     <Link
-      className="flex items-center gap-2 group p-2 rounded-md -ml-2 hover:bg-accent transition-all"
+      className="flex items-center gap-2 group p-2 rounded-md -ml-2 transition-all"
       href={href}
     >
       <Icon
