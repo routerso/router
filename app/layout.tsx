@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/parts/nav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
-const space = Space_Grotesk({ subsets: ["latin"] });
+const space = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Router.so | The world's simplest lead router",
@@ -25,12 +25,12 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
           <Nav />
-          <main className="overflow-scroll no-scrollbar p-8 flex flex-col gap-8 min-h-screen">
+          <main className="overflow-scroll no-scrollbar p-8 flex flex-col gap-8 min-h-screen my-4 bg-muted/25 rounded-lg border">
             {children}
           </main>
           <Toaster />

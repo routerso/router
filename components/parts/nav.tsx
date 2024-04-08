@@ -32,45 +32,42 @@ const otherLinks = [
 
 export default function Nav() {
   return (
-    <nav className="border-r flex flex-col justify-between">
-      <div className="grid gap-8 p-8">
+    <nav className="p-4 flex flex-col gap-4 justify-between h-screen">
+      <div className="border bg-muted/25 rounded-lg p-6">
         <Image
-          className="dark:block hidden"
+          className="dark:invert"
           src={Logo}
           alt="Router.so Logo"
           width={120}
-          height={30.86}
+          height={22.24}
         ></Image>
-        <Image
-          className="dark:hidden block"
-          src={LogoDark}
-          alt="Router.so Logo"
-          width={120}
-          height={30.86}
-        ></Image>
-        <div className="grid gap-2">
-          {links.map((link) => (
-            <NavLink key={link.href} icon={link.icon} href={link.href}>
-              {link.text}
-            </NavLink>
-          ))}
-        </div>
       </div>
-      <div className="grid gap-8">
-        <div className="grid gap-2 px-8">
-          {otherLinks.map((link) => (
-            <NavLink key={link.href} icon={link.icon} href={link.href}>
-              {link.text}
-            </NavLink>
-          ))}
+      <div className="border bg-muted/25 rounded-lg flex flex-col justify-between p-6 h-full">
+        <div className="flex flex-col gap-8">
+          <div className="grid gap-2">
+            {links.map((link) => (
+              <NavLink key={link.href} icon={link.icon} href={link.href}>
+                {link.text}
+              </NavLink>
+            ))}
+          </div>
         </div>
-        <div className="border-t grid gap-8 p-6">
-          <AccountWidget />
-          <div className="flex justify-between items-center gap-2">
-            <ModeToggle />
-            <p className="text-xs text-muted-foreground opacity-50">
-              © router.so / 9d8, 2024
-            </p>
+        <div className="flex flex-col gap-8">
+          <div className="grid gap-2">
+            {otherLinks.map((link) => (
+              <NavLink key={link.href} icon={link.icon} href={link.href}>
+                {link.text}
+              </NavLink>
+            ))}
+          </div>
+          <div className="flex flex-col gap-8">
+            <AccountWidget />
+            <div className="flex justify-between items-center gap-2">
+              <ModeToggle />
+              <p className="text-xs text-muted-foreground opacity-50">
+                © router.so, 2024
+              </p>
+            </div>
           </div>
         </div>
       </div>
