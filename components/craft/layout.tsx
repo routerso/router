@@ -97,8 +97,8 @@ const Article = ({ children, className, id }: ArticleProps) => {
   return (
     <article
       className={cn(
-        "prose dark:prose-invert md:prose-lg",
-        "prose-headings:font-normal prose-main dark:prose-invert",
+        "prose dark:prose-invert md:prose-lg prose-p:text-muted-foreground",
+        "prose-headings:font-normal prose-headings:mt-6 prose-main dark:prose-invert",
         className
       )}
       id={id}

@@ -20,7 +20,7 @@ import Icon from "@/public/icon.svg";
 
 const pageData = {
   title: "Endpoint",
-  description: "Info for endpoint",
+  description: "Schema details and posting instructions for your endpoint",
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -72,16 +72,15 @@ export default async function Page({ params }: { params: { id: string } }) {
       </Breadcrumb>
       <PageWrapper>
         <Header
-          title={`${pageData?.title}: ${endpoint?.name}`}
-        >{`${pageData?.description}: ${endpoint?.name}`}</Header>
-        <Separator />
+          title={`${pageData?.title}: ${"`"}${endpoint?.name}${"`"}`}
+        >{`${pageData?.description}`}</Header>
         <SchemaTable schema={schema} />
         <Separator />
         <Craft.Article>
-          <h2>Posting Instructions</h2>
+          <h3>Posting Instructions</h3>
           <p>
-            Use the following URL to post to{" "}
-            <span className="italic">{endpoint?.name}</span>:
+            Use the following URL to post to the endpoint for:{" "}
+            <span className="text-foreground">{endpoint?.name}</span>
           </p>
           <pre>{url}</pre>
           <h3>Post via API POST Request</h3>

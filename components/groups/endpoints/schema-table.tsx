@@ -9,9 +9,9 @@ import {
 
 export default function SchemaTable({ schema }: { schema: GeneralSchema[] }) {
   return (
-    <div className="max-w-lg">
-      <h2 className="my-2 text-xl md:text-3xl">Schema</h2>
-      <Table>
+    <div className="max-w-lg pb-6 prose dark:prose-invert">
+      <h3>Schema</h3>
+      <Table className="not-prose">
         <TableHeader>
           <TableRow>
             <TableHead>Field</TableHead>
