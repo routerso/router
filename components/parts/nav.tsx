@@ -33,16 +33,16 @@ const otherLinks = [
 export default function Nav() {
   return (
     <nav className="p-4 flex flex-col gap-4 justify-between h-screen">
-      <div className="border bg-muted/25 flex items-center gap-2 rounded-lg p-6">
+      <div className="border bg-muted/50 flex items-center gap-2 rounded-lg p-6">
         <Image
-          className="pb-1 dark:invert"
+          className="dark:invert"
           src={Logo}
           width={100}
-          height={22.53}
+          height={18.53}
           alt="Router.so Wordmark"
         />
       </div>
-      <div className="border bg-muted/25 rounded-lg flex flex-col justify-between p-6 h-full">
+      <div className="border bg-muted/50 rounded-lg flex flex-col justify-between p-6 h-full">
         <div className="flex flex-col gap-8">
           <div className="grid gap-2">
             {links.map((link) => (

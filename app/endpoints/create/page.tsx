@@ -25,7 +25,7 @@ export default async function Page() {
 
   return (
     <>
-      <Breadcrumb className="h-[71.62px] bg-muted/25 rounded-lg border flex items-center justify-between p-6">
+      <Breadcrumb className="h-[67.63px] bg-muted/50 rounded-lg border flex items-center justify-between p-6">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink href="/">
