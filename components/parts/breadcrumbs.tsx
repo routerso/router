@@ -23,7 +23,7 @@ export const Breadcrumbs = ({ pageName }: { pageName?: string }) => {
         </BreadcrumbPage>
       </BreadcrumbList>
       <Image
-        className="group-hover:animate-spin dark:invert"
+        className="hover:animate-spin dark:invert"
         src={Icon}
         width={24}
         height={24}

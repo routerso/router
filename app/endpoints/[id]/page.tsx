@@ -15,6 +15,8 @@ import * as Craft from "@/components/craft/layout";
 import { Separator } from "@/components/ui/separator";
 import { Home } from "lucide-react";
 import PageWrapper from "@/components/page-wrapper";
+import Image from "next/image";
+import Icon from "@/public/icon.svg";
 
 const pageData = {
   title: "Endpoint",
@@ -60,6 +62,13 @@ export default async function Page({ params }: { params: { id: string } }) {
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
+        <Image
+          className="hover:animate-spin dark:invert"
+          src={Icon}
+          width={24}
+          height={24}
+          alt="Router.so Icon"
+        />
       </Breadcrumb>
       <PageWrapper>
         <Header

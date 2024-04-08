@@ -12,6 +12,8 @@ import { Header } from "@/components/parts/header";
 import CreateForm from "@/components/groups/endpoints/create-form";
 import { Home } from "lucide-react";
 import PageWrapper from "@/components/page-wrapper";
+import Image from "next/image";
+import Icon from "@/public/icon.svg";
 
 const pageData = {
   name: "New Endpoint",
@@ -43,6 +45,13 @@ export default async function Page() {
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
+        <Image
+          className="hover:animate-spin dark:invert"
+          src={Icon}
+          width={24}
+          height={24}
+          alt="Router.so Icon"
+        />
       </Breadcrumb>
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
