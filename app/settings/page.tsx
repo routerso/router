@@ -8,7 +8,7 @@ import PageWrapper from "@/components/page-wrapper";
 const pageData = {
   name: "Settings",
   title: "Settings",
-  description: "Manage your Router.so account settings.",
+  description: "Manage your Router.so account settings",
 };
 
 export default async function Page() {

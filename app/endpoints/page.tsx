@@ -10,7 +10,7 @@ import PageWrapper from "@/components/page-wrapper";
 const pageData = {
   name: "Endpoints",
   title: "Endpoints",
-  description: "All your existing endpoints.",
+  description: "All your existing endpoints",
 };
 
 export default async function Page() {

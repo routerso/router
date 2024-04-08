@@ -8,7 +8,7 @@ import PageWrapper from "@/components/page-wrapper";
 const pageData = {
   name: "Dashboard",
   title: "Dashboard",
-  description: "Snapshot of your endpoints and leads.",
+  description: "Snapshot of your endpoints and leads",
 };
 
 export default async function Page() {
