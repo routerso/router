@@ -16,7 +16,7 @@ export default async function LoginPage() {
     <section className="flex fixed top-0 right-0 left-0 h-screen w-screen overflow-hidden flex-col items-center justify-center bg-background/20 backdrop-blur-sm">
       <div className="flex flex-col items-center gap-4 rounded-lg border p-6 shadow-sm md:p-12 mt-12 bg-muted">
         <Image
-          className="mb-8"
+          className="mb-8 dark:invert"
           src="/icon.svg"
           alt="logo"
           width={50}

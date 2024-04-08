@@ -14,7 +14,13 @@ export default async function LoginPage() {
   return (
     <section className="flex fixed top-0 right-0 left-0 h-screen w-screen overflow-hidden flex-col items-center justify-center bg-background/20 backdrop-blur-sm">
       <div className="flex flex-col items-center gap-4 rounded-lg border p-6 shadow-sm md:p-12 mt-12 bg-muted">
-        <Image src="./icon.svg" alt="Logo" width={50} height={50}></Image>
+        <Image
+          className="dark:invert"
+          src="./icon.svg"
+          alt="Logo"
+          width={50}
+          height={50}
+        ></Image>
         <p className="text-center">Check your email!</p>
 
         <div className="flex flex-col items-center gap-4">
