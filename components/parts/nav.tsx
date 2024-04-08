@@ -33,7 +33,10 @@ const otherLinks = [
 export default function Nav() {
   return (
     <nav className="p-4 flex flex-col gap-4 justify-between h-screen">
-      <div className="border bg-muted/50 flex items-center gap-2 rounded-lg p-6">
+      <Link
+        href="/"
+        className="border bg-muted/50 flex items-center gap-2 rounded-lg p-6"
+      >
         <Image
           className="dark:invert"
           src={Logo}
@@ -41,7 +44,7 @@ export default function Nav() {
           height={18.53}
           alt="Router.so Wordmark"
         />
-      </div>
+      </Link>
       <div className="border bg-muted/50 rounded-lg flex flex-col justify-between p-6 h-full">
         <div className="flex flex-col gap-8">
           <div className="grid gap-2">
@@ -50,16 +53,14 @@ export default function Nav() {
                 {link.text}
               </NavLink>
             ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-8">
-          <div className="grid gap-2">
             {otherLinks.map((link) => (
               <NavLink key={link.href} icon={link.icon} href={link.href}>
                 {link.text}
               </NavLink>
             ))}
           </div>
+        </div>
+        <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-8">
             <AccountWidget />
             <div className="flex justify-between items-center gap-2">
