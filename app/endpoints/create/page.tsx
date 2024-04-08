@@ -11,6 +11,7 @@ import {
 import { Header } from "@/components/parts/header";
 import CreateForm from "@/components/groups/endpoints/create-form";
 import { Home } from "lucide-react";
+import PageWrapper from "@/components/page-wrapper";
 
 const pageData = {
   name: "New Endpoint",
@@ -24,7 +25,7 @@ export default async function Page() {
 
   return (
     <>
-      <Breadcrumb>
+      <Breadcrumb className="h-[71.62px] bg-muted/25 rounded-lg border flex items-center justify-between p-6">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink href="/">
@@ -43,8 +44,10 @@ export default async function Page() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <Header title={pageData?.title}>{pageData?.description}</Header>
-      <CreateForm />
+      <PageWrapper>
+        <Header title={pageData?.title}>{pageData?.description}</Header>
+        <CreateForm />
+      </PageWrapper>
     </>
   );
 }

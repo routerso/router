@@ -5,6 +5,7 @@ import { Header } from "@/components/parts/header";
 import { getLogs } from "@/lib/data/logs";
 import { DataTable } from "@/components/parts/data-table";
 import { columns } from "@/components/groups/logs/columns";
+import PageWrapper from "@/components/page-wrapper";
 
 const pageData = {
   name: "Logs",
@@ -21,8 +22,10 @@ export default async function Page() {
   return (
     <>
       <Breadcrumbs pageName={pageData?.name} />
-      <Header title={pageData?.title}>{pageData?.description}</Header>
-      <DataTable columns={columns} data={logs} filterColumn="endpoint" />
+      <PageWrapper>
+        <Header title={pageData?.title}>{pageData?.description}</Header>
+        <DataTable columns={columns} data={logs} filterColumn="endpoint" />
+      </PageWrapper>
     </>
   );
 }
