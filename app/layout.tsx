@@ -30,7 +30,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Nav />
-          <main className="overflow-scroll no-scrollbar p-8 flex flex-col gap-8 min-h-screen my-4 bg-muted/25 rounded-lg border">
+          <main className="py-4 pr-4 flex flex-col gap-4 min-h-screen">
             {children}
           </main>
           <Toaster />

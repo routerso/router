@@ -7,11 +7,12 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-import { Home } from "lucide-react";
+import Image from "next/image";
+import Icon from "@/public/icon.svg";
 
 export const Breadcrumbs = ({ pageName }: { pageName?: string }) => {
   return (
-    <Breadcrumb>
+    <Breadcrumb className="h-[71.62px] bg-muted/25 rounded-lg border flex items-center justify-between p-6">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
@@ -21,6 +22,13 @@ export const Breadcrumbs = ({ pageName }: { pageName?: string }) => {
           <BreadcrumbLink>{pageName || "Dashboard"}</BreadcrumbLink>
         </BreadcrumbPage>
       </BreadcrumbList>
+      <Image
+        className="group-hover:animate-spin dark:invert"
+        src={Icon}
+        width={24}
+        height={24}
+        alt="Router.so Icon"
+      />
     </Breadcrumb>
   );
 };
