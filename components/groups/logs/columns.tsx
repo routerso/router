@@ -6,6 +6,9 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import OptionsDropdown from "./options-dropdown";
 import LogModal from "./log-modal";
+import { Button } from "@/components/ui/button";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { toast } from "sonner";
 
 export const columns: ColumnDef<LogRow>[] = [
   {
@@ -15,7 +18,18 @@ export const columns: ColumnDef<LogRow>[] = [
     },
     cell: ({ row }) => {
       const id: string = row.getValue("id");
-      return <p className="text-xs">{id}</p>;
+      return (
+        <Button
+          variant="outline"
+          className="text-sm"
+          onClick={() => {
+            navigator.clipboard.writeText(`${id}`);
+            toast.success("ID Copied");
+          }}
+        >
+          {id.split("-")[0]}...
+        </Button>
+      );
     },
   },
   {
@@ -26,12 +40,11 @@ export const columns: ColumnDef<LogRow>[] = [
     cell: ({ row }) => {
       const endpoint: string = row.getValue("endpoint");
       return (
-        <Link
-          href={`/endpoints/${row.original.endpointId}`}
-          className="text-sm underline underline-offset-4 hover:opacity-70 transition-all"
-        >
-          {endpoint}
-        </Link>
+        <Button asChild variant="link" className="text-sm px-0">
+          <Link href={`/endpoints/${row.original.endpointId}`}>
+            {endpoint} <InfoCircledIcon className="ml-2" />
+          </Link>
+        </Button>
       );
     },
   },
@@ -87,7 +100,7 @@ export const columns: ColumnDef<LogRow>[] = [
       const createdAt: Date = row.getValue("createdAt");
       const date = new Date(createdAt);
       return (
-        <p className="text-xs">
+        <p className="text-sm">
           {date.toLocaleString("en-US", {
             year: "numeric",
             month: "short",
