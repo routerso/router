@@ -6,6 +6,8 @@ import { DataTableColumnHeader } from "@/components/data-table/header";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import OptionsDropdown from "./options-dropdown";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
 
 export const columns: ColumnDef<Endpoint>[] = [
   {
@@ -27,10 +29,13 @@ export const columns: ColumnDef<Endpoint>[] = [
       const name: string = row.getValue("name");
       return (
         <Link
-          className="underline underline-offset-4 hover:opacity-70 transition-all"
+          className="underline flex items-center underline-offset-4 hover:opacity-70 transition-all"
           href={`/endpoints/${row.original.id}`}
         >
           {name}
+          <Button variant="ghost" size="icon">
+            <InfoCircledIcon />
+          </Button>
         </Link>
       );
     },
@@ -38,7 +43,7 @@ export const columns: ColumnDef<Endpoint>[] = [
   {
     accessorKey: "enabled",
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Enabled" />;
+      return <DataTableColumnHeader column={column} title="Posting" />;
     },
     cell: ({ row }) => {
       const enabled: boolean = row.getValue("enabled");
@@ -52,7 +57,7 @@ export const columns: ColumnDef<Endpoint>[] = [
   {
     accessorKey: "webhookEnabled",
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Webhook Enabled" />;
+      return <DataTableColumnHeader column={column} title="Webhook" />;
     },
     cell: ({ row }) => {
       const enabled: boolean = row.getValue("webhookEnabled");
