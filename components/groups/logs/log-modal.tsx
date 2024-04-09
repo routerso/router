@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export default function LogModal({
   message,
@@ -25,29 +26,37 @@ export default function LogModal({
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <p className="text-xs underline underline-offset-4 hover:opacity-70 transition-all">
+        <Button variant="outline" className="text-xs">
           {messageString.length > 25
             ? `${messageString.slice(0, 25)}...`
             : messageString}
-        </p>
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Log Details</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogTitle className="flex items-center gap-2">
+            Log Details{" "}
             {type === "success" ? (
               <Badge variant="outline">success</Badge>
             ) : (
               <Badge variant="secondary">error</Badge>
             )}
-            <p>occured at {date.toISOString()}</p>
-            <pre className="text-xs">{messageString}</pre>
-            {type === "success" && (
-              <Link href={`/leads/${message.success}`}>see lead</Link>
-            )}
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            <p className="my-2">
+              Occured at <span>{date.toUTCString()}</span>
+            </p>
+            <pre className="text-xs p-6 border rounded-lg mt-4">
+              {messageString}
+            </pre>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
+          {type === "success" && (
+            <Button variant="link">
+              <Link href={`/leads/${message.success}`}>See Lead</Link>
+            </Button>
+          )}
           <AlertDialogCancel>Close</AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
