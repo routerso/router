@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import OptionsDropdown from "./options-dropdown";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export const columns: ColumnDef<Endpoint>[] = [
   {
@@ -17,7 +18,34 @@ export const columns: ColumnDef<Endpoint>[] = [
     },
     cell: ({ row }) => {
       const incrementId: string = row.getValue("incrementId");
-      return <Link href={`/endpoints/${row.original.id}`}>{incrementId}</Link>;
+      return (
+        <Link href={`/endpoints/${row.original.id}`}>
+          <span className="text-muted-foreground text-sm">#</span> {incrementId}
+        </Link>
+      );
+    },
+  },
+  {
+    accessorKey: "endpointUrl",
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Endpoint URL" />;
+    },
+    cell: ({ row }) => {
+      const id: string = row.getValue("incrementId");
+      return (
+        <Button
+          variant="outline"
+          className="text-sm"
+          onClick={() => {
+            navigator.clipboard.writeText(
+              `https://app.router.so/api/endpoints/${id}`
+            );
+            toast.success("Endpoint Copied");
+          }}
+        >
+          {`https://app.router.so/api/endpoints/${id}`}
+        </Button>
+      );
     },
   },
   {
@@ -28,15 +56,11 @@ export const columns: ColumnDef<Endpoint>[] = [
     cell: ({ row }) => {
       const name: string = row.getValue("name");
       return (
-        <Link
-          className="underline flex items-center underline-offset-4 hover:opacity-70 transition-all"
-          href={`/endpoints/${row.original.id}`}
-        >
-          {name}
-          <Button variant="ghost" size="icon">
-            <InfoCircledIcon />
-          </Button>
-        </Link>
+        <Button asChild variant="link" className="text-sm px-0">
+          <Link href={`/endpoints/${row.original.id}`}>
+            {name} <InfoCircledIcon className="ml-2" />
+          </Link>
+        </Button>
       );
     },
   },
@@ -65,25 +89,6 @@ export const columns: ColumnDef<Endpoint>[] = [
         <Badge variant={enabled ? "outline" : "secondary"}>
           {enabled ? "enabled" : "disabled"}
         </Badge>
-      );
-    },
-  },
-  {
-    accessorKey: "createdAt",
-    header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Date Created" />;
-    },
-    cell: ({ row }) => {
-      const createdAt: Date = row.getValue("createdAt");
-      const date = new Date(createdAt);
-      return (
-        <p>
-          {date.toLocaleString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })}
-        </p>
       );
     },
   },
