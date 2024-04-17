@@ -32,8 +32,6 @@ export default async function Page({ params }: { params: { id: string } }) {
   const schema = endpoint?.schema as GeneralSchema[];
 
   const url = `https://app.router.so/api/endpoints/${endpoint?.incrementId}`;
-  // TODO: generate API key when an endpoint is created
-  const apiKey = "8237lkasdf89789sadf";
 
   //  ---------- TODO: make this into its own function ----------
   const formattedSchema = new Object() as { [key: string]: ValidationType };

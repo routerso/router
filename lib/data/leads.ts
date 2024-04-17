@@ -26,6 +26,11 @@ export async function getLeads(userId: string) {
   return data;
 }
 
+export async function getLeadData(id: string) {
+  const leadData = await db.select().from(leads).where(eq(leads.id, id));
+  return leadData[0];
+}
+
 export async function deleteLead(id: string) {
   await db.delete(leads).where(eq(leads.id, id));
   revalidatePath("/leads");
