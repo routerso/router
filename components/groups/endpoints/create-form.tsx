@@ -201,7 +201,6 @@ export default function CreateForm() {
           ))}
 
           <Button
-            variant={"outline"}
             onClick={() => {
               append({ key: "", value: "" });
             }}
