@@ -46,6 +46,15 @@ export default async function Page({ params }: { params: { id: string } }) {
   --header "Authorization: Bearer ${endpoint?.token}" \\
   --data '${schemaString}'`;
 
+  const exampleJs = `fetch("${url}", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${endpoint?.token}"
+    },
+    body: JSON.stringify(${schemaString})
+  })`;
+
   const exampleForm = `<form action="${url}" method="GET">
     ${schema.map(
       (field) =>
@@ -95,6 +104,12 @@ export default async function Page({ params }: { params: { id: string } }) {
           <p>A sample CURL request would look like the following:</p>
           <pre className="relative">
             {exampleCurl} <CopyButton text={exampleCurl} />
+          </pre>
+          <p>
+            A sample fetch request in JavaScript would look like the following:
+          </p>
+          <pre className="relative">
+            {exampleJs} <CopyButton text={exampleJs} />
           </pre>
           <Separator />
           {endpoint?.formEnabled && (
