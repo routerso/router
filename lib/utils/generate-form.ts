@@ -35,119 +35,139 @@ export const generateShadcnForm = (schema: GeneralSchema[], url: string) => {
     return zodType;
   };
 
-  const getInputType = (fieldType: ValidationType) => {
-    switch (fieldType) {
-      case "number":
-        return "number";
-      case "date":
-        return "date";
-      case "email":
-        return "email";
-      case "url":
-        return "url";
-      default:
-        return "text";
-    }
-  };
-
   const getFieldComponent = (field: GeneralSchema) => {
     if (field.value === "boolean") {
       return `
-        <Select onValueChange={field.onChange} defaultValue={field.value}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a value" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="true">Yes</SelectItem>
-            <SelectItem value="false">No</SelectItem>
-          </SelectContent>
-        </Select>
+        <Switch
+          className="flex"
+          checked={field.value}
+          onCheckedChange={field.onChange}
+        />
+      `;
+    } else if (field.value === "date") {
+      return `
+        <Popover>
+          <PopoverTrigger className="flex" asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-[280px] justify-start text-left font-normal",
+                !field.value && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={field.value}
+              onSelect={field.onChange}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
       `;
     } else {
       return `
         <Input
-          placeholder="Enter ${field.key}"
+          placeholder="${field.key}"
           {...field}
-          type="${getInputType(field.value)}"
+          type="${field.value}"
         />
       `;
     }
   };
 
   const hasBooleanField = schema.some((field) => field.value === "boolean");
+  const hasDateField = schema.some((field) => field.value === "date");
 
   return `"use client";
 
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { z } from "zod";
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 ${
   hasBooleanField
     ? `
+import { Switch } from "@/components/ui/switch";
+`
+    : ""
+}
+${
+  hasDateField
+    ? `
+import { Calendar } from "@/components/ui/calendar";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 `
     : ""
 }
 import {
   Form,
+  FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
-  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
-const schema = z.object({
+const formSchema = z.object({
   ${schema.map((field) => `${field.key}: ${getZodType(field)}`).join(",\n  ")}
 });
 
-type FormData = z.infer<typeof schema>;
-
-export const RouterForm = () => {
-  const form = useForm<FormData>({
-    resolver: zodResolver(schema),
+export function RouterForm() {
+  const form = useForm({
+    resolver: zodResolver(formSchema),
   });
+
+  function onSubmit(data) {
+    console.log(data);
+  }
 
   return (
     <Form {...form}>
-      <form action="${url}" method="POST">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         ${schema
           .map(
             (field) => `
-              <FormField
-                control={form.control}
-                name="${field.key}"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>${field.label || field.key}</FormLabel>
-                    <FormControl>
-                      ${getFieldComponent(field)}
-                    </FormControl>
-                    <FormDescription>
-                      ${
-                        field.description ||
-                        `Enter the ${field.key} for the endpoint.`
-                      }
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            `
+        <FormField
+          control={form.control}
+          name="${field.key}"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>${field.label || field.key}</FormLabel>
+              <FormControl>
+                ${getFieldComponent(field)}
+              </FormControl>
+              <FormDescription>
+                ${
+                  field.description ||
+                  `Enter the ${field.key} for the endpoint.`
+                }
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        `
           )
           .join("")}
         <Button type="submit">Submit</Button>
       </form>
     </Form>
   );
-};  `;
+}
+`;
 };
