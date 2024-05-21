@@ -54,11 +54,9 @@ export const generateShadcnForm = (schema: GeneralSchema[], url: string) => {
     if (field.value === "boolean") {
       return `
         <Select onValueChange={field.onChange} defaultValue={field.value}>
-          <FormControl>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-          </FormControl>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a value" />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="true">Yes</SelectItem>
             <SelectItem value="false">No</SelectItem>
@@ -68,9 +66,9 @@ export const generateShadcnForm = (schema: GeneralSchema[], url: string) => {
     } else {
       return `
         <Input
+          placeholder="Enter ${field.key}"
           {...field}
           type="${getInputType(field.value)}"
-          placeholder="Enter ${field.key}"
         />
       `;
     }
@@ -85,7 +83,6 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 ${
   hasBooleanField
     ? `
@@ -99,7 +96,6 @@ import {
 `
     : ""
 }
-
 import {
   Form,
   FormField,
@@ -127,7 +123,7 @@ export const RouterForm = () => {
         ${schema
           .map(
             (field) => `
-              <FormField<FormData>
+              <FormField
                 control={form.control}
                 name="${field.key}"
                 render={({ field }) => (

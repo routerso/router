@@ -82,7 +82,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         >{`${pageData?.description}`}</Header>
         <SchemaTable schema={schema} />
         <Separator />
-        <Craft.Article>
+        <Craft.Main>
           <h3>Posting Instructions</h3>
           <p>
             Use the following URL to post to the endpoint for:{" "}
@@ -185,7 +185,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               </p>
             </>
           )}
-        </Craft.Article>
+        </Craft.Main>
       </PageWrapper>
     </>
   );
