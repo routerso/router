@@ -19,6 +19,8 @@ import Image from "next/image";
 import Icon from "@/public/icon.svg";
 import CopyButton from "@/components/copy-button";
 
+import { generateShadcnForm } from "@/lib/utils/generate-form";
+
 const pageData = {
   title: "Endpoint",
   description: "Schema details and posting instructions for your endpoint",
@@ -69,6 +71,8 @@ export default async function Page({ params }: { params: { id: string } }) {
     <button type="submit" value="Submit" />
   </form>`;
 
+  const shadcnForm = generateShadcnForm(schema, url);
+
   return (
     <>
       <Breadcrumbs endpoint={endpoint} />
@@ -88,28 +92,44 @@ export default async function Page({ params }: { params: { id: string } }) {
             {url}
             <CopyButton text={url} />
           </pre>
+
           <h3>Post via API POST Request</h3>
           <p>
             Send a POST request to the provided URL with the following body
             payload structure:
           </p>
           <pre className="relative">
-            {schemaString} <CopyButton text={schemaString} />
+            {JSON.stringify(schema, null, 2)}{" "}
+            <CopyButton text={JSON.stringify(schema, null, 2)} />
           </pre>
+
           <p>Make sure to include the following API key as a header:</p>
           <pre className="relative">
             {/* @ts-ignore */}
             {endpoint?.token} <CopyButton text={endpoint?.token} />
           </pre>
+
           <p>A sample CURL request would look like the following:</p>
           <pre className="relative">
             {exampleCurl} <CopyButton text={exampleCurl} />
           </pre>
+
           <p>
             A sample fetch request in JavaScript would look like the following:
           </p>
           <pre className="relative">
             {exampleJs} <CopyButton text={exampleJs} />
+          </pre>
+
+          <h3>Post via Shadcn UI Form</h3>
+          <p>Install the Shadcn Form</p>
+          <pre className="relative">
+            {`npx shadcn-ui@latest add form`}{" "}
+            <CopyButton text={`npx shadcn-ui@latest add form`} />
+          </pre>
+          <p>Your Shadcn UI form should look like this:</p>
+          <pre className="relative">
+            {shadcnForm} <CopyButton text={shadcnForm} />
           </pre>
           <Separator />
           {endpoint?.formEnabled && (
