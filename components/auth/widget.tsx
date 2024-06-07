@@ -26,7 +26,6 @@ export default async function AccountWidget() {
         >
           <div className="flex flex-col items-start group">
             <p>Account Information</p>
-            {/* <p className="group-hover:underline">{session?.user?.name}</p> */}
             <p className="text-xs text-muted-foreground">
               {session.user?.email}
             </p>
