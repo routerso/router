@@ -104,8 +104,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
           <p>Make sure to include the following API key as a header:</p>
           <pre className="relative">
-            {/* @ts-ignore */}
-            {endpoint?.token} <CopyButton text={endpoint?.token} />
+            {endpoint?.token} <CopyButton text={endpoint?.token || ""} />
           </pre>
 
           <p>A sample CURL request would look like the following:</p>
