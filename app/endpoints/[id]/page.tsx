@@ -99,8 +99,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             payload structure:
           </p>
           <pre className="relative">
-            {JSON.stringify(schema, null, 2)}{" "}
-            <CopyButton text={JSON.stringify(schema, null, 2)} />
+            {schemaString} <CopyButton text={schemaString} />
           </pre>
 
           <p>Make sure to include the following API key as a header:</p>
