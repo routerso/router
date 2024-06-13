@@ -4,6 +4,7 @@ import { logs, endpoints } from "../db/schema";
 import { eq, desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "../db/db";
+import { getErrorMessage } from "@/lib/utils/error-message";
 
 export async function getLogs(userId: string) {
   const logsData = await db
@@ -27,6 +28,12 @@ export async function getLogs(userId: string) {
 }
 
 export async function deleteLog(id: string) {
-  await db.delete(logs).where(eq(logs.id, id));
-  revalidatePath("/logs");
+  try {
+    await db.delete(logs).where(eq(logs.id, id));
+    revalidatePath("/logs");
+  } catch (error: unknown) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
 }

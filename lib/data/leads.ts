@@ -4,6 +4,7 @@ import { leads, endpoints } from "../db/schema";
 import { eq, desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "../db/db";
+import { getErrorMessage } from "@/lib/utils/error-message";
 
 export async function getLeads(userId: string) {
   const leadsData = await db
@@ -32,6 +33,12 @@ export async function getLeadData(id: string) {
 }
 
 export async function deleteLead(id: string) {
-  await db.delete(leads).where(eq(leads.id, id));
-  revalidatePath("/leads");
+  try {
+    await db.delete(leads).where(eq(leads.id, id));
+    revalidatePath("/leads");
+  } catch (error: unknown) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
 }
