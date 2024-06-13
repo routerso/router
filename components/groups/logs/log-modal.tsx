@@ -25,7 +25,7 @@ export default function LogModal({
   const messageString = JSON.stringify(message, null, 2);
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <Button variant="outline" className="text-xs">
           {messageString.length > 25
             ? `${messageString.slice(0, 25)}...`

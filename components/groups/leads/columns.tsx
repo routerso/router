@@ -4,7 +4,6 @@ import { Lead } from "@/lib/db/db";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/data-table/header";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import OptionsDropdown from "./options-dropdown";
 
 export const columns: ColumnDef<Lead>[] = [
