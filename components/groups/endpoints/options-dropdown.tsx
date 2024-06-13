@@ -27,6 +27,8 @@ import {
   enableEndpoint,
 } from "@/lib/data/endpoints";
 
+import { createClientAction } from "@/lib/utils/client-action";
+
 export default function OptionsDropdown({
   id,
   enabled,
@@ -37,6 +39,11 @@ export default function OptionsDropdown({
   const deleteEndpointWithId = deleteEndpoint.bind(null, id);
   const disableEndpointWithId = disableEndpoint.bind(null, id);
   const enableEndpointWithId = enableEndpoint.bind(null, id);
+
+  const deleteAction = createClientAction(deleteEndpointWithId);
+  const disableAction = createClientAction(disableEndpointWithId);
+  const enableAction = createClientAction(enableEndpointWithId);
+
   const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
   const [showDisableAlert, setShowDisableAlert] = useState<boolean>(false);
   const [showEnableAlert, setShowEnableAlert] = useState<boolean>(false);
@@ -82,7 +89,7 @@ export default function OptionsDropdown({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <form action={deleteEndpointWithId}>
+            <form action={deleteAction}>
               <AlertDialogAction type="submit">Delete</AlertDialogAction>
             </form>
           </AlertDialogFooter>
@@ -100,7 +107,7 @@ export default function OptionsDropdown({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <form action={disableEndpointWithId}>
+            <form action={disableAction}>
               <AlertDialogAction type="submit">Disable</AlertDialogAction>
             </form>
           </AlertDialogFooter>
@@ -118,7 +125,7 @@ export default function OptionsDropdown({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <form action={enableEndpointWithId}>
+            <form action={enableAction}>
               <AlertDialogAction type="submit">Enable</AlertDialogAction>
             </form>
           </AlertDialogFooter>

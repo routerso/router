@@ -22,9 +22,11 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { deleteLead } from "@/lib/data/leads";
+import { createClientAction } from "@/lib/utils/client-action";
 
 export default function OptionsDropdown({ id }: { id: string }) {
   const deleteLeadWithId = deleteLead.bind(null, id);
+  const deleteAction = createClientAction(deleteLeadWithId);
   const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
 
   return (
@@ -59,7 +61,7 @@ export default function OptionsDropdown({ id }: { id: string }) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <form action={deleteLeadWithId}>
+            <form action={deleteAction}>
               <AlertDialogAction type="submit">Delete</AlertDialogAction>
             </form>
           </AlertDialogFooter>

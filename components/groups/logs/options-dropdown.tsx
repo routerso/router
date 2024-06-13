@@ -21,9 +21,11 @@ import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 
 import { deleteLog } from "@/lib/data/logs";
+import { createClientAction } from "@/lib/utils/client-action";
 
 export default function OptionsDropdown({ id }: { id: string }) {
   const deleteLogWithId = deleteLog.bind(null, id);
+  const deleteAction = createClientAction(deleteLogWithId);
   const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
 
   return (
@@ -55,7 +57,7 @@ export default function OptionsDropdown({ id }: { id: string }) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <form action={deleteLogWithId}>
+            <form action={deleteAction}>
               <AlertDialogAction type="submit">Delete</AlertDialogAction>
             </form>
           </AlertDialogFooter>
