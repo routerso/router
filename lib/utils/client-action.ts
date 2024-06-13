@@ -7,7 +7,7 @@ export function createClientAction(createParamWithId: ServerActionFunction) {
     if (result?.error) {
       toast.error(result?.error);
     } else {
-      toast.success("Success");
+      toast.success("Success!");
     }
   };
 }
