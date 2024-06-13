@@ -7,13 +7,39 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options";
 import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
-
+import { CircleCheck, CircleX, Webhook, CodeXml } from "lucide-react";
 import { Endpoint } from "@/lib/db/db";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
   endpoints: Endpoint[];
 }
+
+const logTypeFilter = [
+  {
+    value: "success",
+    label: "Success",
+    icon: CircleCheck,
+  },
+  {
+    value: "error",
+    label: "Error",
+    icon: CircleX,
+  },
+];
+
+const postTypeFilter = [
+  {
+    value: "http",
+    label: "HTTP",
+    icon: Webhook,
+  },
+  {
+    value: "form",
+    label: "Form",
+    icon: CodeXml,
+  },
+];
 
 export function DataTableToolbar<TData>({
   table,
@@ -38,6 +64,20 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
+        {table.getColumn("type") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("type")}
+            title="Type"
+            options={logTypeFilter}
+          />
+        )}
+        {table.getColumn("postType") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("postType")}
+            title="Method"
+            options={postTypeFilter}
+          />
+        )}
         {table.getColumn("endpoint") && (
           <DataTableFacetedFilter
             column={table.getColumn("endpoint")}

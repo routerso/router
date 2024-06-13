@@ -47,6 +47,9 @@ export const columns: ColumnDef<LogRow>[] = [
         </Button>
       );
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "type",
@@ -62,6 +65,9 @@ export const columns: ColumnDef<LogRow>[] = [
         </Badge>
       );
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "postType",
@@ -76,6 +82,9 @@ export const columns: ColumnDef<LogRow>[] = [
           {isForm ? "Form" : "HTTP"}
         </Badge>
       );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
     },
   },
   {
