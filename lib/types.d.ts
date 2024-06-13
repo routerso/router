@@ -70,3 +70,7 @@ type LeadRow = {
   endpointId: string;
   endpoint: string;
 };
+
+type ServerActionFunction = (
+  formData: FormData
+) => Promise<{ error: string } | undefined>;
