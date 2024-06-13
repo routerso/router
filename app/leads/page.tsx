@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import { getLeads } from "@/lib/data/leads";
-import { DataTable } from "@/components/parts/data-table";
+import { getEndpoints } from "@/lib/data/endpoints";
+import { DataTable } from "@/components/groups/leads/data-table";
 import { columns } from "@/components/groups/leads/columns";
 import PageWrapper from "@/components/page-wrapper";
 
@@ -18,13 +19,14 @@ export default async function Page() {
   if (!session) redirect("/login");
 
   const leads = await getLeads(session?.user?.id);
+  const endpoints = await getEndpoints(session?.user?.id);
 
   return (
     <>
       <Breadcrumbs pageName={pageData?.name} />
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
-        <DataTable columns={columns} data={leads} filterColumn="endpoint" />
+        <DataTable columns={columns} data={leads} endpoints={endpoints} />
       </PageWrapper>
     </>
   );

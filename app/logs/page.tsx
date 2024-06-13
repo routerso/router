@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import { getLogs } from "@/lib/data/logs";
-import { DataTable } from "@/components/parts/data-table";
+import { DataTable } from "@/components/data-table";
 import { columns } from "@/components/groups/logs/columns";
 import PageWrapper from "@/components/page-wrapper";
 

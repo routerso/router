@@ -41,6 +41,9 @@ export const columns: ColumnDef<Lead>[] = [
         </Link>
       );
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "createdAt",
