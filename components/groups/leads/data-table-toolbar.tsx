@@ -5,10 +5,10 @@ import { Table } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DataTableViewOptions } from "./data-table-view-options";
-import { DataTableFacetedFilter } from "./data-table-faceted-filter";
+import { DataTableViewOptions } from "@/components/data-table/data-table-view-options";
+import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
 
-import { AsteriskSquare, SquareAsterisk } from "lucide-react";
+import { AsteriskSquare } from "lucide-react";
 import { Endpoint } from "@/lib/db/db";
 
 interface DataTableToolbarProps<TData> {
@@ -23,7 +23,7 @@ export function DataTableToolbar<TData>({
   const endpointFilters = endpoints.map((endpoint) => ({
     value: endpoint.name,
     label: endpoint.name,
-    icon: SquareAsterisk,
+    icon: AsteriskSquare,
   }));
 
   const isFiltered = table.getState().columnFilters.length > 0;
