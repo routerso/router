@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
 

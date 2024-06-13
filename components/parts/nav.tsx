@@ -2,11 +2,10 @@
 import AccountWidget from "../auth/widget";
 import Link from "next/link";
 import Image from "next/image";
-import { ModeToggle } from "../mode-toggle";
+import { ModeToggle } from "@/components/parts/mode-toggle";
 
 // Image Imports
 import Logo from "@/public/logo.svg";
-import Icon from "@/public/icon.svg";
 
 // Icon Imports
 import {
