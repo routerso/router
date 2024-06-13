@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "../theme-provider";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 // LAYOUT
 // Layout Component
