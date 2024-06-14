@@ -1,0 +1,55 @@
+Title: Textarea
+
+URL Source: https://ui.shadcn.com/docs/components/textarea
+
+Markdown Content:
+Docs
+
+Textarea
+
+Displays a form textarea or a component that looks like a textarea.
+
+[](#installation)Installation
+-----------------------------
+
+```
+npx shadcn-ui@latest add textarea
+```
+
+[](#usage)Usage
+---------------
+
+```
+import { Textarea } from "@/components/ui/textarea"
+```
+
+```
+<Textarea />
+```
+
+[](#examples)Examples
+---------------------
+
+### [](#default)Default
+
+### [](#disabled)Disabled
+
+### [](#with-label)With Label
+
+Your message
+
+### [](#with-text)With Text
+
+Your Message
+
+Your message will be copied to the support team.
+
+### [](#with-button)With Button
+
+### [](#form)Form
+
+Bio
+
+You can @mention other users and organizations.
+
+[Tabs](https://ui.shadcn.com/docs/components/tabs)[Toast](https://ui.shadcn.com/docs/components/toast)

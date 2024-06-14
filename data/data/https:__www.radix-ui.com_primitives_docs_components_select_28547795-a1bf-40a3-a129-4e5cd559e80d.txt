@@ -1,0 +1,240 @@
+Title: Select – Radix Primitives
+
+URL Source: https://www.radix-ui.com/primitives/docs/components/select
+
+Markdown Content:
+Displays a list of options for the user to pick from—triggered by a button.
+
+```
+import React from 'react';
+import * as Select from '@radix-ui/react-select';
+import classnames from 'classnames';
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
+import './styles.css';
+const SelectDemo = () => (
+<Select.Root>
+    <Select.Trigger className="SelectTrigger" aria-label="Food">
+      <Select.Value placeholder="Select a fruit…" />
+      <Select.Icon className="SelectIcon">
+        <ChevronDownIcon />
+      </Select.Icon>
+    </Select.Trigger>
+    <Select.Portal>
+      <Select.Content className="SelectContent">
+        <Select.ScrollUpButton className="SelectScrollButton">
+          <ChevronUpIcon />
+        </Select.ScrollUpButton>
+        <Select.Viewport className="SelectViewport">
+          <Select.Group>
+            <Select.Label className="SelectLabel">Fruits</Select.Label>
+            <SelectItem value="apple">Apple</SelectItem>
+            <SelectItem value="banana">Banana</SelectItem>
+            <SelectItem value="blueberry">Blueberry</SelectItem>
+            <SelectItem value="grapes">Grapes</SelectItem>
+            <SelectItem value="pineapple">Pineapple</SelectItem>
+          </Select.Group>
+          <Select.Separator className="SelectSeparator" />
+          <Select.Group>
+            <Select.Label className="SelectLabel">Vegetables</Select.Label>
+            <SelectItem value="aubergine">Aubergine</SelectItem>
+            <SelectItem value="broccoli">Broccoli</SelectItem>
+            <SelectItem value="carrot" disabled>
+              Carrot
+            </SelectItem>
+            <SelectItem value="courgette">Courgette</SelectItem>
+            <SelectItem value="leek">Leek</SelectItem>
+          </Select.Group>
+          <Select.Separator className="SelectSeparator" />
+          <Select.Group>
+            <Select.Label className="SelectLabel">Meat</Select.Label>
+            <SelectItem value="beef">Beef</SelectItem>
+            <SelectItem value="chicken">Chicken</SelectItem>
+            <SelectItem value="lamb">Lamb</SelectItem>
+            <SelectItem value="pork">Pork</SelectItem>
+          </Select.Group>
+        </Select.Viewport>
+        <Select.ScrollDownButton className="SelectScrollButton">
+          <ChevronDownIcon />
+        </Select.ScrollDownButton>
+      </Select.Content>
+    </Select.Portal>
+  </Select.Root>
+);
+const SelectItem = React.forwardRef(({ children, className, ...props }, forwardedRef) => {
+return (
+<Select.Item className={classnames('SelectItem', className)} {...props} ref={forwardedRef}>
+      <Select.ItemText>{children}</Select.ItemText>
+      <Select.ItemIndicator className="SelectItemIndicator">
+        <CheckIcon />
+      </Select.ItemIndicator>
+    </Select.Item>
+);
+});
+export default SelectDemo;
+```
+
+Features
+--------
+
+Can be controlled or uncontrolled.
+
+Offers 2 positioning modes.
+
+Supports items, labels, groups of items.
+
+Full keyboard navigation.
+
+Supports custom placeholder.
+
+Supports Right to Left direction.
+
+Component Reference Links
+-------------------------
+
+Size: [30.04 kB](https://bundlephobia.com/package/@radix-ui/react-select@2.0.0)
+
+[Installation](#installation)
+-----------------------------
+
+Install the component from your command line.
+
+[Anatomy](#anatomy)
+-------------------
+
+Import all parts and piece them together.
+
+[API Reference](#api-reference)
+-------------------------------
+
+### [Root](#root)
+
+Contains all the parts of a select.
+
+### [Trigger](#trigger)
+
+The button that toggles the select. The `Select.Content` will position itself by aligning over the trigger.
+
+### [Value](#value)
+
+The part that reflects the selected value. By default the selected item's text will be rendered. if you require more control, you can instead control the select and pass your own `children`. It should not be styled to ensure correct positioning. An optional `placeholder` prop is also available for when the select has no value.
+
+### [Icon](#icon)
+
+A small icon often displayed next to the value as a visual affordance for the fact it can be open. By default renders ▼ but you can use your own icon via `asChild` or use `children`.
+
+### [Portal](#portal)
+
+When used, portals the content part into the `body`.
+
+### [Content](#content)
+
+The component that pops out when the select is open.
+
+### [Viewport](#viewport)
+
+The scrolling viewport that contains all of the items.
+
+### [Item](#item)
+
+The component that contains the select items.
+
+### [ItemText](#itemtext)
+
+The textual part of the item. It should only contain the text you want to see in the trigger when that item is selected. It should not be styled to ensure correct positioning.
+
+### [ItemIndicator](#itemindicator)
+
+Renders when the item is selected. You can style this element directly, or you can use it as a wrapper to put an icon into, or both.
+
+### [ScrollUpButton](#scrollupbutton)
+
+An optional button used as an affordance to show the viewport overflow as well as functionaly enable scrolling upwards.
+
+### [ScrollDownButton](#scrolldownbutton)
+
+An optional button used as an affordance to show the viewport overflow as well as functionaly enable scrolling downwards.
+
+### [Group](#group)
+
+Used to group multiple items. use in conjunction with `Select.Label` to ensure good accessibility via automatic labelling.
+
+### [Label](#label)
+
+Used to render the label of a group. It won't be focusable using arrow keys.
+
+### [Separator](#separator)
+
+Used to visually separate items in the select.
+
+### [Arrow](#arrow)
+
+An optional arrow element to render alongside the content. This can be used to help visually link the trigger with the `Select.Content`. Must be rendered inside `Select.Content`. Only available when `position` is set to `popper`.
+
+[Examples](#examples)
+---------------------
+
+### [Change the positioning mode](#change-the-positioning-mode)
+
+By default, `Select` will behave similarly to a native MacOS menu by positioning `Select.Content` relative to the active item. If you would prefer an alternative positioning approach similar to `Popover` or `DropdownMenu` then you can set `position` to `popper` and make use of additional alignment options such as `side`, `sideOffset` and more.
+
+### [Constrain the content size](#constrain-the-content-size)
+
+When using `position="popper"` on `Select.Content`, you may want to constrain the width of the content so that it matches the trigger width. You may also want to constrain its height to not exceed the viewport.
+
+We expose several CSS custom properties such as `--radix-select-trigger-width` and `--radix-select-content-available-height` to support this. Use them to constrain the content dimensions.
+
+### [With disabled items](#with-disabled-items)
+
+You can add special styles to disabled items via the `data-disabled` attribute.
+
+### [With a placeholder](#with-a-placeholder)
+
+You can use the `placeholder` prop on `Value` for when the select has no value. There's also a `data-placeholder` attribute on `Trigger` to help with styling.
+
+### [With separators](#with-separators)
+
+Use the `Separator` part to add a separator between items.
+
+### [With grouped items](#with-grouped-items)
+
+Use the `Group` and `Label` parts to group items in a section.
+
+### [With complex items](#with-complex-items)
+
+You can use custom content in your items.
+
+### [Controlling the value displayed in the trigger](#controlling-the-value-displayed-in-the-trigger)
+
+By default the trigger will automatically display the selected item `ItemText`'s content. You can control what appears by chosing to put things inside/outside the `ItemText` part.
+
+If you need more flexibility, you can control the component using `value`/`onValueChange` props and passing `children` to `SelectValue`. Remember to make sure what you put in there is accessible.
+
+### [With custom scrollbar](#with-custom-scrollbar)
+
+The native scrollbar is hidden by default as we recommend using the `ScrollUpButton` and `ScrollDownButton` parts for the best UX. If you do not want to use these parts, compose your select with our [Scroll Area](https://www.radix-ui.com/primitives/docs/components/scroll-area) primitive.
+
+[Accessibility](#accessibility)
+-------------------------------
+
+Adheres to the [ListBox WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/listbox).
+
+See the W3C [Select-Only Combobox](https://www.w3.org/TR/wai-aria-practices/examples/combobox/combobox-select-only.html) example for more information.
+
+### [Keyboard Interactions](#keyboard-interactions)
+
+### [Labelling](#labelling)
+
+Use our [Label](https://www.radix-ui.com/primitives/docs/components/label) component in order to offer a visual and accessible label for the select.
+
+[Custom APIs](#custom-apis)
+---------------------------
+
+Create your own API by abstracting the primitive parts into your own component.
+
+### [Abstract down to `Select` and `SelectItem`](#abstract-down-to-select-and-selectitem)
+
+This example abstracts most of the parts.
+
+#### Usage
+
+#### Implementation

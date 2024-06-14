@@ -1,0 +1,57 @@
+Title: Radio Group
+
+URL Source: https://ui.shadcn.com/docs/components/radio-group
+
+Markdown Content:
+A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
+
+[Docs](https://www.radix-ui.com/docs/primitives/components/radio-group)[API Reference](https://www.radix-ui.com/docs/primitives/components/radio-group#api-reference)
+
+Default
+
+Comfortable
+
+Compact
+
+[](#installation)Installation
+-----------------------------
+
+```
+npx shadcn-ui@latest add radio-group
+```
+
+[](#usage)Usage
+---------------
+
+```
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+```
+
+```
+<RadioGroup defaultValue="option-one">
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="option-one" id="option-one" />
+    <Label htmlFor="option-one">Option One</Label>
+  </div>
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="option-two" id="option-two" />
+    <Label htmlFor="option-two">Option Two</Label>
+  </div>
+</RadioGroup>
+```
+
+[](#examples)Examples
+---------------------
+
+### [](#form)Form
+
+Notify me about...
+
+All new messages
+
+Direct messages and mentions
+
+Nothing
+
+[Progress](https://ui.shadcn.com/docs/components/progress)[Resizable](https://ui.shadcn.com/docs/components/resizable)

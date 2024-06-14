@@ -1,0 +1,53 @@
+Title: Input
+
+URL Source: https://ui.shadcn.com/docs/components/input
+
+Markdown Content:
+Docs
+
+Input
+
+Displays a form input field or a component that looks like an input field.
+
+[](#installation)Installation
+-----------------------------
+
+```
+npx shadcn-ui@latest add input
+```
+
+[](#usage)Usage
+---------------
+
+```
+import { Input } from "@/components/ui/input"
+```
+
+```
+<Input />
+```
+
+[](#examples)Examples
+---------------------
+
+### [](#default)Default
+
+### [](#file)File
+
+Picture
+
+### [](#disabled)Disabled
+
+### [](#with-label)With Label
+
+Email
+
+### [](#with-button)With Button
+
+### [](#form)Form
+
+Username
+
+This is your public display name.
+
+[Hover Card](https://ui.shadcn.com/docs/components/hover-card)[Input OTP](https://ui.shadcn.com/docs/components/input-otp)

@@ -1,0 +1,61 @@
+Title: Checkbox
+
+URL Source: https://ui.shadcn.com/docs/components/checkbox
+
+Markdown Content:
+A control that allows the user to toggle between checked and not checked.
+
+[Docs](https://www.radix-ui.com/docs/primitives/components/checkbox)[API Reference](https://www.radix-ui.com/docs/primitives/components/checkbox#api-reference)
+
+Accept terms and conditions
+
+[](#installation)Installation
+-----------------------------
+
+```
+npx shadcn-ui@latest add checkbox
+```
+
+[](#usage)Usage
+---------------
+
+```
+import { Checkbox } from "@/components/ui/checkbox"
+```
+
+[](#examples)Examples
+---------------------
+
+### [](#with-text)With text
+
+Accept terms and conditions
+
+You agree to our Terms of Service and Privacy Policy.
+
+### [](#disabled)Disabled
+
+Accept terms and conditions
+
+### [](#form)Form
+
+Use different settings for my mobile devices
+
+You can manage your mobile notifications in the [mobile settings](https://ui.shadcn.com/examples/forms) page.
+
+Sidebar
+
+Select the items you want to display in the sidebar.
+
+Recents
+
+Home
+
+Applications
+
+Desktop
+
+Downloads
+
+Documents
+
+[Carousel](https://ui.shadcn.com/docs/components/carousel)[Collapsible](https://ui.shadcn.com/docs/components/collapsible)

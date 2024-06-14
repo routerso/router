@@ -1,0 +1,14 @@
+Title: Select
+
+URL Source: https://ui.shadcn.com/docs/components/select
+
+Markdown Content:
+```
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+```
