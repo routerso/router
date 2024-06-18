@@ -6,6 +6,9 @@ import { z } from "zod";
 import { validations } from "@/lib/utils/validations";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { convertToCorrectTypes } from "@/lib/utils/convert-type";
+import { getEndpoint } from "@/lib/data/api";
+import { createDynamicSchema } from "@/lib/utils/create-schema";
 
 export async function POST(
   request: Request,
@@ -34,11 +37,7 @@ export async function POST(
 
     const data = await request.json();
 
-    const endpointResult = await db
-      .select()
-      .from(endpoints)
-      .where(eq(endpoints.incrementId, parsedId));
-    const endpoint = endpointResult[0];
+    const endpoint = await getEndpoint(parsedId);
 
     if (!endpoint) {
       return NextResponse.json(
@@ -56,18 +55,7 @@ export async function POST(
 
     const schema = endpoint?.schema as GeneralSchema[];
 
-    // TODO: make this into its own function
-    const dynamicSchema = schema.reduce<z.ZodRawShape>(
-      (acc, { key, value }) => {
-        const validation = validations[value];
-        if (validation) {
-          acc[key as keyof SchemaToZodMap] = validation;
-        }
-        return acc;
-      },
-      {}
-    );
-
+    const dynamicSchema = createDynamicSchema(schema);
     const EndpointZodSchema = z.object(dynamicSchema);
 
     Object.keys(dynamicSchema).forEach((key) => {
@@ -229,25 +217,4 @@ export async function GET(
   return NextResponse.redirect(
     new URL(endpoint?.successUrl || referer || "/success")
   );
-}
-
-// TODO: Move this to be its own file
-function convertToCorrectTypes(data: any, schema: GeneralSchema[]) {
-  const result: any = {};
-
-  schema.forEach(({ key, value }) => {
-    if (value === "boolean") {
-      // Convert "true" and "false" strings to boolean values
-      result[key] = data[key] === "true";
-    } else if (value === "number") {
-      // Convert string to number, ensuring NaN is handled appropriately
-      const num = Number(data[key]);
-      result[key] = isNaN(num) ? undefined : num;
-    } else {
-      // For all other types, assume string or no conversion needed
-      result[key] = data[key];
-    }
-  });
-
-  return result;
 }
