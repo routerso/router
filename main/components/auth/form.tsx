@@ -27,6 +27,7 @@ const allowedEmails = [
   "cameron@ampry.com",
   "bridgertower@gmail.com",
   "9d8dev@gmail.com",
+  "mitchellbwright@gmail.com",
 ];
 
 const formSchema = z.object({
