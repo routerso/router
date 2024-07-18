@@ -22,7 +22,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { deleteLead } from "@/lib/data/leads";
-import { createClientAction } from "@/lib/utils/client-action";
+import { createClientAction } from "@/lib/helpers/client-action";
 
 export default function OptionsDropdown({ id }: { id: string }) {
   const deleteLeadWithId = deleteLead.bind(null, id);

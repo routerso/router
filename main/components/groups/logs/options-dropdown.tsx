@@ -21,7 +21,7 @@ import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 
 import { deleteLog } from "@/lib/data/logs";
-import { createClientAction } from "@/lib/utils/client-action";
+import { createClientAction } from "@/lib/helpers/client-action";
 
 export default function OptionsDropdown({ id }: { id: string }) {
   const deleteLogWithId = deleteLog.bind(null, id);

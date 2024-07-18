@@ -19,7 +19,7 @@ import Image from "next/image";
 import Icon from "@/public/icon.svg";
 import CopyButton from "@/components/parts/copy-button";
 
-import { generateShadcnForm } from "@/lib/utils/generate-form";
+import { generateShadcnForm } from "@/lib/helpers/generate-form";
 
 const pageData = {
   title: "Endpoint",

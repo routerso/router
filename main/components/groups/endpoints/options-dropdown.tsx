@@ -27,7 +27,7 @@ import {
   enableEndpoint,
 } from "@/lib/data/endpoints";
 
-import { createClientAction } from "@/lib/utils/client-action";
+import { createClientAction } from "@/lib/helpers/client-action";
 
 export default function OptionsDropdown({
   id,

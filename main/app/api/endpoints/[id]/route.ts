@@ -3,7 +3,7 @@ import { db } from "@/lib/db/db";
 import { endpoints, logs, leads } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { validations } from "@/lib/utils/validations";
+import { validations } from "@/lib/validation";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 
