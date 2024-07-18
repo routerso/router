@@ -2,8 +2,11 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db/db";
 import { endpoints, logs, leads } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
-import { z } from "zod";
-import { validations } from "@/lib/validation";
+import {
+  convertToCorrectTypes,
+  generateDynamicSchema,
+  validateAndParseData,
+} from "@/lib/validation";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 
@@ -55,27 +58,8 @@ export async function POST(
     }
 
     const schema = endpoint?.schema as GeneralSchema[];
-
-    // TODO: make this into its own function
-    const dynamicSchema = schema.reduce<z.ZodRawShape>(
-      (acc, { key, value }) => {
-        const validation = validations[value];
-        if (validation) {
-          acc[key as keyof SchemaToZodMap] = validation;
-        }
-        return acc;
-      },
-      {}
-    );
-
-    const EndpointZodSchema = z.object(dynamicSchema);
-
-    Object.keys(dynamicSchema).forEach((key) => {
-      const validation = dynamicSchema[key];
-      console.log(`Field: ${key}, Validation: ${validation._def.typeName}`);
-    });
-
-    const parsedData = EndpointZodSchema.safeParse(data);
+    const dynamicSchema = generateDynamicSchema(schema);
+    const parsedData = validateAndParseData(dynamicSchema, data);
 
     if (!parsedData.success) {
       await db.insert(logs).values({
@@ -168,30 +152,11 @@ export async function GET(
 
   // get the schema from the endpoint
   const schema = endpoint?.schema as GeneralSchema[];
-
   // convert the data to the correct types
   const data = convertToCorrectTypes(rawData, schema);
+  const dynamicSchema = generateDynamicSchema(schema);
+  const parsedData = validateAndParseData(dynamicSchema, data);
 
-  // TODO: make this into its own function
-  const dynamicSchema = schema.reduce<z.ZodRawShape>((acc, { key, value }) => {
-    const validation = validations[value];
-    if (validation) {
-      acc[key as keyof SchemaToZodMap] = validation;
-    }
-    return acc;
-  }, {});
-
-  // create a Zod schema from the dynamic schema
-  const EndpointZodSchema = z.object(dynamicSchema);
-
-  // validate the data against the schema
-  Object.keys(dynamicSchema).forEach((key) => {
-    const validation = dynamicSchema[key];
-    console.log(`Field: ${key}, Validation: ${validation._def.typeName}`);
-  });
-
-  // if the data doesn't match the schema, return a 400
-  const parsedData = EndpointZodSchema.safeParse(data);
   if (!parsedData.success) {
     await db.insert(logs).values({
       type: "error",
@@ -229,25 +194,4 @@ export async function GET(
   return NextResponse.redirect(
     new URL(endpoint?.successUrl || referer || "/success")
   );
-}
-
-// TODO: Move this to be its own file
-function convertToCorrectTypes(data: any, schema: GeneralSchema[]) {
-  const result: any = {};
-
-  schema.forEach(({ key, value }) => {
-    if (value === "boolean") {
-      // Convert "true" and "false" strings to boolean values
-      result[key] = data[key] === "true";
-    } else if (value === "number") {
-      // Convert string to number, ensuring NaN is handled appropriately
-      const num = Number(data[key]);
-      result[key] = isNaN(num) ? undefined : num;
-    } else {
-      // For all other types, assume string or no conversion needed
-      result[key] = data[key];
-    }
-  });
-
-  return result;
 }
