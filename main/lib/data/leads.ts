@@ -6,6 +6,25 @@ import { revalidatePath } from "next/cache";
 import { db } from "../db/db";
 import { getErrorMessage } from "@/lib/helpers/error-message";
 
+export async function createLead(
+  endpointId: string,
+  data: {
+    [x: string]: any;
+  }
+) {
+  const [{ leadId }] = await db
+    .insert(leads)
+    .values({
+      data,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      endpointId: endpointId,
+    })
+    .returning({ leadId: leads.id });
+
+  return leadId;
+}
+
 export async function getLeads(userId: string) {
   const leadsData = await db
     .select()

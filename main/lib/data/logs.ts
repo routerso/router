@@ -6,6 +6,24 @@ import { revalidatePath } from "next/cache";
 import { db } from "../db/db";
 import { getErrorMessage } from "@/lib/helpers/error-message";
 
+export async function createLog(
+  type: "success" | "error",
+  postType: "http" | "form",
+  message: string,
+  endpointId: string
+) {
+  await db.insert(logs).values({
+    type,
+    postType,
+    message:
+      type === "success" ? { success: true, id: message } : { error: message },
+    createdAt: new Date(),
+    endpointId,
+  });
+
+  revalidatePath("/logs");
+}
+
 export async function getLogs(userId: string) {
   const logsData = await db
     .select()
