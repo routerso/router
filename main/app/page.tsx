@@ -21,6 +21,7 @@ export default async function Page() {
       <Breadcrumbs pageName={pageData?.name} />
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
+        <Chart />
       </PageWrapper>
     </>
   );
