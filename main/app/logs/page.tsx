@@ -6,7 +6,7 @@ import { getLogs } from "@/lib/data/logs";
 import { getEndpoints } from "@/lib/data/endpoints";
 import { DataTable } from "@/components/groups/logs/data-table";
 import { columns } from "@/components/groups/logs/columns";
-import PageWrapper from "@/components/parts/page-wrapper";
+import { PageWrapper } from "@/components/parts/page-wrapper";
 
 const pageData = {
   name: "Logs",

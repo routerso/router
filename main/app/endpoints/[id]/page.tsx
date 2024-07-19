@@ -14,7 +14,7 @@ import SchemaTable from "@/components/groups/endpoints/schema-table";
 import * as Craft from "@/components/craft/layout";
 import { Separator } from "@/components/ui/separator";
 import { Home } from "lucide-react";
-import PageWrapper from "@/components/parts/page-wrapper";
+import { PageWrapper } from "@/components/parts/page-wrapper";
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 import CopyButton from "@/components/parts/copy-button";

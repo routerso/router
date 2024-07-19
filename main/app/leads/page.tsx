@@ -6,7 +6,7 @@ import { getLeads } from "@/lib/data/leads";
 import { getEndpoints } from "@/lib/data/endpoints";
 import { DataTable } from "@/components/groups/leads/data-table";
 import { columns } from "@/components/groups/leads/columns";
-import PageWrapper from "@/components/parts/page-wrapper";
+import { PageWrapper } from "@/components/parts/page-wrapper";
 
 const pageData = {
   name: "Leads",

@@ -11,7 +11,7 @@ import {
 import { Header } from "@/components/parts/header";
 import CreateForm from "@/components/groups/endpoints/create-form";
 import { Home } from "lucide-react";
-import PageWrapper from "@/components/parts/page-wrapper";
+import { PageWrapper } from "@/components/parts/page-wrapper";
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 

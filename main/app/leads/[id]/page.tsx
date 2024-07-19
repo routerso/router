@@ -20,7 +20,7 @@ import { Home } from "lucide-react";
 import Icon from "@/public/icon.svg";
 import Image from "next/image";
 import { Header } from "@/components/parts/header";
-import PageWrapper from "@/components/parts/page-wrapper";
+import { PageWrapper } from "@/components/parts/page-wrapper";
 import { getLeadData } from "@/lib/data/leads";
 import { notFound } from "next/navigation";
 
