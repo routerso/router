@@ -1,5 +1,3 @@
-# Router.so
+## router.so
 
-## Description
-
-This is a simple router for forms.
+a simple, better solution to lead routing
