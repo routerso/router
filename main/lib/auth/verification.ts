@@ -12,7 +12,7 @@ export async function sendVerificationRequest(params: {
 
   try {
     const data = await resend.emails.send({
-      from: "info@outr.cloud",
+      from: "info@router.so",
       to: [identifier],
       subject: `Log in to ${host}`,
       text: text({ url, host }),
