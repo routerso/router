@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
 
-import { validationOptions } from "@/lib/utils/validations";
+import { validationOptions } from "@/lib/validation";
 
 // next imports
 import Link from "next/link";
