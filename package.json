@@ -11,6 +11,7 @@
     "db:migrate": "tsx lib/db/migrate.ts"
   },
   "dependencies": {
+    "@auth/core": "^0.34.2",
     "@auth/drizzle-adapter": "^0.8.1",
     "@hookform/resolvers": "^3.3.4",
     "@next/env": "^14.2.5",
