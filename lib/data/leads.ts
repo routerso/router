@@ -51,6 +51,20 @@ export async function getLeadData(id: string) {
   return leadData[0];
 }
 
+export async function getLeadsByEndpoint(id: string) {
+  const leadData = await db
+    .select()
+    .from(leads)
+    .where(eq(leads.endpointId, id));
+
+  const [{ schema }] = await db
+    .select()
+    .from(endpoints)
+    .where(eq(endpoints.id, id));
+
+  return { leadData, schema };
+}
+
 export async function deleteLead(id: string) {
   try {
     await db.delete(leads).where(eq(leads.id, id));
