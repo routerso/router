@@ -120,6 +120,6 @@ export const logs = pgTable("log", {
     .references(() => endpoints.id, { onDelete: "cascade" }),
   type: logTypeEnum("type").notNull(),
   postType: logPostTypeEnum("post_type").notNull(),
-  message: jsonb("message").$type<any>().notNull(),
+  message: jsonb("message").$type<Record<string, any> | unknown>().notNull(),
   createdAt: timestamp("created_at", { mode: "date" }).notNull(),
 });

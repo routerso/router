@@ -1,17 +1,9 @@
 import Image from "next/image";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { authOptions } from "@/lib/auth/auth";
 import Link from "next/link";
 
 import MagicLinkForm from "@/components/auth/form";
 
 export default async function LoginPage() {
-  const session = await getServerSession(authOptions);
-
-  if (session) {
-    redirect("/");
-  }
   return (
     <section className="flex fixed top-0 right-0 left-0 h-screen w-screen overflow-hidden flex-col items-center justify-center bg-background/20 backdrop-blur-sm">
       <div className="flex flex-col items-center gap-4 rounded-lg border p-6 shadow-sm md:p-12 mt-12 bg-muted">

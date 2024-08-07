@@ -1,6 +1,3 @@
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { authOptions } from "@/lib/auth/auth";
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import { Chart } from "@/components/dashboard/chart";
@@ -16,9 +13,6 @@ const pageData = {
 };
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
-  if (!session) redirect("/login");
-
   return (
     <>
       <Breadcrumbs pageName={pageData?.name} />

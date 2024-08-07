@@ -26,7 +26,7 @@ type ValidationType =
 type EndpointPayload = {
   userId: string;
   name: string;
-  schema: Record<string, ValidationType>;
+  schema: { key: string; value: ValidationType }[];
   enabled: boolean;
   formEnabled: boolean;
   successUrl: string;
@@ -44,7 +44,7 @@ type SchemaToZodMap = {
 type LogRow = {
   id: string;
   type: "success" | "error";
-  message: Record<string, unknown> | unknown;
+  message: Record<string, any> | unknown;
   endpoint: string;
   endpointId: string;
   createdAt: Date;
@@ -63,8 +63,8 @@ type LogMessage =
 
 type LeadRow = {
   id: string;
-  data: Record<string, unknown> | unknown;
-  schema: Record<string, unknown> | unknown;
+  data: { [key: string]: any };
+  schema: { key: string; value: ValidationType }[];
   createdAt: Date;
   updatedAt: Date;
   endpointId: string;

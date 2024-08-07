@@ -1,5 +1,3 @@
-import { useSession } from "@/lib/auth/use-session";
-import { redirect } from "next/navigation";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -31,9 +29,6 @@ const pageData = {
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const session = await useSession();
-  if (!session) redirect("/login");
-
   const data = await getLeadData(params.id);
   if (!data) {
     return notFound();

@@ -1,5 +1,3 @@
-import { useSession } from "@/lib/auth/use-session";
-import { redirect } from "next/navigation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -22,9 +20,6 @@ const pageData = {
 };
 
 export default async function Page() {
-  const session = await useSession();
-  if (!session) redirect("/login");
-
   return (
     <>
       <Breadcrumb className="h-[67.63px] bg-muted/50 rounded-lg border flex items-center justify-between p-6">
