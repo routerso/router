@@ -1,9 +1,9 @@
 import NextAuth from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "../db";
-import Resend from "next-auth/providers/resend";
 import type { NextAuthConfig } from "next-auth";
 import { User } from "next-auth";
+import Resend from "next-auth/providers/resend";
 
 declare module "next-auth" {
   interface Session extends User {
