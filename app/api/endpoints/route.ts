@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { useSession } from "@/lib/auth/use-session";
-import { db } from "@/lib/db/db";
+import { db } from "@/lib/db";
 import { endpoints } from "@/lib/db/schema";
 import { revalidatePath } from "next/cache";
 import { randomBytes } from "crypto";

@@ -5,10 +5,8 @@ import {
   primaryKey,
   integer,
   uuid,
-  varchar,
   pgEnum,
   boolean,
-  numeric,
   json,
   serial,
 } from "drizzle-orm/pg-core";

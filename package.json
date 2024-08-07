@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "tsx lib/db/migrate.ts"
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
     "@auth/core": "^0.34.2",
@@ -49,13 +49,12 @@
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
-    "drizzle-kit": "^0.20.14",
-    "drizzle-orm": "^0.30.4",
+    "drizzle-orm": "^0.30.10",
     "embla-carousel-react": "^8.0.0",
     "input-otp": "^1.2.3",
     "lucide-react": "^0.363.0",
     "next": "^14.2.4",
-    "next-auth": "^4.24.7",
+    "next-auth": "5.0.0-beta.20",
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-day-picker": "^8.10.0",
@@ -78,6 +77,7 @@
     "@types/react-dom": "^18",
     "@types/validator": "^13.11.9",
     "autoprefixer": "^10.0.1",
+    "drizzle-kit": "^0.20.18",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
     "postcss": "^8",
