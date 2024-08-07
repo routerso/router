@@ -5,11 +5,11 @@ import {
   validateAndParseData,
 } from "@/lib/validation";
 import { headers } from "next/headers";
-import { getEndpointByIncrementId } from "@/lib/data/endpoints";
 import { createLead } from "@/lib/data/leads";
 import { createLog } from "@/lib/data/logs";
 import { getErrorMessage } from "@/lib/helpers/error-message";
 import { constructBodyFromURLParameters } from "@/lib/helpers/construct-body";
+import { getEndpointById } from "@/lib/data/endpoints";
 
 export async function POST(
   request: Request,
@@ -27,18 +27,8 @@ export async function POST(
     }
 
     const token = authorization.split(" ")[1];
-
-    const parsedId = parseInt(params.id);
-    if (isNaN(parsedId)) {
-      return NextResponse.json(
-        { message: "Invalid ID provided." },
-        { status: 400 }
-      );
-    }
-
     const data = await request.json();
-
-    const endpoint = await getEndpointByIncrementId(parsedId);
+    const endpoint = await getEndpointById(params.id);
 
     if (!endpoint)
       return NextResponse.json(
@@ -94,15 +84,7 @@ export async function GET(
     const referer = headersList.get("referer");
     const { searchParams } = new URL(request.url);
 
-    const parsedId = parseInt(params.id);
-    if (isNaN(parsedId)) {
-      return NextResponse.json(
-        { message: "Invalid ID provided." },
-        { status: 400 }
-      );
-    }
-
-    const endpoint = await getEndpointByIncrementId(parsedId);
+    const endpoint = await getEndpointById(params.id);
 
     if (!endpoint) {
       return NextResponse.json(

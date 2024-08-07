@@ -4,31 +4,37 @@ import {
   text,
   primaryKey,
   integer,
-  uuid,
   pgEnum,
   boolean,
-  json,
-  serial,
+  jsonb,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccount } from "@auth/core/adapters";
+import { init } from "@paralleldrive/cuid2";
+
+const createId = init({
+  length: 8,
+});
 
 export const users = pgTable("user", {
-  id: uuid("id").defaultRandom().notNull().primaryKey(),
+  id: text("id")
+    .$defaultFn(() => createId())
+    .notNull()
+    .primaryKey(),
   name: text("name"),
   email: text("email").notNull(),
-  emailVerified: timestamp("emailVerified", { mode: "date" }),
+  emailVerified: timestamp("email_verified", { mode: "date" }),
   image: text("image"),
 });
 
 export const accounts = pgTable(
   "account",
   {
-    userId: uuid("userId")
+    userId: text("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     type: text("type").$type<AdapterAccount["type"]>().notNull(),
     provider: text("provider").notNull(),
-    providerAccountId: text("providerAccountId").notNull(),
+    providerAccountId: text("provider_account_id").notNull(),
     refresh_token: text("refresh_token"),
     access_token: text("access_token"),
     expires_at: integer("expires_at"),
@@ -45,15 +51,15 @@ export const accounts = pgTable(
 );
 
 export const sessions = pgTable("session", {
-  sessionToken: text("sessionToken").notNull().primaryKey(),
-  userId: uuid("userId")
+  sessionToken: text("session_token").notNull().primaryKey(),
+  userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 
 export const verificationTokens = pgTable(
-  "verificationToken",
+  "verification_token",
   {
     identifier: text("identifier").notNull(),
     token: text("token").notNull(),
@@ -65,44 +71,55 @@ export const verificationTokens = pgTable(
 );
 
 export const endpoints = pgTable("endpoint", {
-  id: uuid("id").defaultRandom().notNull().primaryKey(),
-  incrementId: serial("incrementId").notNull().unique(),
-  userId: uuid("userId")
+  id: text("id")
+    .$defaultFn(() => createId())
+    .notNull()
+    .primaryKey(),
+  userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
-  schema: json("schema").notNull(),
+  schema: jsonb("schema")
+    .$type<{ key: string; value: ValidationType }[]>()
+    .notNull(),
   enabled: boolean("enabled").default(true).notNull(),
-  webhookEnabled: boolean("webhookEnabled").default(false).notNull(),
+  webhookEnabled: boolean("webhook_enabled").default(false).notNull(),
+  emailNotify: boolean("email_notify").default(false).notNull(),
   webhook: text("webhook"),
-  formEnabled: boolean("formEnabled").default(false).notNull(),
-  successUrl: text("successUrl"),
-  failUrl: text("failUrl"),
+  formEnabled: boolean("form_enabled").default(false).notNull(),
+  successUrl: text("success_url"),
+  failUrl: text("fail_url"),
   token: text("token"),
-  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
-  updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
+  createdAt: timestamp("created_at", { mode: "date" }).notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).notNull(),
 });
 
 export const leads = pgTable("lead", {
-  id: uuid("id").defaultRandom().notNull().primaryKey(),
-  endpointId: uuid("endpointId")
+  id: text("id")
+    .$defaultFn(() => createId())
+    .notNull()
+    .primaryKey(),
+  endpointId: text("endpoint_id")
     .notNull()
     .references(() => endpoints.id, { onDelete: "cascade" }),
-  data: json("data").notNull(),
-  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
-  updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
+  data: jsonb("data").$type<{ [key: string]: any }>().notNull(),
+  createdAt: timestamp("created_at", { mode: "date" }).notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).notNull(),
 });
 
-export const logTypeEnum = pgEnum("logType", ["success", "error"]);
-export const logPostTypeEnum = pgEnum("logPostType", ["http", "form"]);
+export const logTypeEnum = pgEnum("log_type", ["success", "error"]);
+export const logPostTypeEnum = pgEnum("log_post_type", ["http", "form"]);
 
 export const logs = pgTable("log", {
-  id: uuid("id").defaultRandom().notNull().primaryKey(),
-  endpointId: uuid("endpointId")
+  id: text("id")
+    .$defaultFn(() => createId())
+    .notNull()
+    .primaryKey(),
+  endpointId: text("endpoint_id")
     .notNull()
     .references(() => endpoints.id, { onDelete: "cascade" }),
   type: logTypeEnum("type").notNull(),
-  postType: logPostTypeEnum("postType").notNull(),
-  message: json("message").notNull(),
-  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
+  postType: logPostTypeEnum("post_type").notNull(),
+  message: jsonb("message").$type<any>().notNull(),
+  createdAt: timestamp("created_at", { mode: "date" }).notNull(),
 });
