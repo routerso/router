@@ -1,5 +1,13 @@
 import { getLeadsByEndpoint } from "@/lib/data/leads";
 import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+} from "@/components/ui/breadcrumb";
+import {
   Table,
   TableBody,
   TableCell,
@@ -7,32 +15,79 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Home } from "lucide-react";
+import Icon from "@/public/icon.svg";
+import Image from "next/image";
+import { PageWrapper } from "@/components/parts/page-wrapper";
+import { Header } from "@/components/parts/header";
+
+const pageData = {
+  name: "Endpoint Leads",
+  title: "Endpoint Leads",
+  description: "All collected leads for this endpoint",
+};
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { leadData: leads, schema } = await getLeadsByEndpoint(params.id);
-  console.log(leads);
-  console.log(schema);
   return (
     <>
-      <h1>test</h1>
-      <Table className="not-prose">
-        <TableHeader>
-          <TableRow className="bg-secondary hover:bg-secondary">
-            {schema.map((column) => (
-              <TableCell key={column.key}>{column.key}</TableCell>
-            ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {leads.map((lead, rowIndex) => (
-            <TableRow key={rowIndex}>
+      <Breadcrumbs leadId={params?.id} />
+      <PageWrapper>
+        <Header title={pageData?.title}>{pageData?.description}</Header>
+        <Table className="not-prose">
+          <TableHeader>
+            <TableRow className="bg-secondary hover:bg-secondary">
               {schema.map((column) => (
-                <TableCell key={column.key}>{lead.data[column.key]}</TableCell>
+                <TableCell key={column.key}>{column.key}</TableCell>
               ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {leads.map((lead, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {schema.map((column) => (
+                  <TableCell key={column.key}>
+                    {lead.data[column.key]}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </PageWrapper>
     </>
+  );
+}
+
+function Breadcrumbs({ leadId }: { leadId: string }) {
+  return (
+    <Breadcrumb className="h-[67.63px] bg-muted/50 rounded-lg border flex items-center justify-between p-6">
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">
+            <Home size={20} />
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/endpoints">Endpoints</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage className="px-2 py-1 bg-accent rounded-sm">
+            {leadId}
+          </BreadcrumbPage>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>Leads</BreadcrumbItem>
+      </BreadcrumbList>
+      <Image
+        className="hover:animate-spin dark:invert"
+        src={Icon}
+        width={24}
+        height={24}
+        alt="Router.so Icon"
+      />
+    </Breadcrumb>
   );
 }
