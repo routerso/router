@@ -27,7 +27,7 @@ export const columns: ColumnDef<LogRow>[] = [
             toast.success("ID Copied");
           }}
         >
-          {id.split("-")[0]}...
+          {id}
         </Button>
       );
     },
@@ -109,7 +109,7 @@ export const columns: ColumnDef<LogRow>[] = [
       const createdAt: Date = row.getValue("createdAt");
       const date = new Date(createdAt);
       return (
-        <p className="text-sm">
+        <p className="text-xs">
           {date.toLocaleString("en-US", {
             year: "numeric",
             month: "short",

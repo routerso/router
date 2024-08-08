@@ -32,7 +32,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const endpoint = await getEndpointById(params?.id);
   const schema = endpoint?.schema as GeneralSchema[];
 
-  const url = `https://app.router.so/api/endpoints/${endpoint?.incrementId}`;
+  const url = `https://app.router.so/api/endpoints/${endpoint.id}`;
 
   //  ---------- TODO: make this into its own function ----------
   const formattedSchema = new Object() as { [key: string]: ValidationType };
