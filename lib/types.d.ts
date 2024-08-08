@@ -48,6 +48,12 @@ type EndpointPUTPayload = {
   webhook?: string;
 };
 
+type LeadAndErrorCountResults = {
+  date: string;
+  leads: number;
+  errors: number;
+}[];
+
 type SchemaToZodMap = {
   [P in GeneralSchema["key"]]: ReturnType<
     (typeof validations)[GeneralSchema["value"]]
