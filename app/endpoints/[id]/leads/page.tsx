@@ -20,6 +20,7 @@ import Icon from "@/public/icon.svg";
 import Image from "next/image";
 import { PageWrapper } from "@/components/parts/page-wrapper";
 import { Header } from "@/components/parts/header";
+import ExportCSV from "@/components/parts/export-csv";
 
 const pageData = {
   name: "Endpoint Leads",
@@ -34,6 +35,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       <Breadcrumbs leadId={params?.id} />
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
+        <ExportCSV id={params.id} leads={leads} schema={schema} />
         <Table className="not-prose">
           <TableHeader>
             <TableRow className="bg-secondary hover:bg-secondary">

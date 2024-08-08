@@ -53,6 +53,7 @@
     "drizzle-orm": "^0.30.10",
     "embla-carousel-react": "^8.0.0",
     "input-otp": "^1.2.3",
+    "json2csv": "6.0.0-alpha.2",
     "lucide-react": "^0.363.0",
     "next": "^14.2.4",
     "next-auth": "5.0.0-beta.20",
@@ -73,6 +74,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.12",
+    "@types/json2csv": "^5.0.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
