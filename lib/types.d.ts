@@ -23,7 +23,20 @@ type ValidationType =
   | "url"
   | "zip_code";
 
-type EndpointPayload = {
+type EndpointPOSTPayload = {
+  userId: string;
+  name: string;
+  schema: { key: string; value: ValidationType }[];
+  enabled: boolean;
+  formEnabled: boolean;
+  successUrl: string;
+  failUrl: string;
+  webhookEnabled: boolean;
+  webhook?: string;
+};
+
+type EndpointPUTPayload = {
+  id: string;
   userId: string;
   name: string;
   schema: { key: string; value: ValidationType }[];
