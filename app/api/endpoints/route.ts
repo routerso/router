@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const data: EndpointPOSTPayload = await request.json();
-    const token = randomBytes(64).toString("hex");
+    const token = randomBytes(32).toString("hex");
 
     const createdEndpoint = await db
       .insert(endpoints)
