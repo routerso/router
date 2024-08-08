@@ -1,6 +1,6 @@
 "use client";
 
-import { Endpoint } from "@/lib/db/db";
+import { Endpoint } from "@/lib/db";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/data-table/header";
 import Link from "next/link";
@@ -12,15 +12,15 @@ import { toast } from "sonner";
 
 export const columns: ColumnDef<Endpoint>[] = [
   {
-    accessorKey: "incrementId",
+    accessorKey: "id",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="ID" />;
     },
     cell: ({ row }) => {
-      const incrementId: string = row.getValue("incrementId");
+      const id: string = row.getValue("id");
       return (
         <Link href={`/endpoints/${row.original.id}`}>
-          <span className="text-muted-foreground text-sm">#</span> {incrementId}
+          <span className="text-muted-foreground text-sm"></span> {id}
         </Link>
       );
     },
@@ -31,7 +31,7 @@ export const columns: ColumnDef<Endpoint>[] = [
       return <DataTableColumnHeader column={column} title="Endpoint URL" />;
     },
     cell: ({ row }) => {
-      const id: string = row.getValue("incrementId");
+      const id: string = row.getValue("id");
       return (
         <Button
           variant="outline"

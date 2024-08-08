@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { db } from "../db/db";
+import { db } from "../db";
 import { endpoints } from "../db/schema";
 import { eq, desc } from "drizzle-orm";
 import { getErrorMessage } from "@/lib/helpers/error-message";
@@ -13,14 +13,6 @@ export async function getEndpoints(userId: string) {
     .where(eq(endpoints.userId, userId))
     .orderBy(desc(endpoints.updatedAt));
 
-  return data;
-}
-
-export async function getEndpointByIncrementId(incrementId: number) {
-  const [data] = await db
-    .select()
-    .from(endpoints)
-    .where(eq(endpoints.incrementId, incrementId));
   return data;
 }
 

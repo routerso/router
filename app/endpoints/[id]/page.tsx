@@ -1,4 +1,3 @@
-import { useSession } from "@/lib/auth/use-session";
 import { redirect } from "next/navigation";
 import {
   Breadcrumb,
@@ -18,8 +17,8 @@ import { PageWrapper } from "@/components/parts/page-wrapper";
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 import CopyButton from "@/components/parts/copy-button";
-
 import { generateShadcnForm } from "@/lib/helpers/generate-form";
+import { auth } from "@/lib/auth";
 
 const pageData = {
   title: "Endpoint",
@@ -27,13 +26,13 @@ const pageData = {
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const session = await useSession();
+  const session = await auth();
   if (!session) redirect("/login");
 
   const endpoint = await getEndpointById(params?.id);
   const schema = endpoint?.schema as GeneralSchema[];
 
-  const url = `https://app.router.so/api/endpoints/${endpoint?.incrementId}`;
+  const url = `https://app.router.so/api/endpoints/${endpoint.id}`;
 
   //  ---------- TODO: make this into its own function ----------
   const formattedSchema = new Object() as { [key: string]: ValidationType };

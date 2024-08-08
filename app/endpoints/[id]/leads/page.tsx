@@ -1,3 +1,4 @@
+import { getLeadsByEndpoint } from "@/lib/data/leads";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -17,42 +18,40 @@ import {
 import { Home } from "lucide-react";
 import Icon from "@/public/icon.svg";
 import Image from "next/image";
-import { Header } from "@/components/parts/header";
 import { PageWrapper } from "@/components/parts/page-wrapper";
-import { getLeadData } from "@/lib/data/leads";
-import { notFound } from "next/navigation";
+import { Header } from "@/components/parts/header";
+import ExportCSV from "@/components/parts/export-csv";
 
 const pageData = {
-  name: "Lead data",
-  title: "Lead data",
-  description: "Breakdown of this lead's data",
+  name: "Endpoint Leads",
+  title: "Endpoint Leads",
+  description: "All collected leads for this endpoint",
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const data = await getLeadData(params.id);
-  if (!data) {
-    return notFound();
-  }
-
-  const dataEntries = Object.entries(data.data as any);
-
+  const { leadData: leads, schema } = await getLeadsByEndpoint(params.id);
   return (
     <>
       <Breadcrumbs leadId={params?.id} />
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
+        <ExportCSV id={params.id} leads={leads} schema={schema} />
         <Table className="not-prose">
           <TableHeader>
             <TableRow className="bg-secondary hover:bg-secondary">
-              <TableCell>Field</TableCell>
-              <TableCell>Value</TableCell>
+              {schema.map((column) => (
+                <TableCell key={column.key}>{column.key}</TableCell>
+              ))}
             </TableRow>
           </TableHeader>
           <TableBody>
-            {dataEntries.map(([key, value], index) => (
-              <TableRow key={index}>
-                <TableCell>{key}</TableCell>
-                <TableCell>{value as React.ReactNode}</TableCell>
+            {leads.map((lead, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {schema.map((column) => (
+                  <TableCell key={column.key}>
+                    {lead.data[column.key]}
+                  </TableCell>
+                ))}
               </TableRow>
             ))}
           </TableBody>
@@ -73,7 +72,7 @@ function Breadcrumbs({ leadId }: { leadId: string }) {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="/leads">Leads</BreadcrumbLink>
+          <BreadcrumbLink href="/endpoints">Endpoints</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -81,6 +80,8 @@ function Breadcrumbs({ leadId }: { leadId: string }) {
             {leadId}
           </BreadcrumbPage>
         </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>Leads</BreadcrumbItem>
       </BreadcrumbList>
       <Image
         className="hover:animate-spin dark:invert"

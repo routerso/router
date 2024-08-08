@@ -1,6 +1,5 @@
-import { useSession } from "@/lib/auth/use-session";
+import { auth } from "@/lib/auth";
 import SignOut from "./signout";
-import Link from "next/link";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +12,7 @@ import {
 import { Button } from "../ui/button";
 
 export default async function AccountWidget() {
-  const session = await useSession();
+  const session = await auth();
   if (!session) return;
 
   return (

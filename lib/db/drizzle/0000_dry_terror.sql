@@ -11,7 +11,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "account" (
-	"userId" uuid NOT NULL,
+	"userId" text NOT NULL,
 	"type" text NOT NULL,
 	"provider" text NOT NULL,
 	"providerAccountId" text NOT NULL,
@@ -26,48 +26,47 @@ CREATE TABLE IF NOT EXISTS "account" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "endpoint" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"incrementId" serial NOT NULL,
-	"userId" uuid NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
+	"userId" text NOT NULL,
 	"name" text NOT NULL,
-	"schema" json NOT NULL,
+	"schema" jsonb NOT NULL,
 	"enabled" boolean DEFAULT true NOT NULL,
 	"webhookEnabled" boolean DEFAULT false NOT NULL,
+	"emailNotify" boolean DEFAULT false NOT NULL,
 	"webhook" text,
 	"formEnabled" boolean DEFAULT false NOT NULL,
 	"successUrl" text,
 	"failUrl" text,
 	"token" text,
 	"createdAt" timestamp NOT NULL,
-	"updatedAt" timestamp NOT NULL,
-	CONSTRAINT "endpoint_incrementId_unique" UNIQUE("incrementId")
+	"updatedAt" timestamp NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "lead" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"endpointId" uuid NOT NULL,
-	"data" json NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
+	"endpointId" text NOT NULL,
+	"data" jsonb NOT NULL,
 	"createdAt" timestamp NOT NULL,
 	"updatedAt" timestamp NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "log" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"endpointId" uuid NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
+	"endpointId" text NOT NULL,
 	"type" "logType" NOT NULL,
 	"postType" "logPostType" NOT NULL,
-	"message" json NOT NULL,
+	"message" jsonb NOT NULL,
 	"createdAt" timestamp NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
 	"sessionToken" text PRIMARY KEY NOT NULL,
-	"userId" uuid NOT NULL,
+	"userId" text NOT NULL,
 	"expires" timestamp NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"name" text,
 	"email" text NOT NULL,
 	"emailVerified" timestamp,

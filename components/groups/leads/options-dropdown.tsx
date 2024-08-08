@@ -38,9 +38,6 @@ export default function OptionsDropdown({ id }: { id: string }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel className="sr-only">Options</DropdownMenuLabel>
-          <Link href={`/leads/${id}/edit`}>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-          </Link>
           <DropdownMenuItem onClick={() => setShowDeleteAlert(true)}>
             Delete
           </DropdownMenuItem>

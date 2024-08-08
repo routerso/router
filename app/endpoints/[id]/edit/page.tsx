@@ -7,19 +7,23 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Header } from "@/components/parts/header";
-import CreateForm from "@/components/groups/endpoints/create-form";
+import EditForm from "@/components/groups/endpoints/edit-form";
 import { Home } from "lucide-react";
 import { PageWrapper } from "@/components/parts/page-wrapper";
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
+import { getEndpointById } from "@/lib/data/endpoints";
+import Link from "next/link";
 
 const pageData = {
-  name: "New Endpoint",
-  title: "Create an Endpoint",
-  description: "Create a new endpoint.",
+  name: "Edit Endpoint",
+  title: "Edit Your Endpoint",
+  description: "Edit your endpoint.",
 };
 
-export default async function Page() {
+export default async function Page({ params }: { params: { id: string } }) {
+  const endpoint = await getEndpointById(params.id);
+
   return (
     <>
       <Breadcrumb className="h-[67.63px] bg-muted/50 rounded-lg border flex items-center justify-between p-6">
@@ -35,10 +39,14 @@ export default async function Page() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage className="px-2 py-1 bg-accent rounded-sm">
-              {pageData?.name}
-            </BreadcrumbPage>
+            <Link href={`/endpoints/${params.id}`}>
+              <BreadcrumbPage className="px-2 py-1 bg-accent rounded-sm">
+                {params.id}
+              </BreadcrumbPage>
+            </Link>
           </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>Edit</BreadcrumbItem>
         </BreadcrumbList>
         <Image
           className="hover:animate-spin dark:invert"
@@ -50,7 +58,7 @@ export default async function Page() {
       </Breadcrumb>
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
-        <CreateForm />
+        <EditForm id={params.id} endpoint={endpoint} />
       </PageWrapper>
     </>
   );

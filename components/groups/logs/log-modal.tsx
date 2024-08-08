@@ -54,7 +54,7 @@ export default function LogModal({
         <AlertDialogFooter>
           {type === "success" && (
             <Button variant="link">
-              <Link href={`/leads/${message.success}`}>See Lead</Link>
+              <Link href={`/leads/${message.id}`}>See Lead</Link>
             </Button>
           )}
           <AlertDialogCancel>Close</AlertDialogCancel>

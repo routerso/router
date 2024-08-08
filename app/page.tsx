@@ -1,13 +1,11 @@
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { authOptions } from "@/lib/auth/auth";
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import { Chart } from "@/components/dashboard/chart";
 import { PageWrapper } from "@/components/parts/page-wrapper";
-
 import Link from "next/link";
-import { desc } from "drizzle-orm";
+import { getLeadAndErrorCounts } from "@/lib/data/dashboard";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 const pageData = {
   name: "Dashboard",
@@ -16,15 +14,15 @@ const pageData = {
 };
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) redirect("/login");
-
+  const chartData = await getLeadAndErrorCounts(session.user.id);
   return (
     <>
       <Breadcrumbs pageName={pageData?.name} />
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
-        <Chart />
+        <Chart chartData={chartData} />
         <Links />
       </PageWrapper>
     </>
