@@ -55,6 +55,6 @@ export async function getLeadAndErrorCounts(userId: string) {
     ORDER BY
         ds.date;
     `);
-  console.log(data.rows);
+
   return data.rows as LeadAndErrorCountResults;
 }

@@ -36,11 +36,11 @@ export async function getLeads(userId: string) {
   const data: LeadRow[] = leadsData.map((lead) => ({
     id: lead.lead.id,
     data: lead.lead.data,
-    schema: lead.endpoint?.schema || {},
+    schema: lead.endpoint?.schema || [],
     createdAt: lead.lead.createdAt,
     updatedAt: lead.lead.updatedAt,
-    endpointId: lead.endpoint?.id || "",
-    endpoint: lead.endpoint?.name || "",
+    endpointId: lead.endpoint?.id as string,
+    endpoint: lead.endpoint?.name || undefined,
   }));
 
   return data;
