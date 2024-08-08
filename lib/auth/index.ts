@@ -15,6 +15,9 @@ declare module "next-auth" {
 
 export const config = {
   adapter: DrizzleAdapter(db),
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     Resend({
       apiKey: process.env.RESEND_API_KEY!,
@@ -23,15 +26,18 @@ export const config = {
     }),
   ],
   callbacks: {
+    session({ session, token }) {
+      session.user.id = token.id as string;
+      return session;
+    },
     jwt({ token, user }) {
       if (user) {
         token.id = user.id;
       }
       return token;
     },
-    session({ session, token }) {
-      session.user.id = token.id as string;
-      return session;
+    authorized: async ({ auth }) => {
+      return !!auth;
     },
   },
   pages: {

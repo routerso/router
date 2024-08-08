@@ -22,19 +22,19 @@ export const users = pgTable("user", {
     .primaryKey(),
   name: text("name"),
   email: text("email").notNull(),
-  emailVerified: timestamp("email_verified", { mode: "date" }),
+  emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
 });
 
 export const accounts = pgTable(
   "account",
   {
-    userId: text("user_id")
+    userId: text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     type: text("type").$type<AdapterAccount["type"]>().notNull(),
     provider: text("provider").notNull(),
-    providerAccountId: text("provider_account_id").notNull(),
+    providerAccountId: text("providerAccountId").notNull(),
     refresh_token: text("refresh_token"),
     access_token: text("access_token"),
     expires_at: integer("expires_at"),
@@ -51,15 +51,15 @@ export const accounts = pgTable(
 );
 
 export const sessions = pgTable("session", {
-  sessionToken: text("session_token").notNull().primaryKey(),
-  userId: text("user_id")
+  sessionToken: text("sessionToken").notNull().primaryKey(),
+  userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 
 export const verificationTokens = pgTable(
-  "verification_token",
+  "verificationToken",
   {
     identifier: text("identifier").notNull(),
     token: text("token").notNull(),
@@ -75,7 +75,7 @@ export const endpoints = pgTable("endpoint", {
     .$defaultFn(() => createId())
     .notNull()
     .primaryKey(),
-  userId: text("user_id")
+  userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
@@ -83,15 +83,15 @@ export const endpoints = pgTable("endpoint", {
     .$type<{ key: string; value: ValidationType }[]>()
     .notNull(),
   enabled: boolean("enabled").default(true).notNull(),
-  webhookEnabled: boolean("webhook_enabled").default(false).notNull(),
-  emailNotify: boolean("email_notify").default(false).notNull(),
+  webhookEnabled: boolean("webhookEnabled").default(false).notNull(),
+  emailNotify: boolean("emailNotify").default(false).notNull(),
   webhook: text("webhook"),
-  formEnabled: boolean("form_enabled").default(false).notNull(),
-  successUrl: text("success_url"),
-  failUrl: text("fail_url"),
+  formEnabled: boolean("formEnabled").default(false).notNull(),
+  successUrl: text("successUrl"),
+  failUrl: text("failUrl"),
   token: text("token"),
-  createdAt: timestamp("created_at", { mode: "date" }).notNull(),
-  updatedAt: timestamp("updated_at", { mode: "date" }).notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
+  updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
 });
 
 export const leads = pgTable("lead", {
@@ -99,27 +99,27 @@ export const leads = pgTable("lead", {
     .$defaultFn(() => createId())
     .notNull()
     .primaryKey(),
-  endpointId: text("endpoint_id")
+  endpointId: text("endpointId")
     .notNull()
     .references(() => endpoints.id, { onDelete: "cascade" }),
   data: jsonb("data").$type<{ [key: string]: any }>().notNull(),
-  createdAt: timestamp("created_at", { mode: "date" }).notNull(),
-  updatedAt: timestamp("updated_at", { mode: "date" }).notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
+  updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
 });
 
-export const logTypeEnum = pgEnum("log_type", ["success", "error"]);
-export const logPostTypeEnum = pgEnum("log_post_type", ["http", "form"]);
+export const logTypeEnum = pgEnum("logType", ["success", "error"]);
+export const logPostTypeEnum = pgEnum("logPostType", ["http", "form"]);
 
 export const logs = pgTable("log", {
   id: text("id")
     .$defaultFn(() => createId())
     .notNull()
     .primaryKey(),
-  endpointId: text("endpoint_id")
+  endpointId: text("endpointId")
     .notNull()
     .references(() => endpoints.id, { onDelete: "cascade" }),
   type: logTypeEnum("type").notNull(),
-  postType: logPostTypeEnum("post_type").notNull(),
+  postType: logPostTypeEnum("postType").notNull(),
   message: jsonb("message").$type<Record<string, any> | unknown>().notNull(),
-  createdAt: timestamp("created_at", { mode: "date" }).notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
 });
