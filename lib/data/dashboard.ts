@@ -3,7 +3,14 @@
 import { sql } from "drizzle-orm";
 import { db } from "../db";
 
-export async function getLeadAndErrorCounts(userId: string) {
+/**
+ * Get lead and error counts in proper format for shadcn/ui charts
+ *
+ * example row: { date: "2024-08-01", leads: 7, errors: 2 }
+ */
+export async function getLeadAndErrorCounts(
+  userId: string
+): Promise<LeadAndErrorCountResults> {
   const data = await db.execute(sql`
     WITH date_series AS (
         SELECT generate_series(

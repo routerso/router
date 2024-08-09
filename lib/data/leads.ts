@@ -3,15 +3,18 @@
 import { leads, endpoints } from "../db/schema";
 import { eq, desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { db } from "../db";
+import { db, Lead } from "../db";
 import { getErrorMessage } from "@/lib/helpers/error-message";
 
+/**
+ * Creates a new lead in the database
+ */
 export async function createLead(
   endpointId: string,
   data: {
     [x: string]: any;
   }
-) {
+): Promise<string> {
   const [{ leadId }] = await db
     .insert(leads)
     .values({
@@ -25,7 +28,10 @@ export async function createLead(
   return leadId;
 }
 
-export async function getLeads(userId: string) {
+/**
+ * Gets all leads for a user
+ */
+export async function getLeads(userId: string): Promise<LeadRow[]> {
   const leadsData = await db
     .select()
     .from(leads)
@@ -46,12 +52,24 @@ export async function getLeads(userId: string) {
   return data;
 }
 
-export async function getLeadData(id: string) {
+/**
+ * Get lead data for one specific lead
+ */
+export async function getLeadData(id: string): Promise<Lead> {
   const leadData = await db.select().from(leads).where(eq(leads.id, id));
   return leadData[0];
 }
 
-export async function getLeadsByEndpoint(id: string) {
+/**
+ * Get all leads by an endpoint id
+ */
+export async function getLeadsByEndpoint(id: string): Promise<{
+  leadData: Lead[];
+  schema: {
+    key: string;
+    value: ValidationType;
+  }[];
+}> {
   const leadData = await db
     .select()
     .from(leads)
@@ -65,7 +83,15 @@ export async function getLeadsByEndpoint(id: string) {
   return { leadData, schema };
 }
 
-export async function deleteLead(id: string) {
+/**
+ * Delete a lead by id
+ */
+export async function deleteLead(id: string): Promise<
+  | {
+      error: string;
+    }
+  | undefined
+> {
   try {
     await db.delete(leads).where(eq(leads.id, id));
     revalidatePath("/leads");
