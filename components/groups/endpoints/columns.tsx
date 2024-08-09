@@ -21,7 +21,7 @@ export const columns: ColumnDef<Endpoint>[] = [
     cell: ({ row }) => {
       const id: string = row.original.id;
       return (
-        <Button asChild>
+        <Button asChild size="sm">
           <Link href={`/endpoints/${id}/leads`}>
             <Eye size={16} className="mr-2 inline" />
             View Leads
@@ -55,7 +55,7 @@ export const columns: ColumnDef<Endpoint>[] = [
       return (
         <Button
           variant="outline"
-          className="text-sm"
+          size="sm"
           onClick={() => {
             navigator.clipboard.writeText(
               `https://app.router.so/api/endpoints/${id}`
