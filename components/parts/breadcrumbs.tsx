@@ -18,7 +18,7 @@ export const Breadcrumbs = ({ pageName }: { pageName?: string }) => {
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
-        <BreadcrumbPage className="px-2 py-1 bg-accent rounded-sm">
+        <BreadcrumbPage className="px-2 py-1 border bg-background rounded-sm">
           <BreadcrumbLink>{pageName || "Dashboard"}</BreadcrumbLink>
         </BreadcrumbPage>
       </BreadcrumbList>
