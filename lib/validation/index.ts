@@ -1,33 +1,31 @@
 import * as z from "zod";
 import validator from "validator";
 
+/**
+ * The validation types that are available
+ *
+ * These can be extended to have other validation types
+ * Steps to add other validation options:
+ * 1. add a key value pair in 'validationOptions' of the new validation type
+ * 2. Add a zod schema definition in the 'validations' object in this file
+ * 3. If necessary, add respective logic to correct / cast the type in the 'convertToCorrectTypes' function
+ */
 export const validationOptions: { name: ValidationType }[] = [
-  {
-    name: "phone",
-  },
-  {
-    name: "email",
-  },
-  {
-    name: "string",
-  },
-  {
-    name: "number",
-  },
-  {
-    name: "date",
-  },
-  {
-    name: "boolean",
-  },
-  {
-    name: "url",
-  },
-  {
-    name: "zip_code",
-  },
+  { name: "phone" },
+  { name: "email" },
+  { name: "string" },
+  { name: "number" },
+  { name: "date" },
+  { name: "boolean" },
+  { name: "url" },
+  { name: "zip_code" },
 ];
 
+/**
+ * Zod validations for each validation type
+ *
+ * As mentioned above, this can be extended to add further validation types
+ */
 export const validations: { [key in ValidationType]: z.ZodType<any, any> } = {
   phone: z.string().refine(validator.isMobilePhone, {
     message: "Not a valid phone number.",
@@ -44,8 +42,17 @@ export const validations: { [key in ValidationType]: z.ZodType<any, any> } = {
     .max(5, "Not a valid zip code."),
 };
 
-// TODO: add comments
-export const convertToCorrectTypes = (data: any, schema: GeneralSchema[]) => {
+/**
+ * Converts the values in the provided data object to their correct types based on the given schema.
+ *
+ * @param data - The data object containing the values to be converted.
+ * @param schema - An array of objects representing the schema, specifying the keys and their expected types.
+ * @returns An object with the converted values.
+ */
+export const convertToCorrectTypes = (
+  data: any,
+  schema: GeneralSchema[]
+): ((data: any, schema: GeneralSchema[]) => any) => {
   const result: any = {};
 
   schema.forEach(({ key, value }) => {
@@ -65,6 +72,12 @@ export const convertToCorrectTypes = (data: any, schema: GeneralSchema[]) => {
   return result;
 };
 
+/**
+ * Generates a dynamic schema based on the provided schema array.
+ *
+ * @param schema - An array of GeneralSchema objects representing the schema.
+ * @returns A ZodRawShape object representing the generated dynamic schema.
+ */
 export const generateDynamicSchema = (
   schema: GeneralSchema[]
 ): z.ZodRawShape => {
@@ -77,6 +90,13 @@ export const generateDynamicSchema = (
   }, {});
 };
 
+/**
+ * Validates and parses the given data using the provided dynamic schema.
+ *
+ * @param dynamicSchema - The dynamic schema used for validation.
+ * @param data - The data to be validated and parsed.
+ * @returns The result of the validation and parsing operation.
+ */
 export const validateAndParseData = (
   dynamicSchema: z.ZodRawShape,
   data: any

@@ -1,4 +1,14 @@
-export const generateShadcnForm = (schema: GeneralSchema[], url: string) => {
+/**
+ * Generates a Shadcn form based on the provided schema and URL.
+ *
+ * @param schema - The schema defining the form fields.
+ * @param url - The URL to submit the form data to.
+ * @returns The generated Shadcn form as a string.
+ */
+export const generateShadcnForm = (
+  schema: GeneralSchema[],
+  url: string
+): string => {
   const getZodType = (field: GeneralSchema) => {
     let zodType = "";
     switch (field.value) {

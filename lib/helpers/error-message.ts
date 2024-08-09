@@ -1,3 +1,9 @@
+/**
+ * Retrieves the error message from the provided error object.
+ *
+ * @param error - The error object from which to retrieve the message.
+ * @returns The error message as a string.
+ */
 export const getErrorMessage = (error: unknown): string => {
   let message: string;
 

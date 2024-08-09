@@ -1,12 +1,15 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { db } from "../db";
+import { db, Endpoint } from "../db";
 import { endpoints } from "../db/schema";
 import { eq, desc } from "drizzle-orm";
 import { getErrorMessage } from "@/lib/helpers/error-message";
 
-export async function getEndpoints(userId: string) {
+/**
+ * Gets all endpoints for a user
+ */
+export async function getEndpoints(userId: string): Promise<Endpoint[]> {
   const data = await db
     .select()
     .from(endpoints)
@@ -16,12 +19,23 @@ export async function getEndpoints(userId: string) {
   return data;
 }
 
-export async function getEndpointById(id: string) {
+/**
+ * Gets a specific endpoint by id
+ */
+export async function getEndpointById(id: string): Promise<Endpoint> {
   const [data] = await db.select().from(endpoints).where(eq(endpoints.id, id));
   return data;
 }
 
-export async function deleteEndpoint(id: string) {
+/**
+ * Deletes a specific endpoint by id
+ */
+export async function deleteEndpoint(id: string): Promise<
+  | {
+      error: string;
+    }
+  | undefined
+> {
   try {
     await db.delete(endpoints).where(eq(endpoints.id, id));
     revalidatePath("/endpoints");
@@ -32,7 +46,15 @@ export async function deleteEndpoint(id: string) {
   }
 }
 
-export async function disableEndpoint(id: string) {
+/**
+ * Disables a specific endpoint by id
+ */
+export async function disableEndpoint(id: string): Promise<
+  | {
+      error: string;
+    }
+  | undefined
+> {
   try {
     await db
       .update(endpoints)
@@ -46,7 +68,15 @@ export async function disableEndpoint(id: string) {
   }
 }
 
-export async function enableEndpoint(id: string) {
+/**
+ * Enables a specific endpoint by id
+ */
+export async function enableEndpoint(id: string): Promise<
+  | {
+      error: string;
+    }
+  | undefined
+> {
   try {
     await db
       .update(endpoints)
