@@ -11,6 +11,9 @@ import { getErrorMessage } from "@/lib/helpers/error-message";
 import { constructBodyFromURLParameters } from "@/lib/helpers/construct-body";
 import { getEndpointById } from "@/lib/data/endpoints";
 
+/**
+ * API route for posting a lead using POST
+ */
 export async function POST(
   request: Request,
   { params }: { params: { id: string } }
@@ -75,6 +78,11 @@ export async function POST(
   }
 }
 
+/**
+ * API route for posting a lead using GET
+ *
+ * Only used when the user is posting via HTML form element
+ */
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }

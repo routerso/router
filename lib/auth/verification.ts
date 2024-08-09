@@ -25,6 +25,13 @@ export async function sendVerificationRequest(params: {
   }
 }
 
+/**
+ * Generates text for email
+ *
+ * @param url - The URL to be included in the generated text.
+ * @param host - The host to be included in the generated text.
+ * @returns A string containing the generated text.
+ */
 function text({ url, host }: { url: string; host: string }) {
   return `Sign in to ${host}\n${url}\n\n`;
 }
