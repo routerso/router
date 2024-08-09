@@ -57,9 +57,6 @@ export default function OptionsDropdown({
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel className="sr-only">Options</DropdownMenuLabel>
-          <Link href={`/endpoints/${id}/leads`}>
-            <DropdownMenuItem>All leads</DropdownMenuItem>
-          </Link>
           <Link href={`/endpoints/${id}/edit`}>
             <DropdownMenuItem>Edit</DropdownMenuItem>
           </Link>

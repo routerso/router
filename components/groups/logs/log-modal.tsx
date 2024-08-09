@@ -46,9 +46,9 @@ export default function LogModal({
             <p className="my-2">
               Occured at <span>{date.toUTCString()}</span>
             </p>
-            <pre className="text-xs p-6 border rounded-lg mt-4">
+            <div className="text-xs p-6 border font-mono max-w-full bg-muted rounded-lg mt-4">
               {messageString}
-            </pre>
+            </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -3,14 +3,34 @@
 import { Endpoint } from "@/lib/db";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/data-table/header";
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import OptionsDropdown from "./options-dropdown";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
+import Link from "next/link";
+import OptionsDropdown from "./options-dropdown";
+
 export const columns: ColumnDef<Endpoint>[] = [
+  {
+    accessorKey: "leads",
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Leads" />;
+    },
+    cell: ({ row }) => {
+      const id: string = row.original.id;
+      return (
+        <Button asChild size="sm">
+          <Link href={`/endpoints/${id}/leads`}>
+            <Eye size={16} className="mr-2 inline" />
+            View Leads
+          </Link>
+        </Button>
+      );
+    },
+    enableSorting: false,
+  },
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -35,7 +55,7 @@ export const columns: ColumnDef<Endpoint>[] = [
       return (
         <Button
           variant="outline"
-          className="text-sm"
+          size="sm"
           onClick={() => {
             navigator.clipboard.writeText(
               `https://app.router.so/api/endpoints/${id}`

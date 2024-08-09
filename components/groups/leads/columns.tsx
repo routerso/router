@@ -2,6 +2,7 @@
 
 import { Lead } from "@/lib/db";
 import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
 import { DataTableColumnHeader } from "@/components/data-table/header";
 import Link from "next/link";
 import OptionsDropdown from "./options-dropdown";
@@ -15,12 +16,9 @@ export const columns: ColumnDef<Lead>[] = [
     cell: ({ row }) => {
       const id: string = row.getValue("id");
       return (
-        <Link
-          className="text-xs underline underline-offset-4 hover:opacity-70 transition-all"
-          href={`/leads/${id}`}
-        >
-          {id}
-        </Link>
+        <Button asChild size="sm" variant="outline">
+          <Link href={`/leads/${id}`}>{id}</Link>
+        </Button>
       );
     },
   },

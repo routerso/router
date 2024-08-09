@@ -21,7 +21,7 @@ export const columns: ColumnDef<LogRow>[] = [
       return (
         <Button
           variant="outline"
-          className="text-sm"
+          size="sm"
           onClick={() => {
             navigator.clipboard.writeText(`${id}`);
             toast.success("ID Copied");
@@ -40,7 +40,7 @@ export const columns: ColumnDef<LogRow>[] = [
     cell: ({ row }) => {
       const endpoint: string = row.getValue("endpoint");
       return (
-        <Button asChild variant="link" className="text-sm px-0">
+        <Button asChild variant="link" className="px-0" size="sm">
           <Link href={`/endpoints/${row.original.endpointId}`}>
             {endpoint} <InfoCircledIcon className="ml-2" />
           </Link>
