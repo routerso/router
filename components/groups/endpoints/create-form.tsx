@@ -318,12 +318,7 @@ export default function CreateForm() {
           )}
         </div>
 
-        <Button
-          type="submit"
-          variant={"secondary"}
-          className="mt-12"
-          disabled={loading}
-        >
+        <Button type="submit" className="mt-12" disabled={loading}>
           Create Endpoint
         </Button>
       </form>
