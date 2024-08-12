@@ -33,7 +33,7 @@ export default async function Page() {
         <Chart chartData={chartData} />
         <Links />
         <div className="mt-8">
-          <h2 className="text-2xl font-bold mb-4">Recent Leads</h2>
+          <h2 className="text-lg mb-4">Recent Leads</h2>
           <DataTable
             columns={columns}
             data={recentLeads}
@@ -61,16 +61,11 @@ const navLinks = [
     description: "Monitor your API usage and errors",
     href: "/logs",
   },
-  {
-    name: "Settings",
-    description: "Manage your account settings",
-    href: "/settings",
-  },
 ];
 
 const Links = () => {
   return (
-    <div className="grid grid-cols-2 gap-4 my-4">
+    <div className="grid grid-cols-3 gap-4 my-4">
       {navLinks.map((link) => (
         <Link
           className="bg-background p-4 rounded-lg border hover:bg-accent/75 transition-all"
