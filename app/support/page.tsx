@@ -1,6 +1,7 @@
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import { PageWrapper } from "@/components/parts/page-wrapper";
+import { HelpForm } from "./help-form";
 
 const pageData = {
   name: "Support",
@@ -14,7 +15,9 @@ export default async function Page() {
       <Breadcrumbs pageName={pageData?.name} />
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
-        <div className="grid gap-4 grid-rows-[500px,1fr]">Coming soon ...</div>
+        <div className="max-w-2xl">
+          <HelpForm />
+        </div>
       </PageWrapper>
     </>
   );
