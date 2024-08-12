@@ -50,7 +50,9 @@ export default async function Page() {
       </Breadcrumb>
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
-        <CreateForm />
+        <div className="max-w-2xl">
+          <CreateForm />
+        </div>
       </PageWrapper>
     </>
   );
