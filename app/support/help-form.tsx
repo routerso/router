@@ -3,6 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useSession, SessionProvider } from "next-auth/react";
+import { useEffect } from 'react';
 
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +33,9 @@ const formSchema = z.object({
   }),
 });
 
-export function HelpForm() {
+function HelpFormContent() {
+  const { data: session } = useSession();
+
   // Define the form using useForm and zodResolver
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,6 +45,12 @@ export function HelpForm() {
       help: "",
     },
   });
+
+  useEffect(() => {
+    if (session?.user?.email) {
+      form.setValue('email', session.user.email);
+    }
+  }, [session, form]);
 
   // Define the submit handler
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -97,5 +107,13 @@ export function HelpForm() {
         <Button type="submit">Submit</Button>
       </form>
     </Form>
+  );
+}
+
+export function HelpForm() {
+  return (
+    <SessionProvider>
+      <HelpFormContent />
+    </SessionProvider>
   );
 }
