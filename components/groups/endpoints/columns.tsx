@@ -14,22 +14,20 @@ import OptionsDropdown from "./options-dropdown";
 
 export const columns: ColumnDef<Endpoint>[] = [
   {
-    accessorKey: "leads",
+    accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Leads" />;
+      return <DataTableColumnHeader column={column} title="Name" />;
     },
     cell: ({ row }) => {
-      const id: string = row.original.id;
+      const name: string = row.getValue("name");
       return (
-        <Button asChild size="sm">
-          <Link href={`/endpoints/${id}/leads`}>
-            <Eye size={16} className="mr-2 inline" />
-            View Leads
+        <Button asChild variant="link" className="text-sm px-0">
+          <Link href={`/endpoints/${row.original.id}`}>
+            {name} <InfoCircledIcon className="ml-2" />
           </Link>
         </Button>
       );
     },
-    enableSorting: false,
   },
   {
     accessorKey: "id",
@@ -64,22 +62,6 @@ export const columns: ColumnDef<Endpoint>[] = [
           }}
         >
           {`https://app.router.so/api/endpoints/${id}`}
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Name" />;
-    },
-    cell: ({ row }) => {
-      const name: string = row.getValue("name");
-      return (
-        <Button asChild variant="link" className="text-sm px-0">
-          <Link href={`/endpoints/${row.original.id}`}>
-            {name} <InfoCircledIcon className="ml-2" />
-          </Link>
         </Button>
       );
     },
@@ -121,6 +103,24 @@ export const columns: ColumnDef<Endpoint>[] = [
       const id: string = row.original.id;
       const enabled: boolean = row.getValue("enabled");
       return <OptionsDropdown id={id} enabled={enabled} />;
+    },
+    enableSorting: false,
+  },
+  {
+    accessorKey: "leads",
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Leads" />;
+    },
+    cell: ({ row }) => {
+      const id: string = row.original.id;
+      return (
+        <Button asChild size="sm">
+          <Link href={`/endpoints/${id}/leads`}>
+            <Eye size={16} className="mr-2 inline" />
+            View Leads
+          </Link>
+        </Button>
+      );
     },
     enableSorting: false,
   },
