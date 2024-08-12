@@ -45,15 +45,23 @@ export default async function Page({ params }: { params: { id: string } }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {leads.map((lead, rowIndex) => (
-              <TableRow key={rowIndex}>
-                {schema.map((column) => (
-                  <TableCell key={column.key}>
-                    {lead.data[column.key]}
-                  </TableCell>
-                ))}
+            {leads.length > 0 ? (
+              leads.map((lead, rowIndex) => (
+                <TableRow key={rowIndex}>
+                  {schema.map((column) => (
+                    <TableCell key={column.key}>
+                      {lead.data[column.key]}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={schema.length} className="text-center">
+                  No leads to show.
+                </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </PageWrapper>
