@@ -5,7 +5,7 @@ import { PageWrapper } from "@/components/parts/page-wrapper";
 import Link from "next/link";
 import { getLeadAndErrorCounts } from "@/lib/data/dashboard";
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getLeads } from "@/lib/data/leads";
 import { getEndpoints } from "@/lib/data/endpoints";
 import { DataTable } from "@/components/groups/leads/data-table";
@@ -21,7 +21,9 @@ export default async function Page() {
   const session = await auth();
   if (!session) redirect("/login");
   const chartData = await getLeadAndErrorCounts(session.user.id);
-  const leads = await getLeads(session.user.id);
+  const leadsData = await getLeads();
+  const { data: leads, serverError } = leadsData || {};
+  if (!leads || serverError) notFound();
   const endpoints = await getEndpoints(session.user.id);
   const recentLeads = leads.slice(0, 5); // Get the 5 most recent leads
 
