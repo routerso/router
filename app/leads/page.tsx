@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import { getLeads } from "@/lib/data/leads";
@@ -20,8 +20,8 @@ export default async function Page() {
 
   const leads = await getLeads();
   const { data: leadsData, serverError } = leads || {};
+  if (!leadsData || serverError) notFound();
 
-  if (!leadsData || serverError) return;
   const endpoints = await getEndpoints(session?.user?.id);
 
   return (
