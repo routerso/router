@@ -80,7 +80,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           title={`${pageData?.title}: ${"`"}${endpoint?.name}${"`"}`}
         >{`${pageData?.description}`}</Header>
         <SchemaTable schema={schema} />
-        <Craft.Main>
+        <Craft.Main className="prose-md">
           <Separator />
           <h3>Posting Instructions</h3>
           <p>
@@ -118,13 +118,13 @@ export default async function Page({ params }: { params: { id: string } }) {
             {exampleJs} <CopyButton text={exampleJs} />
           </pre>
 
-          <h3>Post via Shadcn UI Form</h3>
+          <h3>Post via shadcn/ui Form</h3>
           <p>Install the Shadcn Form</p>
           <pre className="relative">
             {`npx shadcn-ui@latest add form`}{" "}
             <CopyButton text={`npx shadcn-ui@latest add form`} />
           </pre>
-          <p>Your Shadcn UI form should look like this:</p>
+          <p>Your shadcn/ui form should look like this:</p>
           <pre className="relative">
             {shadcnForm} <CopyButton text={shadcnForm} />
           </pre>
