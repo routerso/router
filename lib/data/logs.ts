@@ -4,9 +4,8 @@ import { logs, endpoints } from "../db/schema";
 import { eq, desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "../db";
-import { getErrorMessage } from "@/lib/helpers/error-message";
 import { authenticatedAction } from "./safe-action";
-import { deleteLogSchema } from "./validations";
+import { z } from "zod";
 
 /**
  * Creates a log entry
@@ -62,9 +61,11 @@ export const getLogs = authenticatedAction.action(
 
 /**
  * Deletes a log
+ *
+ * Protected by authenticatedAction wrapper
  */
 export const deleteLog = authenticatedAction
-  .schema(deleteLogSchema)
+  .schema(z.object({ id: z.string() }))
   .action(async ({ parsedInput: { id }, ctx: { userId } }) => {
     const logWithEndpoint = await db
       .select({

@@ -18,7 +18,10 @@ export default async function Page() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const leads = await getLeads(session?.user?.id);
+  const leads = await getLeads();
+  const { data: leadsData, serverError } = leads || {};
+
+  if (!leadsData || serverError) return;
   const endpoints = await getEndpoints(session?.user?.id);
 
   return (
@@ -26,7 +29,7 @@ export default async function Page() {
       <Breadcrumbs pageName={pageData?.name} />
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
-        <DataTable columns={columns} data={leads} endpoints={endpoints} />
+        <DataTable columns={columns} data={leadsData} endpoints={endpoints} />
       </PageWrapper>
     </>
   );

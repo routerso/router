@@ -21,6 +21,7 @@ import Image from "next/image";
 import { PageWrapper } from "@/components/parts/page-wrapper";
 import { Header } from "@/components/parts/header";
 import ExportCSV from "@/components/parts/export-csv";
+import { notFound } from "next/navigation";
 
 const pageData = {
   name: "Endpoint Leads",
@@ -29,7 +30,13 @@ const pageData = {
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const { leadData: leads, schema } = await getLeadsByEndpoint(params.id);
+  const leadsData = await getLeadsByEndpoint({
+    id: params.id,
+  });
+  const { data, serverError } = leadsData || {};
+  if (!data || serverError) notFound();
+  const { leadData: leads, schema } = data;
+
   return (
     <>
       <Breadcrumbs leadId={params?.id} />
