@@ -26,7 +26,7 @@ const links = [
 
 const otherLinks = [
   { href: "/support", text: "Support", icon: LifeBuoy },
-  { href: "/settings", text: "Settings", icon: Settings },
+  // { href: "/settings", text: "Settings", icon: Settings },
 ];
 
 export default function Nav() {

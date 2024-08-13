@@ -80,8 +80,8 @@ export default async function Page({ params }: { params: { id: string } }) {
           title={`${pageData?.title}: ${"`"}${endpoint?.name}${"`"}`}
         >{`${pageData?.description}`}</Header>
         <SchemaTable schema={schema} />
-        <Separator />
         <Craft.Main>
+          <Separator />
           <h3>Posting Instructions</h3>
           <p>
             Use the following URL to post to the endpoint for:{" "}

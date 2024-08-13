@@ -4,7 +4,7 @@ import { Endpoint } from "@/lib/db";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/data-table/header";
 import { Badge } from "@/components/ui/badge";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { File } from "lucide-react";
 import { Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -21,9 +21,10 @@ export const columns: ColumnDef<Endpoint>[] = [
     cell: ({ row }) => {
       const name: string = row.getValue("name");
       return (
-        <Button asChild variant="link" className="text-sm px-0">
+        <Button asChild variant="link" className="text-sm px-0 group">
           <Link href={`/endpoints/${row.original.id}`}>
-            {name} <InfoCircledIcon className="ml-2" />
+            {name}{" "}
+            <File className="ml-2 w-4 h-4 opacity-5 group-hover:opacity-100 transition-all" />
           </Link>
         </Button>
       );
