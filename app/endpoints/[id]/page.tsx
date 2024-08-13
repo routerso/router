@@ -193,9 +193,7 @@ function Breadcrumbs({ endpoint }: { endpoint: any }) {
     <Breadcrumb className="h-[67.63px] bg-muted/50 rounded-lg border flex items-center justify-between p-6">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">
-            <Home size={20} />
-          </BreadcrumbLink>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -203,7 +201,7 @@ function Breadcrumbs({ endpoint }: { endpoint: any }) {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage className="px-2 py-1 bg-accent rounded-sm">
+          <BreadcrumbPage className="px-2 py-1 bg-background border rounded-sm">
             {endpoint?.name}
           </BreadcrumbPage>
         </BreadcrumbItem>
