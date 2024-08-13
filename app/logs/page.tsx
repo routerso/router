@@ -18,7 +18,9 @@ export default async function Page() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const logs = await getLogs(session?.user?.id);
+  const logs = await getLogs();
+  const { data, serverError } = logs || {};
+  if (!data || serverError) return;
   const endpoints = await getEndpoints(session?.user?.id);
 
   return (
@@ -26,7 +28,7 @@ export default async function Page() {
       <Breadcrumbs pageName={pageData?.name} />
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
-        <DataTable columns={columns} data={logs} endpoints={endpoints} />
+        <DataTable columns={columns} data={data} endpoints={endpoints} />
       </PageWrapper>
     </>
   );
