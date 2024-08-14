@@ -7,6 +7,12 @@ import { eq, desc, and } from "drizzle-orm";
 import { getErrorMessage } from "@/lib/helpers/error-message";
 import { authenticatedAction } from "./safe-action";
 import { z } from "zod";
+import {
+  createEndpointFormSchema,
+  updateEndpointFormSchema,
+} from "./validations";
+import { randomBytes } from "crypto";
+import { redirect } from "next/navigation";
 
 /**
  * Gets all endpoints for a user
@@ -82,4 +88,65 @@ export const enableEndpoint = authenticatedAction
       .set({ enabled: true, updatedAt: new Date() })
       .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)));
     revalidatePath("/endpoints");
+  });
+
+/**
+ * Creates an endpoint
+ *
+ * Protected by authenticationAction wrapper
+ * Shares a zod schema with react-hook-form in ./validations.ts
+ */
+export const createEndpoint = authenticatedAction
+  .schema(createEndpointFormSchema)
+  .action(async ({ parsedInput, ctx: { userId } }) => {
+    const token = randomBytes(32).toString("hex");
+    await db.insert(endpoints).values({
+      userId,
+      name: parsedInput.name,
+      schema: parsedInput.schema,
+      // TODO: add this to form
+      // enabled: parsedInput.enabled,
+      formEnabled: parsedInput.formEnabled,
+      successUrl: parsedInput.successUrl,
+      failUrl: parsedInput.failUrl,
+      webhookEnabled: parsedInput.webhookEnabled,
+      webhook: parsedInput.webhook,
+      token: token,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    revalidatePath("/endpoints");
+    redirect("/endpoints");
+  });
+
+/**
+ * Updates an endpoint
+ *
+ * Protected by authenticationAction wrapper
+ * Shares a zod schema with react-hook-form in ./validations.ts
+ */
+export const updateEndpoint = authenticatedAction
+  .schema(updateEndpointFormSchema)
+  .action(async ({ parsedInput, ctx: { userId } }) => {
+    await db
+      .update(endpoints)
+      .set({
+        name: parsedInput.name,
+        schema: parsedInput.schema,
+        // TODO: add this to form
+        // enabled: parsedInput.enabled,
+        formEnabled: parsedInput.formEnabled,
+        successUrl: parsedInput.successUrl,
+        failUrl: parsedInput.failUrl,
+        webhookEnabled: parsedInput.webhookEnabled,
+        webhook: parsedInput.webhook,
+        updatedAt: new Date(),
+      })
+      .where(
+        and(eq(endpoints.id, parsedInput.id), eq(endpoints.userId, userId))
+      );
+
+    revalidatePath("/endpoints");
+    redirect("/endpoints");
   });
