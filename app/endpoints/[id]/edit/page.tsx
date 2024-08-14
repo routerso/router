@@ -14,6 +14,7 @@ import Image from "next/image";
 import Icon from "@/public/icon.svg";
 import { getEndpointById } from "@/lib/data/endpoints";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 const pageData = {
   name: "Edit Endpoint",
@@ -22,7 +23,12 @@ const pageData = {
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const endpoint = await getEndpointById(params.id);
+  // fetch endpoint data
+  const endpoint = await getEndpointById({ id: params.id });
+  const { data: endpointData, serverError } = endpoint || {};
+
+  // check for errors
+  if (!endpointData || serverError) notFound();
 
   return (
     <>
@@ -58,7 +64,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       </Breadcrumb>
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
-        <EditForm id={params.id} endpoint={endpoint} />
+        <EditForm id={params.id} endpoint={endpointData} />
       </PageWrapper>
     </>
   );

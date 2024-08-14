@@ -1,13 +1,19 @@
 "use server";
 
 import { leads, endpoints } from "../db/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, sql, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db, Lead } from "../db";
 import { getErrorMessage } from "@/lib/helpers/error-message";
+import { authenticatedAction } from "./safe-action";
+import { getLeadDataSchema } from "./validations";
+import { z } from "zod";
 
 /**
  * Creates a new lead in the database
+ *
+ * Helper function used in dynamic route for creating a new lead
+ * User does not need to be authenticated for this to happen
  */
 export async function createLead(
   endpointId: string,
@@ -30,74 +36,107 @@ export async function createLead(
 
 /**
  * Gets all leads for a user
+ *
+ * Protected by authenticatedAction wrapper
  */
-export async function getLeads(userId: string): Promise<LeadRow[]> {
-  const leadsData = await db
-    .select()
-    .from(leads)
-    .leftJoin(endpoints, eq(leads.endpointId, endpoints.id))
-    .where(eq(endpoints.userId, userId))
-    .orderBy(desc(leads.createdAt));
+export const getLeads = authenticatedAction.action(
+  async ({ ctx: { userId } }) => {
+    const leadsData = await db
+      .select()
+      .from(leads)
+      .leftJoin(endpoints, eq(leads.endpointId, endpoints.id))
+      .where(eq(endpoints.userId, userId))
+      .orderBy(desc(leads.createdAt));
 
-  const data: LeadRow[] = leadsData.map((lead) => ({
-    id: lead.lead.id,
-    data: lead.lead.data,
-    schema: lead.endpoint?.schema || [],
-    createdAt: lead.lead.createdAt,
-    updatedAt: lead.lead.updatedAt,
-    endpointId: lead.endpoint?.id as string,
-    endpoint: lead.endpoint?.name || undefined,
-  }));
+    const data: LeadRow[] = leadsData.map((lead) => ({
+      id: lead.lead.id,
+      data: lead.lead.data,
+      schema: lead.endpoint?.schema || [],
+      createdAt: lead.lead.createdAt,
+      updatedAt: lead.lead.updatedAt,
+      endpointId: lead.endpoint?.id as string,
+      endpoint: lead.endpoint?.name || undefined,
+    }));
 
-  return data;
-}
+    return data;
+  }
+);
 
 /**
  * Get lead data for one specific lead
+ *
+ * Protected by authenticatedAction wrapper
  */
-export async function getLeadData(id: string): Promise<Lead> {
-  const leadData = await db.select().from(leads).where(eq(leads.id, id));
-  return leadData[0];
-}
+export const getLeadData = authenticatedAction
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ parsedInput: { id }, ctx: { userId } }) => {
+    const leadWithEndpoint = await db
+      .select({
+        endpointUserId: endpoints.userId,
+      })
+      .from(leads)
+      .innerJoin(endpoints, eq(leads.endpointId, endpoints.id))
+      .where(eq(leads.id, id));
+
+    if (
+      !leadWithEndpoint.length ||
+      leadWithEndpoint[0].endpointUserId !== userId
+    ) {
+      throw new Error("You are not authorized for this action.");
+    }
+
+    const leadData = await db.select().from(leads).where(eq(leads.id, id));
+    return leadData[0];
+  });
 
 /**
  * Get all leads by an endpoint id
+ *
+ * Protected by authenticatedAction wrapper
  */
-export async function getLeadsByEndpoint(id: string): Promise<{
-  leadData: Lead[];
-  schema: {
-    key: string;
-    value: ValidationType;
-  }[];
-}> {
-  const leadData = await db
-    .select()
-    .from(leads)
-    .where(eq(leads.endpointId, id));
+export const getLeadsByEndpoint = authenticatedAction
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ parsedInput: { id }, ctx: { userId } }) => {
+    const endpoint = await db
+      .select({
+        id: endpoints.id,
+        schema: endpoints.schema,
+      })
+      .from(endpoints)
+      .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)))
+      .limit(1);
 
-  const [{ schema }] = await db
-    .select()
-    .from(endpoints)
-    .where(eq(endpoints.id, id));
+    if (!endpoint.length) {
+      throw new Error("You are not authorized for this action");
+    }
 
-  return { leadData, schema };
-}
+    const leadData = await db
+      .select()
+      .from(leads)
+      .where(eq(leads.endpointId, id));
+
+    return { leadData, schema: endpoint[0].schema };
+  });
 
 /**
  * Delete a lead by id
  */
-export async function deleteLead(id: string): Promise<
-  | {
-      error: string;
+export const deleteLead = authenticatedAction
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ parsedInput: { id }, ctx: { userId } }) => {
+    const leadWithEndpoint = await db
+      .select({ endpointUserId: endpoints.userId })
+      .from(leads)
+      .innerJoin(endpoints, eq(leads.endpointId, endpoints.id))
+      .where(eq(leads.id, id));
+
+    if (
+      !leadWithEndpoint.length ||
+      leadWithEndpoint[0].endpointUserId !== userId
+    ) {
+      throw new Error("You are not authorized for this action.");
     }
-  | undefined
-> {
-  try {
+
     await db.delete(leads).where(eq(leads.id, id));
     revalidatePath("/leads");
-  } catch (error: unknown) {
-    return {
-      error: getErrorMessage(error),
-    };
-  }
-}
+  });

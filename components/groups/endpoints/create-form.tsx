@@ -8,6 +8,7 @@ import * as z from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
 
 import { validationOptions } from "@/lib/validation";
+import { createEndpointFormSchema as formSchema } from "@/lib/data/validations";
 
 // next imports
 import Link from "next/link";
@@ -36,26 +37,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const formSchema = z.object({
-  name: z.string().min(1, "Not a valid name."),
-  schema: z.array(
-    z.object({
-      key: z.string().min(1, { message: "Please enter a valid field name." }),
-      value: z.string().min(1, { message: "Please select a field type." }),
-    })
-  ),
-  formEnabled: z.boolean(),
-  successUrl: z.string().url().optional(),
-  failUrl: z.string().url().optional(),
-  webhookEnabled: z.boolean(),
-  webhook: z.string().url().optional(),
-});
+import { useAction } from "next-safe-action/hooks";
+import { parseActionError } from "@/lib/data/safe-action";
+import { createEndpoint } from "@/lib/data/endpoints";
 
 type DomainValues = z.infer<typeof formSchema>;
 
 const defaultValues: Partial<DomainValues> = {
   name: "",
-  schema: [{ key: "", value: "" }],
+  schema: [{ key: "", value: "string" }],
   formEnabled: false,
   successUrl: undefined,
   failUrl: undefined,
@@ -64,6 +54,15 @@ const defaultValues: Partial<DomainValues> = {
 };
 
 export default function CreateForm() {
+  const { execute, isExecuting } = useAction(createEndpoint, {
+    onSuccess() {
+      toast.success("Endpoint created successfully.");
+    },
+    onError({ error }) {
+      toast.error(parseActionError(error));
+    },
+  });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
@@ -75,51 +74,9 @@ export default function CreateForm() {
     control: form.control,
   });
 
-  // router
-  const router = useRouter();
-
-  // state declarations
-  const [loading, setLoading] = React.useState<boolean>(false);
-
-  // Form submit function
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    setLoading(true);
-    const apiCall = new Promise(async (resolve, reject) => {
-      try {
-        const response = await fetch("/api/endpoints", {
-          method: "POST",
-          body: JSON.stringify(values),
-        });
-        const { id } = await response.json();
-        if (response.status === 200) {
-          resolve(id);
-          router.push(`/endpoints`);
-          router.refresh();
-        } else {
-          reject(new Error("Something went wrong."));
-        }
-      } catch (error) {
-        reject(new Error("Something went wrong."));
-        console.log(error);
-      }
-    });
-    toast.promise(apiCall, {
-      loading: "Creating endpoint...",
-      success: (data) => "Successfully created.",
-      error: (err) => {
-        if (err.message === "Unauthorized.") {
-          return "You are unauthorized to perform this action.";
-        } else {
-          return "Something went wrong. Please try again later.";
-        }
-      },
-    });
-  };
-
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit((values) => execute(values))}>
         <FormField
           control={form.control}
           name="name"
@@ -203,7 +160,7 @@ export default function CreateForm() {
           <Button
             variant="outline"
             onClick={() => {
-              append({ key: "", value: "" });
+              append({ key: "", value: "string" });
             }}
           >
             Add Field +
@@ -318,7 +275,7 @@ export default function CreateForm() {
           )}
         </div>
 
-        <Button type="submit" className="mt-12" disabled={loading}>
+        <Button type="submit" className="mt-12" disabled={isExecuting}>
           Create Endpoint
         </Button>
       </form>

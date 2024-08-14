@@ -1,5 +1,4 @@
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import { DataTable } from "@/components/data-table";
@@ -14,15 +13,19 @@ const pageData = {
 };
 
 export default async function Page() {
-  const session = await auth();
-  if (!session) redirect("/login");
-  const endpoints = await getEndpoints(session.user.id);
+  // fetch endpoints
+  const endpoints = await getEndpoints();
+  const { data: endpointsData, serverError } = endpoints || {};
+
+  // check for errors
+  if (!endpointsData || serverError) notFound();
+
   return (
     <>
       <Breadcrumbs pageName={pageData?.name} />
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
-        <DataTable columns={columns} data={endpoints} createObject={true} />
+        <DataTable columns={columns} data={endpointsData} createObject={true} />
       </PageWrapper>
     </>
   );

@@ -4,8 +4,7 @@ import { Chart } from "@/components/dashboard/chart";
 import { PageWrapper } from "@/components/parts/page-wrapper";
 import Link from "next/link";
 import { getLeadAndErrorCounts } from "@/lib/data/dashboard";
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { getLeads } from "@/lib/data/leads";
 import { getEndpoints } from "@/lib/data/endpoints";
 import { DataTable } from "@/components/groups/leads/data-table";
@@ -18,12 +17,33 @@ const pageData = {
 };
 
 export default async function Page() {
-  const session = await auth();
-  if (!session) redirect("/login");
-  const chartData = await getLeadAndErrorCounts(session.user.id);
-  const leads = await getLeads(session.user.id);
-  const endpoints = await getEndpoints(session.user.id);
-  const recentLeads = leads.slice(0, 5); // Get the 5 most recent leads
+  // fetch chart data
+  const charts = await getLeadAndErrorCounts();
+  const { data: chartData, serverError: chartServerError } = charts || {};
+
+  // fetch leads
+  const leads = await getLeads();
+  const { data: leadsData, serverError: leadsServerError } = leads || {};
+
+  // fetch endpoints
+  const endpoints = await getEndpoints();
+  const { data: endpointsData, serverError: endpointsServerError } =
+    endpoints || {};
+
+  // check for errors
+  if (
+    !leadsData ||
+    !endpointsData ||
+    !chartData ||
+    leadsServerError ||
+    endpointsServerError ||
+    chartServerError
+  ) {
+    notFound();
+  }
+
+  // get the 5 most recent leads
+  const recentLeads = leadsData.slice(0, 5);
 
   return (
     <>
@@ -37,7 +57,7 @@ export default async function Page() {
           <DataTable
             columns={columns}
             data={recentLeads}
-            endpoints={endpoints}
+            endpoints={endpointsData}
           />
         </div>
       </PageWrapper>

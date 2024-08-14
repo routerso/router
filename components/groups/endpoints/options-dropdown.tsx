@@ -27,7 +27,9 @@ import {
   enableEndpoint,
 } from "@/lib/data/endpoints";
 
-import { createClientAction } from "@/lib/helpers/client-action";
+import { useAction } from "next-safe-action/hooks";
+import { parseActionError } from "@/lib/data/safe-action";
+import { toast } from "sonner";
 
 export default function OptionsDropdown({
   id,
@@ -36,13 +38,35 @@ export default function OptionsDropdown({
   id: string;
   enabled: boolean;
 }) {
-  const deleteEndpointWithId = deleteEndpoint.bind(null, id);
-  const disableEndpointWithId = disableEndpoint.bind(null, id);
-  const enableEndpointWithId = enableEndpoint.bind(null, id);
+  // delete action
+  const { execute: executeDelete } = useAction(deleteEndpoint, {
+    onSuccess() {
+      toast.success("Successfully deleted endpoint.");
+    },
+    onError({ error }) {
+      toast.error(parseActionError(error));
+    },
+  });
 
-  const deleteAction = createClientAction(deleteEndpointWithId);
-  const disableAction = createClientAction(disableEndpointWithId);
-  const enableAction = createClientAction(enableEndpointWithId);
+  // enable action
+  const { execute: executeEnable } = useAction(enableEndpoint, {
+    onSuccess() {
+      toast.success("Successfully enabled endpoint.");
+    },
+    onError({ error }) {
+      toast.error(parseActionError(error));
+    },
+  });
+
+  // disable action
+  const { execute: executeDisable } = useAction(disableEndpoint, {
+    onSuccess() {
+      toast.success("Successfully disabled endpoint.");
+    },
+    onError({ error }) {
+      toast.error(parseActionError(error));
+    },
+  });
 
   const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
   const [showDisableAlert, setShowDisableAlert] = useState<boolean>(false);
@@ -89,9 +113,9 @@ export default function OptionsDropdown({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <form action={deleteAction}>
-              <AlertDialogAction type="submit">Delete</AlertDialogAction>
-            </form>
+            <AlertDialogAction onClick={() => executeDelete({ id })}>
+              Delete
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -107,9 +131,9 @@ export default function OptionsDropdown({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <form action={disableAction}>
-              <AlertDialogAction type="submit">Disable</AlertDialogAction>
-            </form>
+            <AlertDialogAction onClick={() => executeDisable({ id })}>
+              Disable
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -125,9 +149,9 @@ export default function OptionsDropdown({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <form action={enableAction}>
-              <AlertDialogAction type="submit">Enable</AlertDialogAction>
-            </form>
+            <AlertDialogAction onClick={() => executeEnable({ id })}>
+              Enable
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

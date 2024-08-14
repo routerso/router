@@ -2,16 +2,17 @@
 
 import { sql } from "drizzle-orm";
 import { db } from "../db";
+import { authenticatedAction } from "./safe-action";
 
 /**
  * Get lead and error counts in proper format for shadcn/ui charts
  *
+ * Protected by authenticatedAction wrapper
  * example row: { date: "2024-08-01", leads: 7, errors: 2 }
  */
-export async function getLeadAndErrorCounts(
-  userId: string
-): Promise<LeadAndErrorCountResults> {
-  const data = await db.execute(sql`
+export const getLeadAndErrorCounts = authenticatedAction.action(
+  async ({ ctx: { userId } }) => {
+    const data = await db.execute(sql`
     WITH date_series AS (
         SELECT generate_series(
             date_trunc('day', now() - interval '1 month'),
@@ -63,5 +64,6 @@ export async function getLeadAndErrorCounts(
         ds.date;
     `);
 
-  return data.rows as LeadAndErrorCountResults;
-}
+    return data.rows as LeadAndErrorCountResults;
+  }
+);

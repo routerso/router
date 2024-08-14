@@ -18,7 +18,7 @@ import Image from "next/image";
 import Icon from "@/public/icon.svg";
 import CopyButton from "@/components/parts/copy-button";
 import { generateShadcnForm } from "@/lib/helpers/generate-form";
-import { auth } from "@/lib/auth";
+import { notFound } from "next/navigation";
 
 const pageData = {
   title: "Endpoint",
@@ -26,13 +26,16 @@ const pageData = {
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const session = await auth();
-  if (!session) redirect("/login");
+  // fetch endpoint
+  const endpoint = await getEndpointById({ id: params?.id });
+  const { data: endpointData, serverError } = endpoint || {};
 
-  const endpoint = await getEndpointById(params?.id);
-  const schema = endpoint?.schema as GeneralSchema[];
+  // check for errors
+  if (!endpointData || serverError) notFound();
 
-  const url = `https://app.router.so/api/endpoints/${endpoint.id}`;
+  const schema = endpointData?.schema as GeneralSchema[];
+
+  const url = `https://app.router.so/api/endpoints/${endpointData.id}`;
 
   //  ---------- TODO: make this into its own function ----------
   const formattedSchema = new Object() as { [key: string]: ValidationType };
@@ -44,14 +47,14 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const exampleCurl = `curl -X POST ${url} \\
   --header "Content-Type: application/json" \\
-  --header "Authorization: Bearer ${endpoint?.token}" \\
+  --header "Authorization: Bearer ${endpointData?.token}" \\
   --data '${schemaString}'`;
 
   const exampleJs = `fetch("${url}", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": "Bearer ${endpoint?.token}"
+      "Authorization": "Bearer ${endpointData?.token}"
     },
     body: JSON.stringify(${schemaString})
   })`;
@@ -77,7 +80,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       <Breadcrumbs endpoint={endpoint} />
       <PageWrapper>
         <Header
-          title={`${pageData?.title}: ${"`"}${endpoint?.name}${"`"}`}
+          title={`${pageData?.title}: ${"`"}${endpointData?.name}${"`"}`}
         >{`${pageData?.description}`}</Header>
         <SchemaTable schema={schema} />
         <Craft.Main className="prose-md">
@@ -85,7 +88,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           <h3>Posting Instructions</h3>
           <p>
             Use the following URL to post to the endpoint for:{" "}
-            <span className="text-foreground">{endpoint?.name}</span>
+            <span className="text-foreground">{endpointData?.name}</span>
           </p>
           <pre className="relative">
             {url}
@@ -103,7 +106,8 @@ export default async function Page({ params }: { params: { id: string } }) {
 
           <p>Make sure to include the following API key as a header:</p>
           <pre className="relative">
-            {endpoint?.token} <CopyButton text={endpoint?.token || ""} />
+            {endpointData?.token}{" "}
+            <CopyButton text={endpointData?.token || ""} />
           </pre>
 
           <p>A sample CURL request would look like the following:</p>
@@ -129,7 +133,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             {shadcnForm} <CopyButton text={shadcnForm} />
           </pre>
           <Separator />
-          {endpoint?.formEnabled && (
+          {endpointData?.formEnabled && (
             <>
               <h3>Post via HTML Form</h3>
               <p>Add the following URL to the form action attribute:</p>
@@ -168,12 +172,12 @@ export default async function Page({ params }: { params: { id: string } }) {
               </p>
               <p>Success and fail URLs for this endpoint:</p>
               <pre className="relative">
-                {`Success URL: ${endpoint?.successUrl}`}{" "}
-                <CopyButton text={`Success URL: ${endpoint?.successUrl}`} />
+                {`Success URL: ${endpointData?.successUrl}`}{" "}
+                <CopyButton text={`Success URL: ${endpointData?.successUrl}`} />
               </pre>
               <pre className="relative">
-                {`Fail URL: ${endpoint?.failUrl}`}{" "}
-                <CopyButton text={`Fail URL: ${endpoint?.failUrl}`} />
+                {`Fail URL: ${endpointData?.failUrl}`}{" "}
+                <CopyButton text={`Fail URL: ${endpointData?.failUrl}`} />
               </pre>
               <p className="text-red-400 text-xs">
                 Currently no authentication is required to post leads from a

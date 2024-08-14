@@ -19,14 +19,21 @@ import {
 
 import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
 
 import { deleteLead } from "@/lib/data/leads";
-import { createClientAction } from "@/lib/helpers/client-action";
+import { useAction } from "next-safe-action/hooks";
+import { parseActionError } from "@/lib/data/safe-action";
+import { toast } from "sonner";
 
 export default function OptionsDropdown({ id }: { id: string }) {
-  const deleteLeadWithId = deleteLead.bind(null, id);
-  const deleteAction = createClientAction(deleteLeadWithId);
+  const { execute } = useAction(deleteLead, {
+    onSuccess() {
+      toast.success("Successfully deleted lead.");
+    },
+    onError({ error }) {
+      toast.error(parseActionError(error));
+    },
+  });
   const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
 
   return (
@@ -58,9 +65,9 @@ export default function OptionsDropdown({ id }: { id: string }) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <form action={deleteAction}>
-              <AlertDialogAction type="submit">Delete</AlertDialogAction>
-            </form>
+            <AlertDialogAction onClick={() => execute({ id })}>
+              Delete
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

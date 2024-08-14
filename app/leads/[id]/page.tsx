@@ -29,8 +29,10 @@ const pageData = {
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const data = await getLeadData(params.id);
-  if (!data) {
+  const leadData = await getLeadData({ id: params.id });
+  const { data, serverError } = leadData || {};
+
+  if (!data || serverError) {
     return notFound();
   }
 

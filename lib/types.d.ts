@@ -41,37 +41,6 @@ type ValidationType =
   | "zip_code";
 
 /**
- * Payload type for POST requests to the /api/endpoints route
- */
-type EndpointPOSTPayload = {
-  userId: string;
-  name: string;
-  schema: { key: string; value: ValidationType }[];
-  enabled: boolean;
-  formEnabled: boolean;
-  successUrl: string;
-  failUrl: string;
-  webhookEnabled: boolean;
-  webhook?: string;
-};
-
-/**
- * Payload type for PUT requests to the /api/endpoints route
- */
-type EndpointPUTPayload = {
-  id: string;
-  userId: string;
-  name: string;
-  schema: { key: string; value: ValidationType }[];
-  enabled: boolean;
-  formEnabled: boolean;
-  successUrl: string;
-  failUrl: string;
-  webhookEnabled: boolean;
-  webhook?: string;
-};
-
-/**
  * Row type for the main dashboard data on /dashboard route
  */
 type LeadAndErrorCountResults = {
