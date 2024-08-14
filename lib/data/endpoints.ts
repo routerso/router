@@ -42,63 +42,44 @@ export const getEndpointById = authenticatedAction
 
 /**
  * Deletes a specific endpoint by id
+ *
+ * Protected by authenticatedAction wrapper
  */
-export async function deleteEndpoint(id: string): Promise<
-  | {
-      error: string;
-    }
-  | undefined
-> {
-  try {
-    await db.delete(endpoints).where(eq(endpoints.id, id));
+export const deleteEndpoint = authenticatedAction
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ parsedInput: { id }, ctx: { userId } }) => {
+    await db
+      .delete(endpoints)
+      .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)));
     revalidatePath("/endpoints");
-  } catch (error: unknown) {
-    return {
-      error: getErrorMessage(error),
-    };
-  }
-}
+  });
 
 /**
  * Disables a specific endpoint by id
+ *
+ * Protected by authenticatedAction wrapper
  */
-export async function disableEndpoint(id: string): Promise<
-  | {
-      error: string;
-    }
-  | undefined
-> {
-  try {
+export const disableEndpoint = authenticatedAction
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ parsedInput: { id }, ctx: { userId } }) => {
     await db
       .update(endpoints)
       .set({ enabled: false, updatedAt: new Date() })
-      .where(eq(endpoints.id, id));
+      .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)));
     revalidatePath("/endpoints");
-  } catch (error: unknown) {
-    return {
-      error: getErrorMessage(error),
-    };
-  }
-}
+  });
 
 /**
  * Enables a specific endpoint by id
+ *
+ * Protected by authenticatedAction wrapper
  */
-export async function enableEndpoint(id: string): Promise<
-  | {
-      error: string;
-    }
-  | undefined
-> {
-  try {
+export const enableEndpoint = authenticatedAction
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ parsedInput: { id }, ctx: { userId } }) => {
     await db
       .update(endpoints)
       .set({ enabled: true, updatedAt: new Date() })
-      .where(eq(endpoints.id, id));
+      .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)));
     revalidatePath("/endpoints");
-  } catch (error: unknown) {
-    return {
-      error: getErrorMessage(error),
-    };
-  }
-}
+  });
