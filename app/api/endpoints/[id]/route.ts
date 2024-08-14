@@ -9,7 +9,7 @@ import { createLead } from "@/lib/data/leads";
 import { createLog } from "@/lib/data/logs";
 import { getErrorMessage } from "@/lib/helpers/error-message";
 import { constructBodyFromURLParameters } from "@/lib/helpers/construct-body";
-import { getEndpointById } from "@/lib/data/endpoints";
+import { getPostingEndpointById } from "@/lib/data/endpoints";
 
 /**
  * API route for posting a lead using POST
@@ -31,7 +31,7 @@ export async function POST(
 
     const token = authorization.split(" ")[1];
     const data = await request.json();
-    const endpoint = await getEndpointById(params.id);
+    const endpoint = await getPostingEndpointById(params.id);
 
     if (!endpoint)
       return NextResponse.json(
@@ -92,7 +92,7 @@ export async function GET(
     const referer = headersList.get("referer");
     const { searchParams } = new URL(request.url);
 
-    const endpoint = await getEndpointById(params.id);
+    const endpoint = await getPostingEndpointById(params.id);
 
     if (!endpoint) {
       return NextResponse.json(

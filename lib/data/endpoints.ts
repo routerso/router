@@ -47,6 +47,17 @@ export const getEndpointById = authenticatedAction
   });
 
 /**
+ * Gets a specific endpoint to post to
+ *
+ * Does not need to be authenticated
+ * Used in the posting route
+ */
+export const getPostingEndpointById = async (id: string) => {
+  const [data] = await db.select().from(endpoints).where(eq(endpoints.id, id));
+  return data;
+};
+
+/**
  * Deletes a specific endpoint by id
  *
  * Protected by authenticatedAction wrapper
