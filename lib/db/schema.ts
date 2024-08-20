@@ -108,7 +108,12 @@ export const leads = pgTable("lead", {
 });
 
 export const logTypeEnum = pgEnum("logType", ["success", "error"]);
-export const logPostTypeEnum = pgEnum("logPostType", ["http", "form"]);
+export const logPostTypeEnum = pgEnum("logPostType", [
+  "http",
+  "form",
+  "webhook",
+  "email",
+]);
 
 export const logs = pgTable("log", {
   id: text("id")

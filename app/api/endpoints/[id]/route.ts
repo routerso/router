@@ -46,6 +46,13 @@ export async function POST(
       );
     }
 
+    if (!endpoint.enabled) {
+      return NextResponse.json(
+        { message: "Endpoint is disabled." },
+        { status: 403 }
+      );
+    }
+
     const schema = endpoint?.schema as GeneralSchema[];
     const dynamicSchema = generateDynamicSchema(schema);
     const parsedData = validateAndParseData(dynamicSchema, data);
@@ -62,6 +69,52 @@ export async function POST(
         { errors: parsedData.error.format() },
         { status: 400 }
       );
+    }
+
+    // webhook posting -- eventually make this a background job
+    if (endpoint.webhookEnabled && endpoint.webhook) {
+      // Only wait 2 seconds for a response
+      const webhookController = new AbortController();
+      const webhookTimeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(async () => {
+          // create a log of the timeout error
+          await createLog("error", "webhook", "Webhook timed out.", params.id);
+          webhookController.abort();
+          reject(new Error("Request timed out"));
+        }, 1000);
+      });
+      const webhookFetchPromise: Promise<Response> = fetch(endpoint.webhook, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(parsedData.data),
+        signal: webhookController.signal,
+      });
+      const webhookResponse = await Promise.race([
+        webhookFetchPromise,
+        webhookTimeoutPromise,
+      ]);
+
+      if (!webhookResponse.ok) {
+        const contentType = webhookResponse.headers.get("Content-Type");
+        let errorData;
+        if (contentType && contentType.includes("application/json")) {
+          errorData = await webhookResponse.json();
+        } else if (contentType && contentType.includes("text")) {
+          errorData = await webhookResponse.text();
+        } else {
+          errorData = "Received non-text response";
+        }
+        await createLog("error", "webhook", errorData, params.id);
+      } else {
+        createLog(
+          "success",
+          "webhook",
+          `${endpoint.webhook} -> Webhook successful`,
+          params.id
+        );
+      }
     }
 
     const leadId = await createLead(endpoint.id, parsedData.data);
@@ -101,6 +154,13 @@ export async function GET(
       );
     }
 
+    if (!endpoint.enabled) {
+      return NextResponse.json(
+        { message: "Endpoint is disabled." },
+        { status: 403 }
+      );
+    }
+
     const rawData = constructBodyFromURLParameters(searchParams);
     const schema = endpoint?.schema as GeneralSchema[];
     const data = convertToCorrectTypes(rawData, schema);
@@ -123,6 +183,51 @@ export async function GET(
     const leadId = await createLead(endpoint.id, parsedData.data);
 
     await createLog("success", "http", leadId, endpoint.id);
+
+    // webhook posting -- eventually make this a background job
+    if (endpoint.webhookEnabled && endpoint.webhook) {
+      // Only wait 2 seconds for a response
+      const webhookController = new AbortController();
+      const webhookTimeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(async () => {
+          await createLog("error", "webhook", "Webhook timed out.", params.id);
+          webhookController.abort();
+          reject(new Error("Request timed out"));
+        }, 1000);
+      });
+      const webhookFetchPromise: Promise<Response> = fetch(endpoint.webhook, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(parsedData.data),
+        signal: webhookController.signal,
+      });
+      const webhookResponse = await Promise.race([
+        webhookFetchPromise,
+        webhookTimeoutPromise,
+      ]);
+
+      if (!webhookResponse.ok) {
+        const contentType = webhookResponse.headers.get("Content-Type");
+        let errorData;
+        if (contentType && contentType.includes("application/json")) {
+          errorData = await webhookResponse.json();
+        } else if (contentType && contentType.includes("text")) {
+          errorData = await webhookResponse.text();
+        } else {
+          errorData = "Received non-text response";
+        }
+        await createLog("error", "webhook", errorData, params.id);
+      } else {
+        createLog(
+          "success",
+          "webhook",
+          `${endpoint.webhook} -> Webhook successful`,
+          params.id
+        );
+      }
+    }
 
     return NextResponse.redirect(
       new URL(endpoint?.successUrl || referer || "/success")
