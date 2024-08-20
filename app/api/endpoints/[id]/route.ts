@@ -107,6 +107,13 @@ export async function POST(
           errorData = "Received non-text response";
         }
         await createLog("error", "webhook", errorData, params.id);
+      } else {
+        createLog(
+          "success",
+          "webhook",
+          `${endpoint.webhook} -> Webhook successful`,
+          params.id
+        );
       }
     }
 
@@ -212,6 +219,13 @@ export async function GET(
           errorData = "Received non-text response";
         }
         await createLog("error", "webhook", errorData, params.id);
+      } else {
+        createLog(
+          "success",
+          "webhook",
+          `${endpoint.webhook} -> Webhook successful`,
+          params.id
+        );
       }
     }
 
