@@ -15,7 +15,7 @@ import { z } from "zod";
  */
 export async function createLog(
   type: "success" | "error",
-  postType: "http" | "form",
+  postType: LogPostType,
   message: string,
   endpointId: string
 ): Promise<void> {
