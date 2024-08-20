@@ -46,6 +46,13 @@ export async function POST(
       );
     }
 
+    if (!endpoint.enabled) {
+      return NextResponse.json(
+        { message: "Endpoint is disabled." },
+        { status: 403 }
+      );
+    }
+
     const schema = endpoint?.schema as GeneralSchema[];
     const dynamicSchema = generateDynamicSchema(schema);
     const parsedData = validateAndParseData(dynamicSchema, data);
@@ -62,6 +69,19 @@ export async function POST(
         { errors: parsedData.error.format() },
         { status: 400 }
       );
+    }
+
+    if (endpoint.webhookEnabled && endpoint.webhook) {
+      const webhookResponse = await fetch(endpoint.webhook, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(parsedData.data),
+      });
+      if (!webhookResponse.ok) {
+        // create a log of the error
+      }
     }
 
     const leadId = await createLead(endpoint.id, parsedData.data);
@@ -98,6 +118,13 @@ export async function GET(
       return NextResponse.json(
         { message: "Endpoint not found." },
         { status: 404 }
+      );
+    }
+
+    if (!endpoint.enabled) {
+      return NextResponse.json(
+        { message: "Endpoint is disabled." },
+        { status: 403 }
       );
     }
 
