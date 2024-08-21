@@ -1,4 +1,5 @@
-import { expect, test, describe } from "vitest";
+import { expect, expectTypeOf, test, describe } from "vitest";
+import { z } from "zod";
 import * as validation from "../lib/validation";
 
 describe("convertToCorrectTypes", () => {
@@ -85,5 +86,87 @@ describe("convertToCorrectTypes", () => {
     expect(result.name).toBe("Jane Doe");
     expect(result.isActive).toBe(false);
     expect(result.age).toBe(undefined);
+  });
+});
+
+describe("generateDynamicSchema", () => {
+  test("should generate a dynamic schema for a single field", () => {
+    const schema: GeneralSchema[] = [{ age: "number" }];
+
+    const dynamicSchema = validation.generateDynamicSchema(schema);
+
+    const expectedSchema = {
+      age: validation.validations.number,
+    };
+
+    console.log(expectedSchema);
+
+    expect(dynamicSchema).toEqual(expectedSchema);
+  });
+
+  test("should generate a dynamic schema for multiple fields", () => {
+    const schema: GeneralSchema[] = [
+      { name: "string" },
+      { email: "email" },
+      { age: "number" },
+    ];
+
+    const dynamicSchema = validation.generateDynamicSchema(schema);
+
+    const expectedSchema = {
+      name: validation.validations.string,
+      email: validation.validations.email,
+      age: validation.validations.number,
+    };
+
+    expect(dynamicSchema).toEqual(expectedSchema);
+  });
+
+  test("should handle an empty schema array", () => {
+    // @ts-expect-error -> we normally won't pass in an empty schema, but just in case :)
+    const schema = [];
+
+    // @ts-expect-error -> we normally won't pass in an empty schema, but just in case :)
+    const dynamicSchema = validation.generateDynamicSchema(schema);
+
+    const expectedSchema = {};
+
+    expect(dynamicSchema).toEqual(expectedSchema);
+  });
+
+  test("should ignore invalid validation types and not include them in the schema", () => {
+    const schema: GeneralSchema[] = [
+      { username: "string" },
+      { invalidField: "unknown" as ValidationType },
+    ];
+
+    const dynamicSchema = validation.generateDynamicSchema(schema);
+
+    const expectedSchema = {
+      username: validation.validations.string,
+    };
+
+    expect(dynamicSchema).toEqual(expectedSchema);
+    expect(dynamicSchema).not.toHaveProperty("invalidField");
+  });
+
+  test("should correctly map a variety of validation types", () => {
+    const schema: GeneralSchema[] = [
+      { isActive: "boolean" },
+      { birthdate: "date" },
+      { website: "url" },
+      { postalCode: "zip_code" },
+    ];
+
+    const dynamicSchema = validation.generateDynamicSchema(schema);
+
+    const expectedSchema = {
+      isActive: validation.validations.boolean,
+      birthdate: validation.validations.date,
+      website: validation.validations.url,
+      postalCode: validation.validations.zip_code,
+    };
+
+    expect(dynamicSchema).toEqual(expectedSchema);
   });
 });
