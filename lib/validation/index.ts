@@ -43,29 +43,29 @@ export const validations: { [key in ValidationType]: z.ZodType<any, any> } = {
 };
 
 /**
- * Converts the values in the provided data object to their correct types based on the given schema.
+ * Converts the data object to the correct types based on the provided schema.
  *
- * @param data - The data object containing the values to be converted.
- * @param schema - An array of objects representing the schema, specifying the keys and their expected types.
- * @returns An object with the converted values.
+ * @param data - The data object to be converted.
+ * @param schema - The schema defining the expected types for each property.
+ * @returns The converted data object with correct types.
  */
 export const convertToCorrectTypes = (
   data: any,
   schema: GeneralSchema[]
-): ((data: any, schema: GeneralSchema[]) => any) => {
-  const result: any = {};
+): Record<string, any> => {
+  const result: Record<string, any> = {};
 
-  schema.forEach(({ key, value }) => {
-    if (value === "boolean") {
-      // Convert "true" and "false" strings to boolean values
-      result[key] = data[key] === "true";
-    } else if (value === "number") {
-      // Convert string to number, ensuring NaN is handled appropriately
-      const num = Number(data[key]);
-      result[key] = isNaN(num) ? undefined : num;
-    } else {
-      // For all other types, assume string or no conversion needed
-      result[key] = data[key];
+  schema.forEach((item: { [key: string]: ValidationType }) => {
+    for (const key in item) {
+      const value: ValidationType = item[key];
+      if (value === "boolean") {
+        result[key] = data[key] === "true";
+      } else if (value === "number") {
+        const num: number = Number(data[key]);
+        result[key] = isNaN(num) ? undefined : num;
+      } else {
+        result[key] = data[key];
+      }
     }
   });
 
