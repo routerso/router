@@ -19,11 +19,18 @@ describe("constructBodyFromURLParameters", () => {
   });
 
   test("should construct an object with multiple key-value pairs from URL parameters", () => {
-    const searchParams = new URLSearchParams("name=JohnDoe&age=30&country=USA");
+    const searchParams = new URLSearchParams(
+      "name=JohnDoe&age=30&country=USA&i=true"
+    );
 
     const result = constructBodyFromURLParameters(searchParams);
 
-    expect(result).toEqual({ name: "JohnDoe", age: "30", country: "USA" });
+    expect(result).toEqual({
+      name: "JohnDoe",
+      age: "30",
+      country: "USA",
+      i: "true",
+    });
   });
 
   test("should handle URL parameters with empty values", () => {
