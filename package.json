@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test:unit": "vitest",
     "db:generate": "drizzle-kit generate:pg",
     "db:migrate": "tsx lib/db/migrate.ts"
   },
@@ -75,19 +76,24 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.12",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.0.0",
     "@types/json2csv": "^5.0.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/validator": "^13.11.9",
+    "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.0.1",
     "drizzle-kit": "^0.20.18",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
+    "jsdom": "^24.1.1",
     "postcss": "^8",
     "react-wrap-balancer": "^1.1.0",
     "tailwindcss": "^3.3.0",
     "tsx": "^4.16.2",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^2.0.5"
   }
 }
