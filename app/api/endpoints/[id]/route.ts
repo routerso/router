@@ -73,7 +73,7 @@ export async function POST(
 
     // webhook posting -- eventually make this a background job
     if (endpoint.webhookEnabled && endpoint.webhook) {
-      // Only wait 2 seconds for a response
+      // Only wait 1 seconds for a response
       const webhookController = new AbortController();
       const webhookTimeoutPromise = new Promise<never>((_, reject) => {
         setTimeout(async () => {
@@ -186,7 +186,7 @@ export async function GET(
 
     // webhook posting -- eventually make this a background job
     if (endpoint.webhookEnabled && endpoint.webhook) {
-      // Only wait 2 seconds for a response
+      // Only wait 1 seconds for a response
       const webhookController = new AbortController();
       const webhookTimeoutPromise = new Promise<never>((_, reject) => {
         setTimeout(async () => {

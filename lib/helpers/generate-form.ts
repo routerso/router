@@ -157,15 +157,12 @@ export function RouterForm() {
           name="${field.key}"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>${field.label || field.key}</FormLabel>
+              <FormLabel>${field.key}</FormLabel>
               <FormControl>
                 ${getFieldComponent(field)}
               </FormControl>
               <FormDescription>
-                ${
-                  field.description ||
-                  `Enter the ${field.key} for the endpoint.`
-                }
+                ${`Enter the ${field.key} for the endpoint.`}
               </FormDescription>
               <FormMessage />
             </FormItem>

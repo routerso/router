@@ -6,12 +6,11 @@ describe("convertToCorrectTypes", () => {
   test('should convert "true" and "false" strings to boolean values', () => {
     const data = { isActive: "true", isVerified: "false" };
     const schema: GeneralSchema[] = [
-      { isActive: "boolean" },
-      { isVerified: "boolean" },
+      { key: "isActive", value: "boolean" },
+      { key: "isVerified", value: "boolean" },
     ];
 
     const result = validation.convertToCorrectTypes(data, schema);
-    console.log(result);
 
     expect(result.isActive).toBe(true);
     expect(result.isVerified).toBe(false);
@@ -20,9 +19,9 @@ describe("convertToCorrectTypes", () => {
   test("should convert strings to numbers", () => {
     const data = { age: "30", score: "NaN", invalidNumber: "abc" };
     const schema: GeneralSchema[] = [
-      { age: "number" },
-      { score: "number" },
-      { invalidNumber: "number" },
+      { key: "age", value: "number" },
+      { key: "score", value: "number" },
+      { key: "invalidNumber", value: "number" },
     ];
 
     const result = validation.convertToCorrectTypes(data, schema);
@@ -34,7 +33,10 @@ describe("convertToCorrectTypes", () => {
 
   test("should not modify strings", () => {
     const data = { name: "John Doe", country: "USA" };
-    const schema: GeneralSchema[] = [{ name: "string" }, { country: "string" }];
+    const schema: GeneralSchema[] = [
+      { key: "name", value: "string" },
+      { key: "country", value: "string" },
+    ];
 
     const result = validation.convertToCorrectTypes(data, schema);
 
@@ -50,10 +52,10 @@ describe("convertToCorrectTypes", () => {
       invalidNumber: "not a number",
     };
     const schema: GeneralSchema[] = [
-      { name: "string" },
-      { isActive: "boolean" },
-      { age: "number" },
-      { invalidNumber: "number" },
+      { key: "name", value: "string" },
+      { key: "isActive", value: "boolean" },
+      { key: "age", value: "number" },
+      { key: "invalidNumber", value: "number" },
     ];
 
     const result = validation.convertToCorrectTypes(data, schema);
@@ -76,9 +78,9 @@ describe("convertToCorrectTypes", () => {
   test("should return an object with undefined values if keys are missing in data", () => {
     const data = { name: "Jane Doe" };
     const schema: GeneralSchema[] = [
-      { name: "string" },
-      { isActive: "boolean" },
-      { age: "number" },
+      { key: "name", value: "string" },
+      { key: "isActive", value: "boolean" },
+      { key: "age", value: "number" },
     ];
 
     const result = validation.convertToCorrectTypes(data, schema);
@@ -91,7 +93,7 @@ describe("convertToCorrectTypes", () => {
 
 describe("generateDynamicSchema", () => {
   test("should generate a dynamic schema for a single field", () => {
-    const schema: GeneralSchema[] = [{ age: "number" }];
+    const schema: GeneralSchema[] = [{ key: "age", value: "number" }];
 
     const dynamicSchema = validation.generateDynamicSchema(schema);
 
@@ -99,16 +101,14 @@ describe("generateDynamicSchema", () => {
       age: validation.validations.number,
     };
 
-    console.log(expectedSchema);
-
     expect(dynamicSchema).toEqual(expectedSchema);
   });
 
   test("should generate a dynamic schema for multiple fields", () => {
     const schema: GeneralSchema[] = [
-      { name: "string" },
-      { email: "email" },
-      { age: "number" },
+      { key: "name", value: "string" },
+      { key: "email", value: "email" },
+      { key: "age", value: "number" },
     ];
 
     const dynamicSchema = validation.generateDynamicSchema(schema);
@@ -136,8 +136,8 @@ describe("generateDynamicSchema", () => {
 
   test("should ignore invalid validation types and not include them in the schema", () => {
     const schema: GeneralSchema[] = [
-      { username: "string" },
-      { invalidField: "unknown" as ValidationType },
+      { key: "username", value: "string" },
+      { key: "invalidField", value: "unknown" as ValidationType },
     ];
 
     const dynamicSchema = validation.generateDynamicSchema(schema);
@@ -152,10 +152,10 @@ describe("generateDynamicSchema", () => {
 
   test("should correctly map a variety of validation types", () => {
     const schema: GeneralSchema[] = [
-      { isActive: "boolean" },
-      { birthdate: "date" },
-      { website: "url" },
-      { postalCode: "zip_code" },
+      { key: "isActive", value: "boolean" },
+      { key: "birthdate", value: "date" },
+      { key: "website", value: "url" },
+      { key: "postalCode", value: "zip_code" },
     ];
 
     const dynamicSchema = validation.generateDynamicSchema(schema);

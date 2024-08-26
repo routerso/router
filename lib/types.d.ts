@@ -18,10 +18,12 @@ type HeaderProps = {
 /**
  * Represents a general schema.
  *
- * {Object.<string, ValidationType>} GeneralSchema
+ * An array of objects, each containing a key and its corresponding ValidationType.
  */
 type GeneralSchema = {
-  [key: string]: ValidationType;
+  key: string;
+  value: ValidationType;
+  required?: boolean;
 };
 
 /**
