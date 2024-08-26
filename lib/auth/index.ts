@@ -4,6 +4,7 @@ import { db } from "../db";
 import type { NextAuthConfig } from "next-auth";
 import { User } from "next-auth";
 import Resend from "next-auth/providers/resend";
+import GitHub from "next-auth/providers/github";
 
 declare module "next-auth" {
   interface Session extends User {
@@ -24,6 +25,7 @@ export const config = {
       from: "info@router.so",
       // sendVerificationRequest, -> TODO: send custom email
     }),
+    GitHub, // optional GitHub provider
   ],
   callbacks: {
     session({ session, token }) {
