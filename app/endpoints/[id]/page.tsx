@@ -73,11 +73,11 @@ export default async function Page({ params }: { params: { id: string } }) {
     <button type="submit" value="Submit" />
   </form>`;
 
-  const shadcnForm = generateShadcnForm(schema, url);
+  const shadcnForm = generateShadcnForm(schema);
 
   return (
     <>
-      <Breadcrumbs endpoint={endpoint} />
+      <Breadcrumbs endpointId={endpointData.id} />
       <PageWrapper>
         <Header
           title={`${pageData?.title}: ${"`"}${endpointData?.name}${"`"}`}
@@ -192,7 +192,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   );
 }
 
-function Breadcrumbs({ endpoint }: { endpoint: any }) {
+function Breadcrumbs({ endpointId }: { endpointId: string }) {
   return (
     <Breadcrumb className="h-[67.63px] bg-muted/50 rounded-lg border flex items-center justify-between p-6">
       <BreadcrumbList>
@@ -206,7 +206,7 @@ function Breadcrumbs({ endpoint }: { endpoint: any }) {
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <BreadcrumbPage className="px-2 py-1 bg-background border rounded-sm">
-            {endpoint?.name}
+            {endpointId}
           </BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>

@@ -52,7 +52,7 @@ export const validations: { [key in ValidationType]: z.ZodType<any, any> } = {
 export const convertToCorrectTypes = (
   data: any,
   schema: GeneralSchema[]
-): ((data: any, schema: GeneralSchema[]) => any) => {
+): any => {
   const result: any = {};
 
   schema.forEach(({ key, value }) => {

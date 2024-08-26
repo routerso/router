@@ -5,10 +5,7 @@
  * @param url - The URL to submit the form data to.
  * @returns The generated Shadcn form as a string.
  */
-export const generateShadcnForm = (
-  schema: GeneralSchema[],
-  url: string
-): string => {
+export const generateShadcnForm = (schema: GeneralSchema[]): string => {
   const getZodType = (field: GeneralSchema) => {
     let zodType = "";
     switch (field.value) {
@@ -157,15 +154,12 @@ export function RouterForm() {
           name="${field.key}"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>${field.label || field.key}</FormLabel>
+              <FormLabel>${field.key}</FormLabel>
               <FormControl>
                 ${getFieldComponent(field)}
               </FormControl>
               <FormDescription>
-                ${
-                  field.description ||
-                  `Enter the ${field.key} for the endpoint.`
-                }
+                ${`Enter the ${field.key} for the endpoint.`}
               </FormDescription>
               <FormMessage />
             </FormItem>
