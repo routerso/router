@@ -5,10 +5,7 @@
  * @param url - The URL to submit the form data to.
  * @returns The generated Shadcn form as a string.
  */
-export const generateShadcnForm = (
-  schema: GeneralSchema[],
-  url: string
-): string => {
+export const generateShadcnForm = (schema: GeneralSchema[]): string => {
   const getZodType = (field: GeneralSchema) => {
     let zodType = "";
     switch (field.value) {
