@@ -170,3 +170,92 @@ describe("generateDynamicSchema", () => {
     expect(dynamicSchema).toEqual(expectedSchema);
   });
 });
+
+describe("validateAndParseData", () => {
+  test("should successfully validate and parse valid data", () => {
+    const schema: GeneralSchema[] = [
+      { key: "name", value: "string" },
+      { key: "age", value: "number" },
+      { key: "email", value: "email" },
+    ];
+    const dynamicSchema = validation.generateDynamicSchema(schema);
+    const validData = {
+      name: "John Doe",
+      age: 30,
+      email: "john@example.com",
+    };
+
+    const result = validation.validateAndParseData(dynamicSchema, validData);
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual(validData);
+    }
+  });
+
+  test("should return error for invalid data", () => {
+    const schema: GeneralSchema[] = [
+      { key: "name", value: "string" },
+      { key: "age", value: "number" },
+      { key: "email", value: "email" },
+    ];
+    const dynamicSchema = validation.generateDynamicSchema(schema);
+    const invalidData = {
+      name: "John Doe",
+      age: "thirty", // should be a number
+      email: "invalid-email", // invalid email format
+    };
+
+    const result = validation.validateAndParseData(dynamicSchema, invalidData);
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues).toHaveLength(2);
+      expect(result.error.issues[0].path).toEqual(["age"]);
+      expect(result.error.issues[1].path).toEqual(["email"]);
+    }
+  });
+
+  test("should handle missing required fields", () => {
+    const schema: GeneralSchema[] = [
+      { key: "name", value: "string" },
+      { key: "age", value: "number" },
+    ];
+    const dynamicSchema = validation.generateDynamicSchema(schema);
+    const incompleteData = {
+      name: "John Doe",
+      // age is missing
+    };
+
+    const result = validation.validateAndParseData(
+      dynamicSchema,
+      incompleteData
+    );
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues).toHaveLength(1);
+      expect(result.error.issues[0].path).toEqual(["age"]);
+    }
+  });
+
+  test("should ignore extra fields not in the schema", () => {
+    const schema: GeneralSchema[] = [{ key: "name", value: "string" }];
+    const dynamicSchema = validation.generateDynamicSchema(schema);
+    const dataWithExtraFields = {
+      name: "John Doe",
+      extraField: "This should be ignored",
+    };
+
+    const result = validation.validateAndParseData(
+      dynamicSchema,
+      dataWithExtraFields
+    );
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual({ name: "John Doe" });
+      expect(result.data).not.toHaveProperty("extraField");
+    }
+  });
+});
