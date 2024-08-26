@@ -1,5 +1,4 @@
-import { expect, expectTypeOf, test, describe } from "vitest";
-import { z } from "zod";
+import { expect, test, describe } from "vitest";
 import * as validation from "../lib/validation";
 
 describe("convertToCorrectTypes", () => {
