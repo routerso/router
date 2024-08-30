@@ -3,6 +3,7 @@
 import { db } from "../db";
 import { users, endpoints } from "../db/schema";
 import { eq, sql } from "drizzle-orm";
+import { authenticatedAction } from "./safe-action";
 
 /**
  * Increments the lead count for a user
@@ -54,3 +55,24 @@ export const getLeadCount = async (endpointId: string) => {
 export const clearLeadCount = async () => {
   await db.update(users).set({ leadCount: 0 });
 };
+
+/**
+ * Retrieves the lead count for specific user
+ *
+ * Authenticated action
+ */
+
+export const getUsageForUser = authenticatedAction.action(
+  async ({ ctx: { userId } }) => {
+    const result = await db
+      .select({ leadCount: users.leadCount })
+      .from(users)
+      .where(eq(users.id, userId));
+
+    if (result.length === 0) {
+      throw new Error("User not found");
+    }
+
+    return result[0].leadCount;
+  }
+);
