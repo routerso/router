@@ -56,7 +56,7 @@ export async function POST(
 
     const leadCount = await getLeadCount(params.id);
 
-    if (leadCount > 75) {
+    if (leadCount >= 75) {
       return NextResponse.json(
         { message: "Lead limit reached." },
         { status: 429 }
@@ -174,7 +174,7 @@ export async function GET(
 
     const leadCount = await getLeadCount(params.id);
 
-    if (leadCount > 75) {
+    if (leadCount >= 75) {
       return NextResponse.json(
         { message: "Lead limit reached." },
         { status: 429 }
