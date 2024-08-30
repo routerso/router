@@ -9,6 +9,8 @@ import { getLeads } from "@/lib/data/leads";
 import { getEndpoints } from "@/lib/data/endpoints";
 import { DataTable } from "@/components/groups/leads/data-table";
 import { columns } from "@/components/groups/leads/columns";
+import { getUsageForUser } from "@/lib/data/users";
+import { Usage } from "@/components/parts/usage";
 
 const pageData = {
   name: "Dashboard",
@@ -30,14 +32,22 @@ export default async function Page() {
   const { data: endpointsData, serverError: endpointsServerError } =
     endpoints || {};
 
+  // fetch number of leads for user this month
+  const usage = await getUsageForUser();
+  const { data: usageData, serverError: usageServerError } = usage || {};
+  console.log(usageData);
+
   // check for errors
   if (
     !leadsData ||
     !endpointsData ||
     !chartData ||
+    usageData === null ||
+    usageData === undefined ||
     leadsServerError ||
     endpointsServerError ||
-    chartServerError
+    chartServerError ||
+    usageServerError
   ) {
     notFound();
   }
@@ -59,6 +69,7 @@ export default async function Page() {
             data={recentLeads}
             endpoints={endpointsData}
           />
+          <Usage totalUsage={75} used={usageData} />
         </div>
       </PageWrapper>
     </>

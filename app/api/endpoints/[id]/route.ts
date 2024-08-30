@@ -10,6 +10,7 @@ import { createLog } from "@/lib/data/logs";
 import { getErrorMessage } from "@/lib/helpers/error-message";
 import { constructBodyFromURLParameters } from "@/lib/helpers/construct-body";
 import { getPostingEndpointById } from "@/lib/data/endpoints";
+import { incrementLeadCount, getLeadCount } from "@/lib/data/users";
 
 /**
  * API route for posting a lead using POST
@@ -53,6 +54,15 @@ export async function POST(
       );
     }
 
+    const leadCount = await getLeadCount(params.id);
+
+    if (leadCount >= 75) {
+      return NextResponse.json(
+        { message: "Lead limit reached." },
+        { status: 429 }
+      );
+    }
+
     const schema = endpoint?.schema as GeneralSchema[];
     const dynamicSchema = generateDynamicSchema(schema);
     const parsedData = validateAndParseData(dynamicSchema, data);
@@ -70,6 +80,11 @@ export async function POST(
         { status: 400 }
       );
     }
+
+    const leadId = await createLead(endpoint.id, parsedData.data);
+
+    await createLog("success", "http", leadId, endpoint.id);
+    await incrementLeadCount(params.id);
 
     // webhook posting -- eventually make this a background job
     if (endpoint.webhookEnabled && endpoint.webhook) {
@@ -117,10 +132,6 @@ export async function POST(
       }
     }
 
-    const leadId = await createLead(endpoint.id, parsedData.data);
-
-    await createLog("success", "http", leadId, endpoint.id);
-
     return NextResponse.json({ success: true, id: leadId });
   } catch (error: unknown) {
     await createLog("error", "http", getErrorMessage(error), params.id);
@@ -161,6 +172,15 @@ export async function GET(
       );
     }
 
+    const leadCount = await getLeadCount(params.id);
+
+    if (leadCount >= 75) {
+      return NextResponse.json(
+        { message: "Lead limit reached." },
+        { status: 429 }
+      );
+    }
+
     const rawData = constructBodyFromURLParameters(searchParams);
     const schema = endpoint?.schema as GeneralSchema[];
     const data = convertToCorrectTypes(rawData, schema);
@@ -183,6 +203,7 @@ export async function GET(
     const leadId = await createLead(endpoint.id, parsedData.data);
 
     await createLog("success", "http", leadId, endpoint.id);
+    await incrementLeadCount(params.id);
 
     // webhook posting -- eventually make this a background job
     if (endpoint.webhookEnabled && endpoint.webhook) {
