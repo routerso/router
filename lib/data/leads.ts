@@ -120,6 +120,8 @@ export const getLeadsByEndpoint = authenticatedAction
 
 /**
  * Delete a lead by id
+ *
+ * Protected by authenticatedAction wrapper
  */
 export const deleteLead = authenticatedAction
   .schema(z.object({ id: z.string() }))

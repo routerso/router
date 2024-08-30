@@ -24,6 +24,7 @@ export const users = pgTable("user", {
   email: text("email").notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  leadCount: integer("leadCount").notNull().default(0),
 });
 
 export const accounts = pgTable(
