@@ -6,11 +6,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-
+import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 
-export const Breadcrumbs = ({ pageName }: { pageName?: string }) => {
+export const Breadcrumbs = ({ pageName, isLoading }: { pageName?: string, isLoading?: boolean }) => {
   return (
     <Breadcrumb className="h-[67.63px] bg-muted/50 rounded-lg border flex items-center justify-between p-6">
       <BreadcrumbList>
@@ -19,7 +19,11 @@ export const Breadcrumbs = ({ pageName }: { pageName?: string }) => {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbPage className="px-2 py-1 border bg-background rounded-sm">
-          <BreadcrumbLink>{pageName || "Dashboard"}</BreadcrumbLink>
+          {isLoading ? (
+            <Skeleton className="h-5 w-20" />
+          ) : (
+            <BreadcrumbLink>{pageName || "Dashboard"}</BreadcrumbLink>
+          )}
         </BreadcrumbPage>
       </BreadcrumbList>
       <Image
