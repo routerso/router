@@ -26,7 +26,7 @@ export const Usage = ({
   const usagePercentage = (used / totalUsage) * 100;
 
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full shadow-none">
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Usage Overview</CardTitle>
       </CardHeader>

@@ -60,8 +60,11 @@ export default async function Page() {
       <Breadcrumbs pageName={pageData?.name} />
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
-        <Chart chartData={chartData} />
-        <Links />
+        <div className="grid grid-cols-3 gap-4">
+          <Chart chartData={chartData} className="col-span-2" />
+          <Usage totalUsage={75} used={usageData} />
+          <Links />
+        </div>
         <div className="mt-8">
           <h2 className="text-lg mb-4">Recent Leads</h2>
           <DataTable
@@ -69,7 +72,6 @@ export default async function Page() {
             data={recentLeads}
             endpoints={endpointsData}
           />
-          <Usage totalUsage={75} used={usageData} />
         </div>
       </PageWrapper>
     </>
@@ -96,7 +98,7 @@ const navLinks = [
 
 const Links = () => {
   return (
-    <div className="grid grid-cols-3 gap-4 my-4">
+    <>
       {navLinks.map((link) => (
         <Link
           className="bg-background p-4 rounded-lg border hover:bg-accent/75 transition-all"
@@ -107,6 +109,6 @@ const Links = () => {
           <p className="text-sm text-gray-500">{link.description}</p>
         </Link>
       ))}
-    </div>
+    </>
   );
 };

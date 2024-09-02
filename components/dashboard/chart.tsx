@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { cn } from "@/lib/utils";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 import {
@@ -31,7 +32,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function Chart({ chartData }: { chartData: LeadAndErrorCountResults }) {
+export function Chart({
+  chartData,
+  className,
+}: {
+  chartData: LeadAndErrorCountResults;
+  className?: string;
+}) {
   const [activeChart, setActiveChart] =
     React.useState<keyof typeof chartConfig>("leads");
 
@@ -44,7 +51,7 @@ export function Chart({ chartData }: { chartData: LeadAndErrorCountResults }) {
   );
 
   return (
-    <Card className="shadow-none">
+    <Card className={cn("shadow-none", className)}>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Router Overview</CardTitle>
