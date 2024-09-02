@@ -79,8 +79,10 @@ export const Usage = ({
 
 const UpgradePlan = () => {
   return (
-    <Link
-      href="/pricing"
+    <a
+      href="https://router.so/upgrade"
+      target="_blank"
+      rel="noopener noreferrer"
       className="p-4 hover:pl-5 hover:pr-3 transition-all h-full w-full border grid gap-1 border-green-500 rounded-sm bg-green-500/15 hover:bg-green-500/25"
     >
       <span className="flex items-center gap-1">
@@ -90,6 +92,6 @@ const UpgradePlan = () => {
       <span className="text-muted-foreground text-xs">
         Upgrade your plan to capture more leads
       </span>
-    </Link>
+    </a>
   );
 };
