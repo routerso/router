@@ -1,8 +1,9 @@
+import Link from "next/link";
+
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import { Chart } from "@/components/dashboard/chart";
 import { PageWrapper } from "@/components/parts/page-wrapper";
-import Link from "next/link";
 import { getLeadAndErrorCounts } from "@/lib/data/dashboard";
 import { notFound } from "next/navigation";
 import { getLeads } from "@/lib/data/leads";
