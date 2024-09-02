@@ -62,7 +62,7 @@ export default async function Page() {
         <Header title={pageData?.title}>{pageData?.description}</Header>
         <div className="grid grid-cols-3 gap-4">
           <Chart chartData={chartData} className="col-span-2" />
-          <Usage totalUsage={75} used={usageData} />
+          <Usage totalUsage={75} used={usageData} plan="Free" />
           <Links />
         </div>
         <div className="mt-8">
