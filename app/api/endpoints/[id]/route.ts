@@ -88,7 +88,7 @@ export async function POST(
 
     // webhook posting -- eventually make this a background job
     if (endpoint.webhookEnabled && endpoint.webhook) {
-      // Only wait 1 seconds for a response
+      // Only wait 3 second(s) for a response
       const webhookController = new AbortController();
       const webhookTimeoutPromise = new Promise<never>((_, reject) => {
         setTimeout(async () => {
@@ -96,7 +96,7 @@ export async function POST(
           await createLog("error", "webhook", "Webhook timed out.", params.id);
           webhookController.abort();
           reject(new Error("Request timed out"));
-        }, 1000);
+        }, 3000);
       });
       const webhookFetchPromise: Promise<Response> = fetch(endpoint.webhook, {
         method: "POST",
@@ -207,14 +207,14 @@ export async function GET(
 
     // webhook posting -- eventually make this a background job
     if (endpoint.webhookEnabled && endpoint.webhook) {
-      // Only wait 1 seconds for a response
+      // Only wait 3 second(s) for a response
       const webhookController = new AbortController();
       const webhookTimeoutPromise = new Promise<never>((_, reject) => {
         setTimeout(async () => {
           await createLog("error", "webhook", "Webhook timed out.", params.id);
           webhookController.abort();
           reject(new Error("Request timed out"));
-        }, 1000);
+        }, 3000);
       });
       const webhookFetchPromise: Promise<Response> = fetch(endpoint.webhook, {
         method: "POST",
