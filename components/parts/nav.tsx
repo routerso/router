@@ -18,7 +18,7 @@ const links = [
 ];
 
 const otherLinks = [
-  { href: "/docs", text: "Documentation", icon: Book },
+  { href: "https://router.so/docs", text: "Documentation", icon: Book },
   { href: "/support", text: "Support", icon: LifeBuoy },
 ];
 
