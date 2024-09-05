@@ -22,23 +22,11 @@ import { useSearchParams } from "next/navigation";
 
 import { Mail } from "lucide-react";
 
-// TODO: change this to allow any emails
-const allowedEmails = [
-  "cameron.youngblood@gmail.com",
-  "cameron@ampry.com",
-  "bridgertower@gmail.com",
-  "9d8dev@gmail.com",
-  "mitchellbwright@gmail.com",
-];
-
 const formSchema = z.object({
   email: z
     .string()
     .min(1, { message: "Required" })
-    .email({ message: "Not a valid email" })
-    .refine((email) => allowedEmails.includes(email), {
-      message: "Email is not permitted",
-    }),
+    .email({ message: "Not a valid email" }),
 });
 
 export default function MagicLinkForm() {
