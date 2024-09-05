@@ -8,7 +8,7 @@ import { ModeToggle } from "@/components/parts/mode-toggle";
 import Logo from "@/public/logo.svg";
 
 // Icon Imports
-import { BarChart, Contact, Layers, LifeBuoy, Disc3 } from "lucide-react";
+import { BarChart, Contact, Layers, LifeBuoy, Disc3, Book } from "lucide-react";
 
 const links = [
   { href: "/", text: "Dashboard", icon: BarChart },
@@ -18,8 +18,8 @@ const links = [
 ];
 
 const otherLinks = [
+  { href: "/docs", text: "Documentation", icon: Book },
   { href: "/support", text: "Support", icon: LifeBuoy },
-  // { href: "/settings", text: "Settings", icon: Settings },
 ];
 
 export default function Nav() {
