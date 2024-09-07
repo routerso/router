@@ -4,7 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu'
 
 import {
   AlertDialog,
@@ -15,62 +15,62 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog'
 
-import { MoreHorizontal } from "lucide-react";
-import { useState } from "react";
-import Link from "next/link";
+import { MoreHorizontal } from 'lucide-react'
+import { useState } from 'react'
+import Link from 'next/link'
 
 import {
   deleteEndpoint,
   disableEndpoint,
   enableEndpoint,
-} from "@/lib/data/endpoints";
+} from '@/lib/data/endpoints'
 
-import { useAction } from "next-safe-action/hooks";
-import { parseActionError } from "@/lib/data/safe-action";
-import { toast } from "sonner";
+import { useAction } from 'next-safe-action/hooks'
+import { parseActionError } from '@/lib/data/safe-action'
+import { toast } from 'sonner'
 
 export default function OptionsDropdown({
   id,
   enabled,
 }: {
-  id: string;
-  enabled: boolean;
+  id: string
+  enabled: boolean
 }) {
   // delete action
   const { execute: executeDelete } = useAction(deleteEndpoint, {
     onSuccess() {
-      toast.success("Successfully deleted endpoint.");
+      toast.success('Successfully deleted endpoint.')
     },
     onError({ error }) {
-      toast.error(parseActionError(error));
+      toast.error(parseActionError(error))
     },
-  });
+  })
 
   // enable action
   const { execute: executeEnable } = useAction(enableEndpoint, {
     onSuccess() {
-      toast.success("Successfully enabled endpoint.");
+      toast.success('Successfully enabled endpoint.')
     },
     onError({ error }) {
-      toast.error(parseActionError(error));
+      toast.error(parseActionError(error))
     },
-  });
+  })
 
   // disable action
   const { execute: executeDisable } = useAction(disableEndpoint, {
     onSuccess() {
-      toast.success("Successfully disabled endpoint.");
+      toast.success('Successfully disabled endpoint.')
     },
     onError({ error }) {
-      toast.error(parseActionError(error));
+      toast.error(parseActionError(error))
     },
-  });
+  })
 
-  const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
-  const [showDisableAlert, setShowDisableAlert] = useState<boolean>(false);
-  const [showEnableAlert, setShowEnableAlert] = useState<boolean>(false);
+  const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false)
+  const [showDisableAlert, setShowDisableAlert] = useState<boolean>(false)
+  const [showEnableAlert, setShowEnableAlert] = useState<boolean>(false)
 
   return (
     <>
@@ -105,7 +105,7 @@ export default function OptionsDropdown({
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will{" "}
+              This action cannot be undone. This will{' '}
               <span className="font-bold text-red-500">
                 permanently delete this endpoint and all leads in it.
               </span>
@@ -156,5 +156,5 @@ export default function OptionsDropdown({
         </AlertDialogContent>
       </AlertDialog>
     </>
-  );
+  )
 }

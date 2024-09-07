@@ -1,27 +1,27 @@
-import { notFound } from "next/navigation";
-import { Breadcrumbs } from "@/components/parts/breadcrumbs";
-import { Header } from "@/components/parts/header";
-import { getLeads } from "@/lib/data/leads";
-import { getEndpoints } from "@/lib/data/endpoints";
-import { DataTable } from "@/components/groups/leads/data-table";
-import { columns } from "@/components/groups/leads/columns";
-import { PageWrapper } from "@/components/parts/page-wrapper";
+import { notFound } from 'next/navigation'
+import { Breadcrumbs } from '@/components/parts/breadcrumbs'
+import { Header } from '@/components/parts/header'
+import { getLeads } from '@/lib/data/leads'
+import { getEndpoints } from '@/lib/data/endpoints'
+import { DataTable } from '@/components/groups/leads/data-table'
+import { columns } from '@/components/groups/leads/columns'
+import { PageWrapper } from '@/components/parts/page-wrapper'
 
 const pageData = {
-  name: "Leads",
-  title: "Leads",
-  description: "Breakdown of all your leads",
-};
+  name: 'Leads',
+  title: 'Leads',
+  description: 'Breakdown of all your leads',
+}
 
 export default async function Page() {
   // fetch leads
-  const leads = await getLeads();
-  const { data: leadsData, serverError: leadsServerError } = leads || {};
+  const leads = await getLeads()
+  const { data: leadsData, serverError: leadsServerError } = leads || {}
 
   // fetch endpoints
-  const endpoints = await getEndpoints();
+  const endpoints = await getEndpoints()
   const { data: endpointsData, serverError: endpointsServerError } =
-    endpoints || {};
+    endpoints || {}
 
   // check for errors
   if (
@@ -30,7 +30,7 @@ export default async function Page() {
     leadsServerError ||
     endpointsServerError
   ) {
-    notFound();
+    notFound()
   }
 
   return (
@@ -45,5 +45,5 @@ export default async function Page() {
         />
       </PageWrapper>
     </>
-  );
+  )
 }

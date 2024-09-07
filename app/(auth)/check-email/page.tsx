@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { redirect } from "next/navigation";
-import Link from "next/link";
-import Balancer from "react-wrap-balancer";
+import Image from 'next/image'
+import { redirect } from 'next/navigation'
+import Link from 'next/link'
+import Balancer from 'react-wrap-balancer'
 
 export default async function LoginPage() {
   return (
@@ -26,16 +26,16 @@ export default async function LoginPage() {
       </div>
 
       <p className="mt-4 max-w-xs text-center text-sm opacity-60 md:mb-24">
-        By using router.so, you agree to our{" "}
+        By using router.so, you agree to our{' '}
         <Link className="underline underline-offset-4" href="/">
           Privacy Policy
-        </Link>{" "}
-        and{" "}
+        </Link>{' '}
+        and{' '}
         <Link className="underline underline-offset-4" href="/">
           Terms of Service
         </Link>
         .
       </p>
     </section>
-  );
+  )
 }

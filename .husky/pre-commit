@@ -1,0 +1,1 @@
+npm format:fix && npm lint:fix

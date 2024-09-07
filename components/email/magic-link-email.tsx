@@ -2,8 +2,8 @@ export default function MagicLinkEmail({
   url,
   host,
 }: {
-  url: string;
-  host: string;
+  url: string
+  host: string
 }) {
   return (
     <>
@@ -18,5 +18,5 @@ export default function MagicLinkEmail({
         router.so
       </a>
     </>
-  );
+  )
 }

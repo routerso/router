@@ -7,51 +7,51 @@
  */
 export const generateShadcnForm = (schema: GeneralSchema[]): string => {
   const getZodType = (field: GeneralSchema) => {
-    let zodType = "";
+    let zodType = ''
     switch (field.value) {
-      case "string":
-        zodType = "z.string()";
-        break;
-      case "number":
-        zodType = "z.number()";
-        break;
-      case "date":
-        zodType = "z.date()";
-        break;
-      case "boolean":
-        zodType = "z.boolean()";
-        break;
-      case "email":
-        zodType = "z.string().email()";
-        break;
-      case "url":
-        zodType = "z.string().url()";
-        break;
-      case "phone":
-        zodType = "z.string().regex(/^\\+?[1-9]\\d{1,14}$/)";
-        break;
-      case "zip_code":
-        zodType = "z.string().regex(/^\\d{5}(?:[-\\s]\\d{4})?$/)";
-        break;
+      case 'string':
+        zodType = 'z.string()'
+        break
+      case 'number':
+        zodType = 'z.number()'
+        break
+      case 'date':
+        zodType = 'z.date()'
+        break
+      case 'boolean':
+        zodType = 'z.boolean()'
+        break
+      case 'email':
+        zodType = 'z.string().email()'
+        break
+      case 'url':
+        zodType = 'z.string().url()'
+        break
+      case 'phone':
+        zodType = 'z.string().regex(/^\\+?[1-9]\\d{1,14}$/)'
+        break
+      case 'zip_code':
+        zodType = 'z.string().regex(/^\\d{5}(?:[-\\s]\\d{4})?$/)'
+        break
       default:
-        zodType = "z.string()";
+        zodType = 'z.string()'
     }
     if (field.required) {
-      zodType += ".min(1, { message: 'This field is required' })";
+      zodType += ".min(1, { message: 'This field is required' })"
     }
-    return zodType;
-  };
+    return zodType
+  }
 
   const getFieldComponent = (field: GeneralSchema) => {
-    if (field.value === "boolean") {
+    if (field.value === 'boolean') {
       return `
         <Switch
           className="flex"
           checked={field.value}
           onCheckedChange={field.onChange}
         />
-      `;
-    } else if (field.value === "date") {
+      `
+    } else if (field.value === 'date') {
       return `
         <Popover>
           <PopoverTrigger className="flex" asChild>
@@ -75,7 +75,7 @@ export const generateShadcnForm = (schema: GeneralSchema[]): string => {
             />
           </PopoverContent>
         </Popover>
-      `;
+      `
     } else {
       return `
         <Input
@@ -83,12 +83,12 @@ export const generateShadcnForm = (schema: GeneralSchema[]): string => {
           {...field}
           type="${field.value}"
         />
-      `;
+      `
     }
-  };
+  }
 
-  const hasBooleanField = schema.some((field) => field.value === "boolean");
-  const hasDateField = schema.some((field) => field.value === "date");
+  const hasBooleanField = schema.some((field) => field.value === 'boolean')
+  const hasDateField = schema.some((field) => field.value === 'date')
 
   return `"use client";
 
@@ -105,7 +105,7 @@ ${
     ? `
 import { Switch } from "@/components/ui/switch";
 `
-    : ""
+    : ''
 }
 ${
   hasDateField
@@ -117,7 +117,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 `
-    : ""
+    : ''
 }
 import {
   Form,
@@ -131,7 +131,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  ${schema.map((field) => `${field.key}: ${getZodType(field)}`).join(",\n  ")}
+  ${schema.map((field) => `${field.key}: ${getZodType(field)}`).join(',\n  ')}
 });
 
 export function RouterForm() {
@@ -165,13 +165,13 @@ export function RouterForm() {
             </FormItem>
           )}
         />
-        `
+        `,
           )
-          .join("")}
+          .join('')}
         <Button type="submit">Submit</Button>
       </form>
     </Form>
   );
 }
-`;
-};
+`
+}

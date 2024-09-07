@@ -1,4 +1,4 @@
-import { getLeadsByEndpoint } from "@/lib/data/leads";
+import { getLeadsByEndpoint } from '@/lib/data/leads'
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -6,7 +6,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
   BreadcrumbPage,
-} from "@/components/ui/breadcrumb";
+} from '@/components/ui/breadcrumb'
 import {
   Table,
   TableBody,
@@ -14,28 +14,28 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Home } from "lucide-react";
-import Icon from "@/public/icon.svg";
-import Image from "next/image";
-import { PageWrapper } from "@/components/parts/page-wrapper";
-import { Header } from "@/components/parts/header";
-import ExportCSV from "@/components/parts/export-csv";
-import { notFound } from "next/navigation";
+} from '@/components/ui/table'
+import { Home } from 'lucide-react'
+import Icon from '@/public/icon.svg'
+import Image from 'next/image'
+import { PageWrapper } from '@/components/parts/page-wrapper'
+import { Header } from '@/components/parts/header'
+import ExportCSV from '@/components/parts/export-csv'
+import { notFound } from 'next/navigation'
 
 const pageData = {
-  name: "Endpoint Leads",
-  title: "Endpoint Leads",
-  description: "All collected leads for this endpoint",
-};
+  name: 'Endpoint Leads',
+  title: 'Endpoint Leads',
+  description: 'All collected leads for this endpoint',
+}
 
 export default async function Page({ params }: { params: { id: string } }) {
   const leadsData = await getLeadsByEndpoint({
     id: params.id,
-  });
-  const { data, serverError } = leadsData || {};
-  if (!data || serverError) notFound();
-  const { leadData: leads, schema } = data;
+  })
+  const { data, serverError } = leadsData || {}
+  if (!data || serverError) notFound()
+  const { leadData: leads, schema } = data
 
   return (
     <>
@@ -73,7 +73,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </Table>
       </PageWrapper>
     </>
-  );
+  )
 }
 
 function Breadcrumbs({ leadId }: { leadId: string }) {
@@ -106,5 +106,5 @@ function Breadcrumbs({ leadId }: { leadId: string }) {
         alt="Router.so Icon"
       />
     </Breadcrumb>
-  );
+  )
 }

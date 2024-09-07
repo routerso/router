@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import { cn } from "@/lib/utils";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import * as React from 'react'
+import { cn } from '@/lib/utils'
+import { CartesianGrid, Line, LineChart, XAxis } from 'recharts'
 
 import {
   Card,
@@ -10,48 +10,48 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card'
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from '@/components/ui/chart'
 
 const chartConfig = {
   views: {
-    label: "Overview",
+    label: 'Overview',
   },
   leads: {
-    label: "Leads",
-    color: "hsl(var(--chart-1))",
+    label: 'Leads',
+    color: 'hsl(var(--chart-1))',
   },
   errors: {
-    label: "Errors",
-    color: "hsl(var(--chart-2))",
+    label: 'Errors',
+    color: 'hsl(var(--chart-2))',
   },
-} satisfies ChartConfig;
+} satisfies ChartConfig
 
 export function Chart({
   chartData,
   className,
 }: {
-  chartData: LeadAndErrorCountResults;
-  className?: string;
+  chartData: LeadAndErrorCountResults
+  className?: string
 }) {
   const [activeChart, setActiveChart] =
-    React.useState<keyof typeof chartConfig>("leads");
+    React.useState<keyof typeof chartConfig>('leads')
 
   const total = React.useMemo(
     () => ({
       leads: chartData.reduce((acc, curr) => acc + curr.leads, 0),
       errors: chartData.reduce((acc, curr) => acc + curr.errors, 0),
     }),
-    [chartData]
-  );
+    [chartData],
+  )
 
   return (
-    <Card className={cn("shadow-none", className)}>
+    <Card className={cn('shadow-none', className)}>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row sm:h-[99px]">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6">
           <CardTitle>Router Overview</CardTitle>
@@ -60,8 +60,8 @@ export function Chart({
           </CardDescription>
         </div>
         <div className="flex">
-          {["leads", "errors"].map((key) => {
-            const chart = key as keyof typeof chartConfig;
+          {['leads', 'errors'].map((key) => {
+            const chart = key as keyof typeof chartConfig
             return (
               <button
                 key={chart}
@@ -76,7 +76,7 @@ export function Chart({
                   {total[key as keyof typeof total].toLocaleString()}
                 </span>
               </button>
-            );
+            )
           })}
         </div>
       </CardHeader>
@@ -101,11 +101,11 @@ export function Chart({
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value);
-                return date.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                });
+                const date = new Date(value)
+                return date.toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                })
               }}
             />
             <ChartTooltip
@@ -114,12 +114,12 @@ export function Chart({
                   className="w-[150px]"
                   nameKey="views"
                   labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                      timeZone: "UTC",
-                    });
+                    return new Date(value).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                      timeZone: 'UTC',
+                    })
                   }}
                 />
               }
@@ -135,5 +135,5 @@ export function Chart({
         </ChartContainer>
       </CardContent>
     </Card>
-  );
+  )
 }

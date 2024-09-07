@@ -1,8 +1,8 @@
 import {
   createSafeActionClient,
   DEFAULT_SERVER_ERROR_MESSAGE,
-} from "next-safe-action";
-import { auth } from "../auth";
+} from 'next-safe-action'
+import { auth } from '../auth'
 
 class ActionError extends Error {}
 
@@ -12,12 +12,12 @@ class ActionError extends Error {}
 export const actionClient = createSafeActionClient({
   handleReturnedServerError(e) {
     if (e instanceof ActionError) {
-      return e.message;
+      return e.message
     }
 
-    return DEFAULT_SERVER_ERROR_MESSAGE;
+    return DEFAULT_SERVER_ERROR_MESSAGE
   },
-});
+})
 
 /**
  * Creates an authenticated action
@@ -28,15 +28,15 @@ export const actionClient = createSafeActionClient({
  * @throws {Error} If the user is not authenticated or the user ID is not available.
  */
 export const authenticatedAction = actionClient.use(async ({ next }) => {
-  const session = await auth();
-  const userId = session?.user.id;
+  const session = await auth()
+  const userId = session?.user.id
 
   if (!session || !userId) {
-    throw new Error("Not authenticated");
+    throw new Error('Not authenticated')
   }
 
-  return next({ ctx: { userId } });
-});
+  return next({ ctx: { userId } })
+})
 
 /**
  * Parses the action error object and returns a formatted error message.
@@ -45,20 +45,20 @@ export const authenticatedAction = actionClient.use(async ({ next }) => {
  * @returns The formatted error message.
  */
 export const parseActionError = (error: {
-  serverError?: string;
+  serverError?: string
   validationErrors?: {
-    _errors?: string[];
+    _errors?: string[]
     id?: {
-      _errors?: string[];
-    };
-  };
-  bindArgsValidationErrors?: readonly [];
-  fetchError?: string;
+      _errors?: string[]
+    }
+  }
+  bindArgsValidationErrors?: readonly []
+  fetchError?: string
 }): string => {
-  let errorMessage = "";
+  let errorMessage = ''
 
   if (error.serverError) {
-    errorMessage += `Server Error: ${error.serverError}\n`;
+    errorMessage += `Server Error: ${error.serverError}\n`
   }
 
   if (error.validationErrors) {
@@ -67,8 +67,8 @@ export const parseActionError = (error: {
       error.validationErrors._errors.length > 0
     ) {
       errorMessage += `Validation Errors: ${error.validationErrors._errors.join(
-        ", "
-      )}\n`;
+        ', ',
+      )}\n`
     }
 
     if (
@@ -76,8 +76,8 @@ export const parseActionError = (error: {
       error.validationErrors.id._errors.length > 0
     ) {
       errorMessage += `Validation Errors for ID: ${error.validationErrors.id._errors.join(
-        ", "
-      )}\n`;
+        ', ',
+      )}\n`
     }
   }
 
@@ -86,13 +86,13 @@ export const parseActionError = (error: {
     error.bindArgsValidationErrors.length > 0
   ) {
     errorMessage += `Bind Args Validation Errors: ${error.bindArgsValidationErrors.join(
-      ", "
-    )}\n`;
+      ', ',
+    )}\n`
   }
 
   if (error.fetchError) {
-    errorMessage += `Fetch Error: ${error.fetchError}\n`;
+    errorMessage += `Fetch Error: ${error.fetchError}\n`
   }
 
-  return errorMessage.trim();
-};
+  return errorMessage.trim()
+}

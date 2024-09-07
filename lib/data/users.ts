@@ -1,9 +1,9 @@
-"use server";
+'use server'
 
-import { db } from "../db";
-import { users, endpoints } from "../db/schema";
-import { eq, sql } from "drizzle-orm";
-import { authenticatedAction } from "./safe-action";
+import { db } from '../db'
+import { users, endpoints } from '../db/schema'
+import { eq, sql } from 'drizzle-orm'
+import { authenticatedAction } from './safe-action'
 
 /**
  * Increments the lead count for a user
@@ -21,10 +21,10 @@ export const incrementLeadCount = async (endpointId: string) => {
           .select({ userId: endpoints.userId })
           .from(endpoints)
           .where(eq(endpoints.id, endpointId))
-          .limit(1)
-      )
-    );
-};
+          .limit(1),
+      ),
+    )
+}
 
 /**
  * Retrieves the lead count for a specific endpoint
@@ -38,14 +38,14 @@ export const getLeadCount = async (endpointId: string) => {
     .from(users)
     .innerJoin(endpoints, eq(users.id, endpoints.userId))
     .where(eq(endpoints.id, endpointId))
-    .limit(1);
+    .limit(1)
 
   if (result.length === 0) {
-    throw new Error("Endpoint not found or not associated with a user");
+    throw new Error('Endpoint not found or not associated with a user')
   }
 
-  return result[0].leadCount;
-};
+  return result[0].leadCount
+}
 
 /**
  * Clears the lead count for all users
@@ -53,8 +53,8 @@ export const getLeadCount = async (endpointId: string) => {
  * Runs once a month on a CRON trigger
  */
 export const clearLeadCount = async () => {
-  await db.update(users).set({ leadCount: 0 });
-};
+  await db.update(users).set({ leadCount: 0 })
+}
 
 /**
  * Retrieves the lead count for specific user
@@ -67,12 +67,12 @@ export const getUsageForUser = authenticatedAction.action(
     const result = await db
       .select({ leadCount: users.leadCount })
       .from(users)
-      .where(eq(users.id, userId));
+      .where(eq(users.id, userId))
 
     if (result.length === 0) {
-      throw new Error("User not found");
+      throw new Error('User not found')
     }
 
-    return result[0].leadCount;
-  }
-);
+    return result[0].leadCount
+  },
+)

@@ -1,17 +1,17 @@
-"use client";
+'use client'
 
-import * as React from "react";
+import * as React from 'react'
 
 // type imports
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { useFieldArray, useForm } from "react-hook-form";
-import { updateEndpointFormSchema as formSchema } from "@/lib/data/validations";
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+import { useFieldArray, useForm } from 'react-hook-form'
+import { updateEndpointFormSchema as formSchema } from '@/lib/data/validations'
 
-import { validationOptions } from "@/lib/validation";
+import { validationOptions } from '@/lib/validation'
 
 // next imports
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation'
 
 // UI Imports
 import {
@@ -21,12 +21,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { X } from "lucide-react";
-import { toast } from "sonner";
+} from '@/components/ui/form'
+import { Switch } from '@/components/ui/switch'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { X } from 'lucide-react'
+import { toast } from 'sonner'
 
 import {
   Select,
@@ -34,30 +34,30 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Endpoint } from "@/lib/db";
+} from '@/components/ui/select'
+import { Endpoint } from '@/lib/db'
 
-import { useAction } from "next-safe-action/hooks";
-import { parseActionError } from "@/lib/data/safe-action";
-import { updateEndpoint } from "@/lib/data/endpoints";
+import { useAction } from 'next-safe-action/hooks'
+import { parseActionError } from '@/lib/data/safe-action'
+import { updateEndpoint } from '@/lib/data/endpoints'
 
-type DomainValues = z.infer<typeof formSchema>;
+type DomainValues = z.infer<typeof formSchema>
 
 export default function EditForm({
   id,
   endpoint,
 }: {
-  id: string;
-  endpoint: Endpoint;
+  id: string
+  endpoint: Endpoint
 }) {
   const { execute, isExecuting } = useAction(updateEndpoint, {
     onSuccess() {
-      toast.success("Endpoint updated successfully.");
+      toast.success('Endpoint updated successfully.')
     },
     onError({ error }) {
-      toast.error(parseActionError(error));
+      toast.error(parseActionError(error))
     },
-  });
+  })
 
   const defaultValues: Partial<DomainValues> = {
     id: id,
@@ -68,18 +68,18 @@ export default function EditForm({
     failUrl: endpoint.failUrl ?? undefined,
     webhookEnabled: endpoint.webhookEnabled,
     webhook: endpoint.webhook ?? undefined,
-  };
+  }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
-    mode: "onChange",
-  });
+    mode: 'onChange',
+  })
 
   const { fields, append, remove } = useFieldArray({
-    name: "schema",
+    name: 'schema',
     control: form.control,
-  });
+  })
 
   return (
     <Form {...form}>
@@ -166,7 +166,7 @@ export default function EditForm({
 
           <Button
             onClick={() => {
-              append({ key: "", value: "string" });
+              append({ key: '', value: 'string' })
             }}
           >
             Add Field +
@@ -194,7 +194,7 @@ export default function EditForm({
             )}
           />
 
-          {form.watch("formEnabled") && (
+          {form.watch('formEnabled') && (
             <>
               <p className="text-muted-foreground italic text-xs">
                 *Redirect URLs are only used when posting a lead by HTML form
@@ -209,7 +209,7 @@ export default function EditForm({
                       <Input
                         placeholder="Success URL..."
                         {...field}
-                        disabled={!form.watch("formEnabled")}
+                        disabled={!form.watch('formEnabled')}
                       />
                     </FormControl>
                   </FormItem>
@@ -226,7 +226,7 @@ export default function EditForm({
                       <Input
                         placeholder="Fail URL..."
                         {...field}
-                        disabled={!form.watch("formEnabled")}
+                        disabled={!form.watch('formEnabled')}
                       />
                     </FormControl>
                   </FormItem>
@@ -257,7 +257,7 @@ export default function EditForm({
             )}
           />
 
-          {form.watch("webhookEnabled") && (
+          {form.watch('webhookEnabled') && (
             <FormField
               control={form.control}
               name="webhook"
@@ -270,7 +270,7 @@ export default function EditForm({
                         {...field}
                         className="w-full bg-secondary"
                         placeholder="Webhook URL ..."
-                        disabled={!form.watch("webhookEnabled")}
+                        disabled={!form.watch('webhookEnabled')}
                       />
                     </div>
                   </FormControl>
@@ -283,7 +283,7 @@ export default function EditForm({
 
         <Button
           type="submit"
-          variant={"secondary"}
+          variant={'secondary'}
           className="mt-12"
           disabled={isExecuting}
         >
@@ -291,5 +291,5 @@ export default function EditForm({
         </Button>
       </form>
     </Form>
-  );
+  )
 }

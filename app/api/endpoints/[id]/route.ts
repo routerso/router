@@ -1,144 +1,144 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
 import {
   convertToCorrectTypes,
   generateDynamicSchema,
   validateAndParseData,
-} from "@/lib/validation";
-import { headers } from "next/headers";
-import { createLead } from "@/lib/data/leads";
-import { createLog } from "@/lib/data/logs";
-import { getErrorMessage } from "@/lib/helpers/error-message";
-import { constructBodyFromURLParameters } from "@/lib/helpers/construct-body";
-import { getPostingEndpointById } from "@/lib/data/endpoints";
-import { incrementLeadCount, getLeadCount } from "@/lib/data/users";
+} from '@/lib/validation'
+import { headers } from 'next/headers'
+import { createLead } from '@/lib/data/leads'
+import { createLog } from '@/lib/data/logs'
+import { getErrorMessage } from '@/lib/helpers/error-message'
+import { constructBodyFromURLParameters } from '@/lib/helpers/construct-body'
+import { getPostingEndpointById } from '@/lib/data/endpoints'
+import { incrementLeadCount, getLeadCount } from '@/lib/data/users'
 
 /**
  * API route for posting a lead using POST
  */
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
-    const headersList = headers();
-    const authorization = headersList.get("authorization");
+    const headersList = headers()
+    const authorization = headersList.get('authorization')
 
-    if (!authorization || !authorization.startsWith("Bearer ")) {
+    if (!authorization || !authorization.startsWith('Bearer ')) {
       return NextResponse.json(
-        { message: "Unauthorized. No valid bearer token provided." },
-        { status: 401 }
-      );
+        { message: 'Unauthorized. No valid bearer token provided.' },
+        { status: 401 },
+      )
     }
 
-    const token = authorization.split(" ")[1];
-    const data = await request.json();
-    const endpoint = await getPostingEndpointById(params.id);
+    const token = authorization.split(' ')[1]
+    const data = await request.json()
+    const endpoint = await getPostingEndpointById(params.id)
 
     if (!endpoint)
       return NextResponse.json(
-        { message: "Endpoint not found." },
-        { status: 404 }
-      );
+        { message: 'Endpoint not found.' },
+        { status: 404 },
+      )
 
     if (endpoint.token !== token) {
       return NextResponse.json(
-        { message: "Unauthorized. Invalid token provided." },
-        { status: 401 }
-      );
+        { message: 'Unauthorized. Invalid token provided.' },
+        { status: 401 },
+      )
     }
 
     if (!endpoint.enabled) {
       return NextResponse.json(
-        { message: "Endpoint is disabled." },
-        { status: 403 }
-      );
+        { message: 'Endpoint is disabled.' },
+        { status: 403 },
+      )
     }
 
-    const leadCount = await getLeadCount(params.id);
+    const leadCount = await getLeadCount(params.id)
 
     if (leadCount >= 75) {
       return NextResponse.json(
-        { message: "Lead limit reached." },
-        { status: 429 }
-      );
+        { message: 'Lead limit reached.' },
+        { status: 429 },
+      )
     }
 
-    const schema = endpoint?.schema as GeneralSchema[];
-    const dynamicSchema = generateDynamicSchema(schema);
-    const parsedData = validateAndParseData(dynamicSchema, data);
+    const schema = endpoint?.schema as GeneralSchema[]
+    const dynamicSchema = generateDynamicSchema(schema)
+    const parsedData = validateAndParseData(dynamicSchema, data)
 
     if (!parsedData.success) {
       createLog(
-        "error",
-        "http",
+        'error',
+        'http',
         JSON.stringify(parsedData.error.format()),
-        endpoint.id
-      );
+        endpoint.id,
+      )
 
       return NextResponse.json(
         { errors: parsedData.error.format() },
-        { status: 400 }
-      );
+        { status: 400 },
+      )
     }
 
-    const leadId = await createLead(endpoint.id, parsedData.data);
+    const leadId = await createLead(endpoint.id, parsedData.data)
 
-    await createLog("success", "http", leadId, endpoint.id);
-    await incrementLeadCount(params.id);
+    await createLog('success', 'http', leadId, endpoint.id)
+    await incrementLeadCount(params.id)
 
     // webhook posting -- eventually make this a background job
     if (endpoint.webhookEnabled && endpoint.webhook) {
       // Only wait 3 second(s) for a response
-      const webhookController = new AbortController();
+      const webhookController = new AbortController()
       const webhookTimeoutPromise = new Promise<never>((_, reject) => {
         setTimeout(async () => {
           // create a log of the timeout error
-          await createLog("error", "webhook", "Webhook timed out.", params.id);
-          webhookController.abort();
-          reject(new Error("Request timed out"));
-        }, 3000);
-      });
+          await createLog('error', 'webhook', 'Webhook timed out.', params.id)
+          webhookController.abort()
+          reject(new Error('Request timed out'))
+        }, 3000)
+      })
       const webhookFetchPromise: Promise<Response> = fetch(endpoint.webhook, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(parsedData.data),
         signal: webhookController.signal,
-      });
+      })
       const webhookResponse = await Promise.race([
         webhookFetchPromise,
         webhookTimeoutPromise,
-      ]);
+      ])
 
       if (!webhookResponse.ok) {
-        const contentType = webhookResponse.headers.get("Content-Type");
-        let errorData;
-        if (contentType && contentType.includes("application/json")) {
-          errorData = await webhookResponse.json();
-        } else if (contentType && contentType.includes("text")) {
-          errorData = await webhookResponse.text();
+        const contentType = webhookResponse.headers.get('Content-Type')
+        let errorData
+        if (contentType && contentType.includes('application/json')) {
+          errorData = await webhookResponse.json()
+        } else if (contentType && contentType.includes('text')) {
+          errorData = await webhookResponse.text()
         } else {
-          errorData = "Received non-text response";
+          errorData = 'Received non-text response'
         }
-        await createLog("error", "webhook", errorData, params.id);
+        await createLog('error', 'webhook', errorData, params.id)
       } else {
         createLog(
-          "success",
-          "webhook",
+          'success',
+          'webhook',
           `${endpoint.webhook} -> Webhook successful`,
-          params.id
-        );
+          params.id,
+        )
       }
     }
 
-    return NextResponse.json({ success: true, id: leadId });
+    return NextResponse.json({ success: true, id: leadId })
   } catch (error: unknown) {
-    await createLog("error", "http", getErrorMessage(error), params.id);
+    await createLog('error', 'http', getErrorMessage(error), params.id)
 
-    console.error(error);
+    console.error(error)
 
-    return NextResponse.json({ error: "An error occurred." }, { status: 500 });
+    return NextResponse.json({ error: 'An error occurred.' }, { status: 500 })
   }
 }
 
@@ -149,115 +149,115 @@ export async function POST(
  */
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
-    const headersList = headers();
-    const referer = headersList.get("referer");
-    const { searchParams } = new URL(request.url);
+    const headersList = headers()
+    const referer = headersList.get('referer')
+    const { searchParams } = new URL(request.url)
 
-    const endpoint = await getPostingEndpointById(params.id);
+    const endpoint = await getPostingEndpointById(params.id)
 
     if (!endpoint) {
       return NextResponse.json(
-        { message: "Endpoint not found." },
-        { status: 404 }
-      );
+        { message: 'Endpoint not found.' },
+        { status: 404 },
+      )
     }
 
     if (!endpoint.enabled) {
       return NextResponse.json(
-        { message: "Endpoint is disabled." },
-        { status: 403 }
-      );
+        { message: 'Endpoint is disabled.' },
+        { status: 403 },
+      )
     }
 
-    const leadCount = await getLeadCount(params.id);
+    const leadCount = await getLeadCount(params.id)
 
     if (leadCount >= 75) {
       return NextResponse.json(
-        { message: "Lead limit reached." },
-        { status: 429 }
-      );
+        { message: 'Lead limit reached.' },
+        { status: 429 },
+      )
     }
 
-    const rawData = constructBodyFromURLParameters(searchParams);
-    const schema = endpoint?.schema as GeneralSchema[];
-    const data = convertToCorrectTypes(rawData, schema);
-    const dynamicSchema = generateDynamicSchema(schema);
-    const parsedData = validateAndParseData(dynamicSchema, data);
+    const rawData = constructBodyFromURLParameters(searchParams)
+    const schema = endpoint?.schema as GeneralSchema[]
+    const data = convertToCorrectTypes(rawData, schema)
+    const dynamicSchema = generateDynamicSchema(schema)
+    const parsedData = validateAndParseData(dynamicSchema, data)
 
     if (!parsedData.success) {
       createLog(
-        "error",
-        "http",
+        'error',
+        'http',
         JSON.stringify(parsedData.error.format()),
-        endpoint.id
-      );
+        endpoint.id,
+      )
 
       return NextResponse.redirect(
-        new URL(endpoint?.failUrl || referer || "/fail")
-      );
+        new URL(endpoint?.failUrl || referer || '/fail'),
+      )
     }
 
-    const leadId = await createLead(endpoint.id, parsedData.data);
+    const leadId = await createLead(endpoint.id, parsedData.data)
 
-    await createLog("success", "http", leadId, endpoint.id);
-    await incrementLeadCount(params.id);
+    await createLog('success', 'http', leadId, endpoint.id)
+    await incrementLeadCount(params.id)
 
     // webhook posting -- eventually make this a background job
     if (endpoint.webhookEnabled && endpoint.webhook) {
       // Only wait 3 second(s) for a response
-      const webhookController = new AbortController();
+      const webhookController = new AbortController()
       const webhookTimeoutPromise = new Promise<never>((_, reject) => {
         setTimeout(async () => {
-          await createLog("error", "webhook", "Webhook timed out.", params.id);
-          webhookController.abort();
-          reject(new Error("Request timed out"));
-        }, 3000);
-      });
+          await createLog('error', 'webhook', 'Webhook timed out.', params.id)
+          webhookController.abort()
+          reject(new Error('Request timed out'))
+        }, 3000)
+      })
       const webhookFetchPromise: Promise<Response> = fetch(endpoint.webhook, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(parsedData.data),
         signal: webhookController.signal,
-      });
+      })
       const webhookResponse = await Promise.race([
         webhookFetchPromise,
         webhookTimeoutPromise,
-      ]);
+      ])
 
       if (!webhookResponse.ok) {
-        const contentType = webhookResponse.headers.get("Content-Type");
-        let errorData;
-        if (contentType && contentType.includes("application/json")) {
-          errorData = await webhookResponse.json();
-        } else if (contentType && contentType.includes("text")) {
-          errorData = await webhookResponse.text();
+        const contentType = webhookResponse.headers.get('Content-Type')
+        let errorData
+        if (contentType && contentType.includes('application/json')) {
+          errorData = await webhookResponse.json()
+        } else if (contentType && contentType.includes('text')) {
+          errorData = await webhookResponse.text()
         } else {
-          errorData = "Received non-text response";
+          errorData = 'Received non-text response'
         }
-        await createLog("error", "webhook", errorData, params.id);
+        await createLog('error', 'webhook', errorData, params.id)
       } else {
         createLog(
-          "success",
-          "webhook",
+          'success',
+          'webhook',
           `${endpoint.webhook} -> Webhook successful`,
-          params.id
-        );
+          params.id,
+        )
       }
     }
 
     return NextResponse.redirect(
-      new URL(endpoint?.successUrl || referer || "/success")
-    );
+      new URL(endpoint?.successUrl || referer || '/success'),
+    )
   } catch (error: unknown) {
-    await createLog("error", "http", getErrorMessage(error), params.id);
+    await createLog('error', 'http', getErrorMessage(error), params.id)
 
-    console.error(error);
+    console.error(error)
 
-    return NextResponse.json({ error: "An error occurred." }, { status: 500 });
+    return NextResponse.json({ error: 'An error occurred.' }, { status: 500 })
   }
 }

@@ -1,45 +1,45 @@
-"use client";
+'use client'
 
-import { Cross2Icon } from "@radix-ui/react-icons";
-import { Table } from "@tanstack/react-table";
+import { Cross2Icon } from '@radix-ui/react-icons'
+import { Table } from '@tanstack/react-table'
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { DataTableViewOptions } from "@/components/data-table/data-table-view-options";
-import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
-import { CircleCheck, CircleX, Webhook, CodeXml } from "lucide-react";
-import { Endpoint } from "@/lib/db";
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { DataTableViewOptions } from '@/components/data-table/data-table-view-options'
+import { DataTableFacetedFilter } from '@/components/data-table/data-table-faceted-filter'
+import { CircleCheck, CircleX, Webhook, CodeXml } from 'lucide-react'
+import { Endpoint } from '@/lib/db'
 
 interface DataTableToolbarProps<TData> {
-  table: Table<TData>;
-  endpoints: Endpoint[];
+  table: Table<TData>
+  endpoints: Endpoint[]
 }
 
 const logTypeFilter = [
   {
-    value: "success",
-    label: "Success",
+    value: 'success',
+    label: 'Success',
     icon: CircleCheck,
   },
   {
-    value: "error",
-    label: "Error",
+    value: 'error',
+    label: 'Error',
     icon: CircleX,
   },
-];
+]
 
 const postTypeFilter = [
   {
-    value: "http",
-    label: "HTTP",
+    value: 'http',
+    label: 'HTTP',
     icon: Webhook,
   },
   {
-    value: "form",
-    label: "Form",
+    value: 'form',
+    label: 'Form',
     icon: CodeXml,
   },
-];
+]
 
 export function DataTableToolbar<TData>({
   table,
@@ -49,38 +49,38 @@ export function DataTableToolbar<TData>({
     value: endpoint.name,
     label: endpoint.name,
     icon: undefined,
-  }));
+  }))
 
-  const isFiltered = table.getState().columnFilters.length > 0;
+  const isFiltered = table.getState().columnFilters.length > 0
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
           placeholder="Filter leads by ID..."
-          value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn("id")?.setFilterValue(event.target.value)
+            table.getColumn('id')?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("type") && (
+        {table.getColumn('type') && (
           <DataTableFacetedFilter
-            column={table.getColumn("type")}
+            column={table.getColumn('type')}
             title="Type"
             options={logTypeFilter}
           />
         )}
-        {table.getColumn("postType") && (
+        {table.getColumn('postType') && (
           <DataTableFacetedFilter
-            column={table.getColumn("postType")}
+            column={table.getColumn('postType')}
             title="Method"
             options={postTypeFilter}
           />
         )}
-        {table.getColumn("endpoint") && (
+        {table.getColumn('endpoint') && (
           <DataTableFacetedFilter
-            column={table.getColumn("endpoint")}
+            column={table.getColumn('endpoint')}
             title="Endpoints"
             options={endpointFilters}
           />
@@ -98,5 +98,5 @@ export function DataTableToolbar<TData>({
       </div>
       <DataTableViewOptions table={table} />
     </div>
-  );
+  )
 }

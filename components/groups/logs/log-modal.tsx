@@ -7,22 +7,22 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import Link from "next/link";
+} from '@/components/ui/alert-dialog'
+import Link from 'next/link'
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 export default function LogModal({
   message,
   date,
   type,
 }: {
-  message: LogMessage;
-  date: Date;
-  type: "success" | "error";
+  message: LogMessage
+  date: Date
+  type: 'success' | 'error'
 }) {
-  const messageString = JSON.stringify(message, null, 2);
+  const messageString = JSON.stringify(message, null, 2)
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -35,8 +35,8 @@ export default function LogModal({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
-            Log Details{" "}
-            {type === "success" ? (
+            Log Details{' '}
+            {type === 'success' ? (
               <Badge variant="outline">success</Badge>
             ) : (
               <Badge variant="secondary">error</Badge>
@@ -52,7 +52,7 @@ export default function LogModal({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          {type === "success" && (
+          {type === 'success' && (
             <Button variant="link">
               <Link href={`/leads/${message.id}`}>See Lead</Link>
             </Button>
@@ -61,5 +61,5 @@ export default function LogModal({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
+  )
 }

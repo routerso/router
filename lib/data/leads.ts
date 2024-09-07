@@ -1,13 +1,13 @@
-"use server";
+'use server'
 
-import { leads, endpoints } from "../db/schema";
-import { eq, desc, sql, and } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
-import { db, Lead } from "../db";
-import { getErrorMessage } from "@/lib/helpers/error-message";
-import { authenticatedAction } from "./safe-action";
-import { getLeadDataSchema } from "./validations";
-import { z } from "zod";
+import { leads, endpoints } from '../db/schema'
+import { eq, desc, sql, and } from 'drizzle-orm'
+import { revalidatePath } from 'next/cache'
+import { db, Lead } from '../db'
+import { getErrorMessage } from '@/lib/helpers/error-message'
+import { authenticatedAction } from './safe-action'
+import { getLeadDataSchema } from './validations'
+import { z } from 'zod'
 
 /**
  * Creates a new lead in the database
@@ -18,8 +18,8 @@ import { z } from "zod";
 export async function createLead(
   endpointId: string,
   data: {
-    [x: string]: any;
-  }
+    [x: string]: any
+  },
 ): Promise<string> {
   const [{ leadId }] = await db
     .insert(leads)
@@ -29,9 +29,9 @@ export async function createLead(
       updatedAt: new Date(),
       endpointId: endpointId,
     })
-    .returning({ leadId: leads.id });
+    .returning({ leadId: leads.id })
 
-  return leadId;
+  return leadId
 }
 
 /**
@@ -46,7 +46,7 @@ export const getLeads = authenticatedAction.action(
       .from(leads)
       .leftJoin(endpoints, eq(leads.endpointId, endpoints.id))
       .where(eq(endpoints.userId, userId))
-      .orderBy(desc(leads.createdAt));
+      .orderBy(desc(leads.createdAt))
 
     const data: LeadRow[] = leadsData.map((lead) => ({
       id: lead.lead.id,
@@ -56,11 +56,11 @@ export const getLeads = authenticatedAction.action(
       updatedAt: lead.lead.updatedAt,
       endpointId: lead.endpoint?.id as string,
       endpoint: lead.endpoint?.name || undefined,
-    }));
+    }))
 
-    return data;
-  }
-);
+    return data
+  },
+)
 
 /**
  * Get lead data for one specific lead
@@ -76,18 +76,18 @@ export const getLeadData = authenticatedAction
       })
       .from(leads)
       .innerJoin(endpoints, eq(leads.endpointId, endpoints.id))
-      .where(eq(leads.id, id));
+      .where(eq(leads.id, id))
 
     if (
       !leadWithEndpoint.length ||
       leadWithEndpoint[0].endpointUserId !== userId
     ) {
-      throw new Error("You are not authorized for this action.");
+      throw new Error('You are not authorized for this action.')
     }
 
-    const leadData = await db.select().from(leads).where(eq(leads.id, id));
-    return leadData[0];
-  });
+    const leadData = await db.select().from(leads).where(eq(leads.id, id))
+    return leadData[0]
+  })
 
 /**
  * Get all leads by an endpoint id
@@ -104,19 +104,19 @@ export const getLeadsByEndpoint = authenticatedAction
       })
       .from(endpoints)
       .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)))
-      .limit(1);
+      .limit(1)
 
     if (!endpoint.length) {
-      throw new Error("You are not authorized for this action");
+      throw new Error('You are not authorized for this action')
     }
 
     const leadData = await db
       .select()
       .from(leads)
-      .where(eq(leads.endpointId, id));
+      .where(eq(leads.endpointId, id))
 
-    return { leadData, schema: endpoint[0].schema };
-  });
+    return { leadData, schema: endpoint[0].schema }
+  })
 
 /**
  * Delete a lead by id
@@ -130,15 +130,15 @@ export const deleteLead = authenticatedAction
       .select({ endpointUserId: endpoints.userId })
       .from(leads)
       .innerJoin(endpoints, eq(leads.endpointId, endpoints.id))
-      .where(eq(leads.id, id));
+      .where(eq(leads.id, id))
 
     if (
       !leadWithEndpoint.length ||
       leadWithEndpoint[0].endpointUserId !== userId
     ) {
-      throw new Error("You are not authorized for this action.");
+      throw new Error('You are not authorized for this action.')
     }
 
-    await db.delete(leads).where(eq(leads.id, id));
-    revalidatePath("/leads");
-  });
+    await db.delete(leads).where(eq(leads.id, id))
+    revalidatePath('/leads')
+  })
