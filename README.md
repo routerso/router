@@ -28,6 +28,7 @@ After creating your accounts, update your `.env.example` to be `.env.local` for 
    git clone https://github.com/9d8dev/router.git
    cd router/main
    ```
+### Without Docker
 
 2. **Install Dependencies**
 
@@ -56,7 +57,16 @@ After creating your accounts, update your `.env.example` to be `.env.local` for 
    ```sh
    npm run dev
    ```
+### With docker
 
+2. **Set Up Environment Variables**
+
+   Ensure your `.env` file is correctly configured as mentioned above.
+
+3. **Run Docker Command
+   ```sh
+   docker compose up
+   ```
 ## Deploying to Vercel
 
 - Push your code to a GitHub repository.
