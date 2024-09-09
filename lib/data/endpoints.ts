@@ -1,18 +1,18 @@
-'use server'
+"use server"
 
-import { revalidatePath } from 'next/cache'
-import { db, Endpoint } from '../db'
-import { endpoints } from '../db/schema'
-import { eq, desc, and } from 'drizzle-orm'
-import { getErrorMessage } from '@/lib/helpers/error-message'
-import { authenticatedAction } from './safe-action'
-import { z } from 'zod'
+import { revalidatePath } from "next/cache"
+import { db, Endpoint } from "../db"
+import { endpoints } from "../db/schema"
+import { eq, desc, and } from "drizzle-orm"
+import { getErrorMessage } from "@/lib/helpers/error-message"
+import { authenticatedAction } from "./safe-action"
+import { z } from "zod"
 import {
   createEndpointFormSchema,
   updateEndpointFormSchema,
-} from './validations'
-import { randomBytes } from 'crypto'
-import { redirect } from 'next/navigation'
+} from "./validations"
+import { randomBytes } from "crypto"
+import { redirect } from "next/navigation"
 
 /**
  * Gets all endpoints for a user
@@ -68,7 +68,7 @@ export const deleteEndpoint = authenticatedAction
     await db
       .delete(endpoints)
       .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)))
-    revalidatePath('/endpoints')
+    revalidatePath("/endpoints")
   })
 
 /**
@@ -83,7 +83,7 @@ export const disableEndpoint = authenticatedAction
       .update(endpoints)
       .set({ enabled: false, updatedAt: new Date() })
       .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)))
-    revalidatePath('/endpoints')
+    revalidatePath("/endpoints")
   })
 
 /**
@@ -98,7 +98,7 @@ export const enableEndpoint = authenticatedAction
       .update(endpoints)
       .set({ enabled: true, updatedAt: new Date() })
       .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)))
-    revalidatePath('/endpoints')
+    revalidatePath("/endpoints")
   })
 
 /**
@@ -110,7 +110,7 @@ export const enableEndpoint = authenticatedAction
 export const createEndpoint = authenticatedAction
   .schema(createEndpointFormSchema)
   .action(async ({ parsedInput, ctx: { userId } }) => {
-    const token = randomBytes(32).toString('hex')
+    const token = randomBytes(32).toString("hex")
     await db.insert(endpoints).values({
       userId,
       name: parsedInput.name,
@@ -127,8 +127,8 @@ export const createEndpoint = authenticatedAction
       updatedAt: new Date(),
     })
 
-    revalidatePath('/endpoints')
-    redirect('/endpoints')
+    revalidatePath("/endpoints")
+    redirect("/endpoints")
   })
 
 /**
@@ -158,6 +158,6 @@ export const updateEndpoint = authenticatedAction
         and(eq(endpoints.id, parsedInput.id), eq(endpoints.userId, userId)),
       )
 
-    revalidatePath('/endpoints')
-    redirect('/endpoints')
+    revalidatePath("/endpoints")
+    redirect("/endpoints")
   })

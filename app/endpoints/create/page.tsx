@@ -5,18 +5,18 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
-import { Header } from '@/components/parts/header'
-import CreateForm from '@/components/groups/endpoints/create-form'
-import { Home } from 'lucide-react'
-import { PageWrapper } from '@/components/parts/page-wrapper'
-import Image from 'next/image'
-import Icon from '@/public/icon.svg'
+} from "@/components/ui/breadcrumb"
+import { Header } from "@/components/parts/header"
+import CreateForm from "@/components/groups/endpoints/create-form"
+import { Home } from "lucide-react"
+import { PageWrapper } from "@/components/parts/page-wrapper"
+import Image from "next/image"
+import Icon from "@/public/icon.svg"
 
 const pageData = {
-  name: 'New Endpoint',
-  title: 'Create an Endpoint',
-  description: 'Create a new endpoint.',
+  name: "New Endpoint",
+  title: "Create an Endpoint",
+  description: "Create a new endpoint.",
 }
 
 export default async function Page() {

@@ -1,8 +1,8 @@
-'use server'
+"use server"
 
-import { sql } from 'drizzle-orm'
-import { db } from '../db'
-import { authenticatedAction } from './safe-action'
+import { sql } from "drizzle-orm"
+import { db } from "../db"
+import { authenticatedAction } from "./safe-action"
 
 /**
  * Get lead and error counts in proper format for shadcn/ui charts

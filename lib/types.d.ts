@@ -33,14 +33,14 @@ type GeneralSchema = {
  * * See instructions in @/lib/validation/index.ts
  */
 type ValidationType =
-  | 'phone'
-  | 'email'
-  | 'string'
-  | 'number'
-  | 'date'
-  | 'boolean'
-  | 'url'
-  | 'zip_code'
+  | "phone"
+  | "email"
+  | "string"
+  | "number"
+  | "date"
+  | "boolean"
+  | "url"
+  | "zip_code"
 
 /**
  * Row type for the main dashboard data on /dashboard route
@@ -57,8 +57,8 @@ type LeadAndErrorCountResults = {
  * from the `validations` object.
  */
 type SchemaToZodMap = {
-  [P in GeneralSchema['key']]: ReturnType<
-    (typeof validations)[GeneralSchema['value']]
+  [P in GeneralSchema["key"]]: ReturnType<
+    (typeof validations)[GeneralSchema["value"]]
   >
 }
 
@@ -69,7 +69,7 @@ type SchemaToZodMap = {
  */
 type LogRow = {
   id: string
-  type: 'success' | 'error'
+  type: "success" | "error"
   message: Record<string, any> | unknown
   endpoint: string
   endpointId: string
@@ -119,4 +119,4 @@ type ServerActionFunction = (
   formData: FormData,
 ) => Promise<{ error: string } | undefined>
 
-type LogPostType = 'http' | 'form' | 'webhook' | 'email'
+type LogPostType = "http" | "form" | "webhook" | "email"

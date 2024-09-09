@@ -1,11 +1,11 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import Nav from '@/components/parts/nav'
-import { ThemeProvider } from '@/providers/theme-provider'
-import { Toaster } from '@/components/ui/sonner'
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import "./globals.css"
+import Nav from "@/components/parts/nav"
+import { ThemeProvider } from "@/providers/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
 
-const space = Inter({ subsets: ['latin'] })
+const space = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Router.so | The world's simplest lead router",

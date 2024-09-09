@@ -1,30 +1,30 @@
-'use client'
+"use client"
 
-import { ColumnDef } from '@tanstack/react-table'
-import { DataTableColumnHeader } from '@/components/data-table/header'
-import Link from 'next/link'
-import { Badge } from '@/components/ui/badge'
-import OptionsDropdown from './options-dropdown'
-import LogModal from './log-modal'
-import { Button } from '@/components/ui/button'
-import { InfoCircledIcon } from '@radix-ui/react-icons'
-import { toast } from 'sonner'
+import { ColumnDef } from "@tanstack/react-table"
+import { DataTableColumnHeader } from "@/components/data-table/header"
+import Link from "next/link"
+import { Badge } from "@/components/ui/badge"
+import OptionsDropdown from "./options-dropdown"
+import LogModal from "./log-modal"
+import { Button } from "@/components/ui/button"
+import { InfoCircledIcon } from "@radix-ui/react-icons"
+import { toast } from "sonner"
 
 export const columns: ColumnDef<LogRow>[] = [
   {
-    accessorKey: 'id',
+    accessorKey: "id",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="ID" />
     },
     cell: ({ row }) => {
-      const id: string = row.getValue('id')
+      const id: string = row.getValue("id")
       return (
         <Button
           variant="outline"
           size="sm"
           onClick={() => {
             navigator.clipboard.writeText(`${id}`)
-            toast.success('ID Copied')
+            toast.success("ID Copied")
           }}
         >
           {id}
@@ -33,12 +33,12 @@ export const columns: ColumnDef<LogRow>[] = [
     },
   },
   {
-    accessorKey: 'endpoint',
+    accessorKey: "endpoint",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Endpoint" />
     },
     cell: ({ row }) => {
-      const endpoint: string = row.getValue('endpoint')
+      const endpoint: string = row.getValue("endpoint")
       return (
         <Button asChild variant="link" className="px-0" size="sm">
           <Link href={`/endpoints/${row.original.endpointId}`}>
@@ -52,16 +52,16 @@ export const columns: ColumnDef<LogRow>[] = [
     },
   },
   {
-    accessorKey: 'type',
+    accessorKey: "type",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Type" />
     },
     cell: ({ row }) => {
-      const type: 'success' | 'error' = row.getValue('type')
-      const isError = type === 'error'
+      const type: "success" | "error" = row.getValue("type")
+      const isError = type === "error"
       return (
-        <Badge variant={isError ? 'secondary' : 'outline'}>
-          {isError ? 'error' : 'success'}
+        <Badge variant={isError ? "secondary" : "outline"}>
+          {isError ? "error" : "success"}
         </Badge>
       )
     },
@@ -70,16 +70,16 @@ export const columns: ColumnDef<LogRow>[] = [
     },
   },
   {
-    accessorKey: 'postType',
+    accessorKey: "postType",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Method" />
     },
     cell: ({ row }) => {
-      const postType: 'http' | 'form' = row.getValue('postType')
-      const isForm = postType === 'form'
+      const postType: "http" | "form" = row.getValue("postType")
+      const isForm = postType === "form"
       return (
-        <Badge variant={isForm ? 'secondary' : 'outline'}>
-          {isForm ? 'Form' : 'HTTP'}
+        <Badge variant={isForm ? "secondary" : "outline"}>
+          {isForm ? "Form" : "HTTP"}
         </Badge>
       )
     },
@@ -88,46 +88,46 @@ export const columns: ColumnDef<LogRow>[] = [
     },
   },
   {
-    accessorKey: 'message',
+    accessorKey: "message",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Message" />
     },
     cell: ({ row }) => {
-      const message: string = row.getValue('message')
-      const type: 'success' | 'error' = row.getValue('type')
-      const date: Date = row.getValue('createdAt')
+      const message: string = row.getValue("message")
+      const type: "success" | "error" = row.getValue("type")
+      const date: Date = row.getValue("createdAt")
       return <LogModal message={message} type={type} date={date} />
     },
     enableSorting: false,
   },
   {
-    accessorKey: 'createdAt',
+    accessorKey: "createdAt",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Date" />
     },
     cell: ({ row }) => {
-      const createdAt: Date = row.getValue('createdAt')
+      const createdAt: Date = row.getValue("createdAt")
       const date = new Date(createdAt)
       return (
         <p className="text-xs">
-          {date.toLocaleString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
+          {date.toLocaleString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
           })}
         </p>
       )
     },
   },
   {
-    accessorKey: 'options',
+    accessorKey: "options",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Options" />
     },
     cell: ({ row }) => {
-      const id: string = row.getValue('id')
+      const id: string = row.getValue("id")
       return <OptionsDropdown id={id} />
     },
     enableSorting: false,

@@ -1,9 +1,9 @@
-'use server'
+"use server"
 
-import { db } from '../db'
-import { users, endpoints } from '../db/schema'
-import { eq, sql } from 'drizzle-orm'
-import { authenticatedAction } from './safe-action'
+import { db } from "../db"
+import { users, endpoints } from "../db/schema"
+import { eq, sql } from "drizzle-orm"
+import { authenticatedAction } from "./safe-action"
 
 /**
  * Increments the lead count for a user
@@ -41,7 +41,7 @@ export const getLeadCount = async (endpointId: string) => {
     .limit(1)
 
   if (result.length === 0) {
-    throw new Error('Endpoint not found or not associated with a user')
+    throw new Error("Endpoint not found or not associated with a user")
   }
 
   return result[0].leadCount
@@ -70,7 +70,7 @@ export const getUsageForUser = authenticatedAction.action(
       .where(eq(users.id, userId))
 
     if (result.length === 0) {
-      throw new Error('User not found')
+      throw new Error("User not found")
     }
 
     return result[0].leadCount

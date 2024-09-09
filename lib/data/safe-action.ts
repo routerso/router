@@ -1,8 +1,8 @@
 import {
   createSafeActionClient,
   DEFAULT_SERVER_ERROR_MESSAGE,
-} from 'next-safe-action'
-import { auth } from '../auth'
+} from "next-safe-action"
+import { auth } from "../auth"
 
 class ActionError extends Error {}
 
@@ -32,7 +32,7 @@ export const authenticatedAction = actionClient.use(async ({ next }) => {
   const userId = session?.user.id
 
   if (!session || !userId) {
-    throw new Error('Not authenticated')
+    throw new Error("Not authenticated")
   }
 
   return next({ ctx: { userId } })
@@ -55,7 +55,7 @@ export const parseActionError = (error: {
   bindArgsValidationErrors?: readonly []
   fetchError?: string
 }): string => {
-  let errorMessage = ''
+  let errorMessage = ""
 
   if (error.serverError) {
     errorMessage += `Server Error: ${error.serverError}\n`
@@ -67,7 +67,7 @@ export const parseActionError = (error: {
       error.validationErrors._errors.length > 0
     ) {
       errorMessage += `Validation Errors: ${error.validationErrors._errors.join(
-        ', ',
+        ", ",
       )}\n`
     }
 
@@ -76,7 +76,7 @@ export const parseActionError = (error: {
       error.validationErrors.id._errors.length > 0
     ) {
       errorMessage += `Validation Errors for ID: ${error.validationErrors.id._errors.join(
-        ', ',
+        ", ",
       )}\n`
     }
   }
@@ -86,7 +86,7 @@ export const parseActionError = (error: {
     error.bindArgsValidationErrors.length > 0
   ) {
     errorMessage += `Bind Args Validation Errors: ${error.bindArgsValidationErrors.join(
-      ', ',
+      ", ",
     )}\n`
   }
 

@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils'
-import { ThemeProvider } from '@/providers/theme-provider'
+import { cn } from "@/lib/utils"
+import { ThemeProvider } from "@/providers/theme-provider"
 
 // LAYOUT
 // Layout Component
@@ -12,7 +12,7 @@ const Layout = ({ children, className }: LayoutProps) => {
   return (
     <html
       lang="en"
-      className={cn('antialiased scroll-smooth focus:scroll-auto', className)}
+      className={cn("antialiased scroll-smooth focus:scroll-auto", className)}
     >
       <body className={className}>
         <ThemeProvider
@@ -40,13 +40,13 @@ const Main = ({ children, className, id }: MainProps) => {
     <main
       className={cn(
         // General Prose
-        'prose prose:font-sans dark:prose-invert md:prose-lg max-w-none',
+        "prose prose:font-sans dark:prose-invert md:prose-lg max-w-none",
         // Prose Headings
-        'prose-headings:font-normal',
+        "prose-headings:font-normal",
         // Inline Links
-        'prose-a:border-b prose-a:border-b-primary dark:prose-a:border-b-primary prose-a:font-normal prose-a:text-primary dark:prose-a:text-primary hover:prose-a:border-b-primary hover:prose-a:opacity-75 dark:hover:prose-a:border-b-primary prose-a:no-underline prose-a:transition-all',
+        "prose-a:border-b prose-a:border-b-primary dark:prose-a:border-b-primary prose-a:font-normal prose-a:text-primary dark:prose-a:text-primary hover:prose-a:border-b-primary hover:prose-a:opacity-75 dark:hover:prose-a:border-b-primary prose-a:no-underline prose-a:transition-all",
         // Blockquotes
-        'prose-blockquote:not-italic',
+        "prose-blockquote:not-italic",
         className,
       )}
       id={id}
@@ -65,7 +65,7 @@ type SectionProps = {
 
 const Section = ({ children, className, id }: SectionProps) => {
   return (
-    <section className={cn('py-12', className)} id={id}>
+    <section className={cn("py-12", className)} id={id}>
       {children}
     </section>
   )
@@ -80,7 +80,7 @@ type ContainerProps = {
 
 const Container = ({ children, className, id }: ContainerProps) => {
   return (
-    <div className={cn('max-w-5xl mx-auto', 'p-6 sm:p-8', className)} id={id}>
+    <div className={cn("max-w-5xl mx-auto", "p-6 sm:p-8", className)} id={id}>
       {children}
     </div>
   )
@@ -97,8 +97,8 @@ const Article = ({ children, className, id }: ArticleProps) => {
   return (
     <article
       className={cn(
-        'prose dark:prose-invert md:prose-lg prose-p:text-muted-foreground',
-        'prose-headings:font-normal prose-headings:mt-6 prose-main dark:prose-invert',
+        "prose dark:prose-invert md:prose-lg prose-p:text-muted-foreground",
+        "prose-headings:font-normal prose-headings:mt-6 prose-main dark:prose-invert",
         className,
       )}
       id={id}

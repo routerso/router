@@ -5,7 +5,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
   BreadcrumbPage,
-} from '@/components/ui/breadcrumb'
+} from "@/components/ui/breadcrumb"
 import {
   Table,
   TableBody,
@@ -13,18 +13,18 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { Home } from 'lucide-react'
-import Icon from '@/public/icon.svg'
-import Image from 'next/image'
-import { Header } from '@/components/parts/header'
-import { PageWrapper } from '@/components/parts/page-wrapper'
-import { getLeadData } from '@/lib/data/leads'
-import { notFound } from 'next/navigation'
+} from "@/components/ui/table"
+import { Home } from "lucide-react"
+import Icon from "@/public/icon.svg"
+import Image from "next/image"
+import { Header } from "@/components/parts/header"
+import { PageWrapper } from "@/components/parts/page-wrapper"
+import { getLeadData } from "@/lib/data/leads"
+import { notFound } from "next/navigation"
 
 const pageData = {
-  name: 'Lead data',
-  title: 'Lead data',
+  name: "Lead data",
+  title: "Lead data",
   description: "Breakdown of this lead's data",
 }
 

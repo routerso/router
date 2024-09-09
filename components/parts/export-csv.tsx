@@ -1,9 +1,9 @@
-'use client'
+"use client"
 
-import { Lead } from '@/lib/db'
-import { Button } from '../ui/button'
-import { parse } from 'json2csv'
-import { toast } from 'sonner'
+import { Lead } from "@/lib/db"
+import { Button } from "../ui/button"
+import { parse } from "json2csv"
+import { toast } from "sonner"
 
 type ExportCSVProps = {
   id: string
@@ -28,18 +28,18 @@ export default function ExportCSV({ id, leads, schema }: ExportCSVProps) {
       const csvData = parse(transformedLeads, {
         fields: schema.map((col) => col.key),
       })
-      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' })
+      const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" })
       const downloadUrl = URL.createObjectURL(blob)
-      const link = document.createElement('a')
+      const link = document.createElement("a")
       link.href = downloadUrl
-      link.setAttribute('download', `router_leads_${id}.csv`)
+      link.setAttribute("download", `router_leads_${id}.csv`)
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      toast.success('CSV Downloaded.')
+      toast.success("CSV Downloaded.")
     } catch (err) {
-      console.error('Error exporting to CSV:', err)
-      toast.error('An error occurred.')
+      console.error("Error exporting to CSV:", err)
+      toast.error("An error occurred.")
     }
   }
 

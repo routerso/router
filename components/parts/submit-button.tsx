@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { useFormStatus } from 'react-dom'
-import { Button } from '@/components/ui/button'
-import { LoaderCircle as Loading } from 'lucide-react'
+import { useFormStatus } from "react-dom"
+import { Button } from "@/components/ui/button"
+import { LoaderCircle as Loading } from "lucide-react"
 
 export default function SubmitButton() {
   const { pending } = useFormStatus()

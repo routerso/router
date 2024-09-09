@@ -1,6 +1,6 @@
-import { Skeleton } from '@/components/ui/skeleton'
-import { Breadcrumbs } from '@/components/parts/breadcrumbs'
-import { PageWrapper } from '@/components/parts/page-wrapper'
+import { Skeleton } from "@/components/ui/skeleton"
+import { Breadcrumbs } from "@/components/parts/breadcrumbs"
+import { PageWrapper } from "@/components/parts/page-wrapper"
 
 export default function Loading() {
   return (

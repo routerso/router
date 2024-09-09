@@ -5,12 +5,12 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from '@/components/ui/card'
+} from "@/components/ui/card"
 
-import { Progress } from '@/components/ui/progress'
-import { CircleAlert, ArrowUp } from 'lucide-react'
-import { Badge } from '../ui/badge'
-import Link from 'next/link'
+import { Progress } from "@/components/ui/progress"
+import { CircleAlert, ArrowUp } from "lucide-react"
+import { Badge } from "../ui/badge"
+import Link from "next/link"
 
 export const Usage = ({
   totalUsage,
@@ -44,12 +44,12 @@ export const Usage = ({
         <div className="grid gap-3 p-3 border rounded-sm bg-muted/25">
           <div className="flex justify-between items-center">
             <p>
-              {used} / {totalUsage}{' '}
+              {used} / {totalUsage}{" "}
               <span className="text-muted-foreground text-xs">
                 Leads Captured
               </span>
             </p>
-            <Badge variant={plan === 'Free' ? 'outline' : 'default'}>
+            <Badge variant={plan === "Free" ? "outline" : "default"}>
               {plan}
             </Badge>
           </div>
@@ -61,14 +61,14 @@ export const Usage = ({
             <p className="flex items-center space-x-1 text-xs">
               <CircleAlert className="h-3 w-3 text-green-500" />
               <span>
-                Plan resets in <span className="font-medium">{daysLeft}</span>{' '}
-                day{daysLeft !== 1 ? 's' : ''}
+                Plan resets in <span className="font-medium">{daysLeft}</span>{" "}
+                day{daysLeft !== 1 ? "s" : ""}
               </span>
             </p>
           </div>
         </div>
       </CardContent>
-      {plan === 'Free' && (
+      {plan === "Free" && (
         <CardFooter className="mt-auto">
           <UpgradePlan />
         </CardFooter>

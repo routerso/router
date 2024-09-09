@@ -1,5 +1,5 @@
-import { auth } from '@/lib/auth'
-import SignOut from './signout'
+import { auth } from "@/lib/auth"
+import SignOut from "./signout"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,9 +7,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from "@/components/ui/dropdown-menu"
 
-import { Button } from '../ui/button'
+import { Button } from "../ui/button"
 
 export default async function AccountWidget() {
   const session = await auth()

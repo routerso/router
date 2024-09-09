@@ -1,22 +1,22 @@
-import Link from 'next/link'
+import Link from "next/link"
 
-import { Breadcrumbs } from '@/components/parts/breadcrumbs'
-import { Header } from '@/components/parts/header'
-import { Chart } from '@/components/dashboard/chart'
-import { PageWrapper } from '@/components/parts/page-wrapper'
-import { getLeadAndErrorCounts } from '@/lib/data/dashboard'
-import { notFound } from 'next/navigation'
-import { getLeads } from '@/lib/data/leads'
-import { getEndpoints } from '@/lib/data/endpoints'
-import { DataTable } from '@/components/groups/leads/data-table'
-import { columns } from '@/components/groups/leads/columns'
-import { getUsageForUser } from '@/lib/data/users'
-import { Usage } from '@/components/parts/usage'
+import { Breadcrumbs } from "@/components/parts/breadcrumbs"
+import { Header } from "@/components/parts/header"
+import { Chart } from "@/components/dashboard/chart"
+import { PageWrapper } from "@/components/parts/page-wrapper"
+import { getLeadAndErrorCounts } from "@/lib/data/dashboard"
+import { notFound } from "next/navigation"
+import { getLeads } from "@/lib/data/leads"
+import { getEndpoints } from "@/lib/data/endpoints"
+import { DataTable } from "@/components/groups/leads/data-table"
+import { columns } from "@/components/groups/leads/columns"
+import { getUsageForUser } from "@/lib/data/users"
+import { Usage } from "@/components/parts/usage"
 
 const pageData = {
-  name: 'Dashboard',
-  title: 'Dashboard',
-  description: 'Snapshot of your endpoints and leads',
+  name: "Dashboard",
+  title: "Dashboard",
+  description: "Snapshot of your endpoints and leads",
 }
 
 export default async function Page() {
@@ -81,19 +81,19 @@ export default async function Page() {
 
 const navLinks = [
   {
-    name: 'Endpoints',
-    description: 'Create and Manage Router.so Endpoints',
-    href: '/endpoints',
+    name: "Endpoints",
+    description: "Create and Manage Router.so Endpoints",
+    href: "/endpoints",
   },
   {
-    name: 'Leads',
-    description: 'View Lead data and Form Submissions',
-    href: '/leads',
+    name: "Leads",
+    description: "View Lead data and Form Submissions",
+    href: "/leads",
   },
   {
-    name: 'Logs',
-    description: 'Monitor your API usage and errors',
-    href: '/logs',
+    name: "Logs",
+    description: "Monitor your API usage and errors",
+    href: "/logs",
   },
 ]
 

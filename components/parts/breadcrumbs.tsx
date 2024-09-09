@@ -5,10 +5,10 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
-import { Skeleton } from '@/components/ui/skeleton'
-import Image from 'next/image'
-import Icon from '@/public/icon.svg'
+} from "@/components/ui/breadcrumb"
+import { Skeleton } from "@/components/ui/skeleton"
+import Image from "next/image"
+import Icon from "@/public/icon.svg"
 
 export const Breadcrumbs = ({
   pageName,
@@ -28,7 +28,7 @@ export const Breadcrumbs = ({
           {isLoading ? (
             <Skeleton className="h-5 w-20" />
           ) : (
-            <BreadcrumbLink>{pageName || 'Dashboard'}</BreadcrumbLink>
+            <BreadcrumbLink>{pageName || "Dashboard"}</BreadcrumbLink>
           )}
         </BreadcrumbPage>
       </BreadcrumbList>

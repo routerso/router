@@ -1,9 +1,9 @@
-'use client'
+"use client"
 
-import React from 'react'
-import { Button } from '../ui/button'
-import { Copy } from 'lucide-react'
-import { toast } from 'sonner'
+import React from "react"
+import { Button } from "../ui/button"
+import { Copy } from "lucide-react"
+import { toast } from "sonner"
 
 type CopyButtonProps = {
   text: string
@@ -12,7 +12,7 @@ type CopyButtonProps = {
 const CopyButton: React.FC<CopyButtonProps> = ({ text }) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(text)
-    toast.success('Copied to clipboard')
+    toast.success("Copied to clipboard")
   }
 
   return (

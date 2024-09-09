@@ -1,12 +1,12 @@
-import { Breadcrumbs } from '@/components/parts/breadcrumbs'
-import { Header } from '@/components/parts/header'
-import { PageWrapper } from '@/components/parts/page-wrapper'
-import { HelpForm } from './help-form'
+import { Breadcrumbs } from "@/components/parts/breadcrumbs"
+import { Header } from "@/components/parts/header"
+import { PageWrapper } from "@/components/parts/page-wrapper"
+import { HelpForm } from "./help-form"
 
 const pageData = {
-  name: 'Support',
-  title: 'Support',
-  description: 'Get help with Router.so',
+  name: "Support",
+  title: "Support",
+  description: "Get help with Router.so",
 }
 
 export default async function Page() {

@@ -1,12 +1,12 @@
-'use client'
+"use client"
 
-import { signIn } from 'next-auth/react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Separator } from '../ui/separator'
-import * as z from 'zod'
+import { signIn } from "next-auth/react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Separator } from "../ui/separator"
+import * as z from "zod"
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -15,33 +15,33 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from "@/components/ui/form"
 
-import { Input } from '@/components/ui/input'
-import { useSearchParams } from 'next/navigation'
+import { Input } from "@/components/ui/input"
+import { useSearchParams } from "next/navigation"
 
-import { Mail } from 'lucide-react'
+import { Mail } from "lucide-react"
 
 const formSchema = z.object({
   email: z
     .string()
-    .min(1, { message: 'Required' })
-    .email({ message: 'Not a valid email' }),
+    .min(1, { message: "Required" })
+    .email({ message: "Not a valid email" }),
 })
 
 export default function MagicLinkForm() {
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams?.get('callbackUrl') || '/'
+  const callbackUrl = searchParams?.get("callbackUrl") || "/"
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
+      email: "",
     },
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    signIn('resend', { email: values.email, callbackUrl: callbackUrl })
+    signIn("resend", { email: values.email, callbackUrl: callbackUrl })
   }
 
   return (
@@ -79,7 +79,7 @@ export default function MagicLinkForm() {
         <Button
           variant="outline"
           className="w-full flex items-center justify-center"
-          onClick={() => signIn('github', { callbackUrl })}
+          onClick={() => signIn("github", { callbackUrl })}
         >
           <svg
             className="w-5 h-5 mr-2"

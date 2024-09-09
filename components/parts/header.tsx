@@ -1,4 +1,4 @@
-import { Pin, Slash } from 'lucide-react'
+import { Pin, Slash } from "lucide-react"
 
 export const Header: React.FC<HeaderProps> = ({ title, children }) => {
   return (

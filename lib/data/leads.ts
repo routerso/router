@@ -1,13 +1,13 @@
-'use server'
+"use server"
 
-import { leads, endpoints } from '../db/schema'
-import { eq, desc, sql, and } from 'drizzle-orm'
-import { revalidatePath } from 'next/cache'
-import { db, Lead } from '../db'
-import { getErrorMessage } from '@/lib/helpers/error-message'
-import { authenticatedAction } from './safe-action'
-import { getLeadDataSchema } from './validations'
-import { z } from 'zod'
+import { leads, endpoints } from "../db/schema"
+import { eq, desc, sql, and } from "drizzle-orm"
+import { revalidatePath } from "next/cache"
+import { db, Lead } from "../db"
+import { getErrorMessage } from "@/lib/helpers/error-message"
+import { authenticatedAction } from "./safe-action"
+import { getLeadDataSchema } from "./validations"
+import { z } from "zod"
 
 /**
  * Creates a new lead in the database
@@ -82,7 +82,7 @@ export const getLeadData = authenticatedAction
       !leadWithEndpoint.length ||
       leadWithEndpoint[0].endpointUserId !== userId
     ) {
-      throw new Error('You are not authorized for this action.')
+      throw new Error("You are not authorized for this action.")
     }
 
     const leadData = await db.select().from(leads).where(eq(leads.id, id))
@@ -107,7 +107,7 @@ export const getLeadsByEndpoint = authenticatedAction
       .limit(1)
 
     if (!endpoint.length) {
-      throw new Error('You are not authorized for this action')
+      throw new Error("You are not authorized for this action")
     }
 
     const leadData = await db
@@ -136,9 +136,9 @@ export const deleteLead = authenticatedAction
       !leadWithEndpoint.length ||
       leadWithEndpoint[0].endpointUserId !== userId
     ) {
-      throw new Error('You are not authorized for this action.')
+      throw new Error("You are not authorized for this action.")
     }
 
     await db.delete(leads).where(eq(leads.id, id))
-    revalidatePath('/leads')
+    revalidatePath("/leads")
   })

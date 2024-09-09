@@ -1,12 +1,12 @@
-import NextAuth from 'next-auth'
-import { DrizzleAdapter } from '@auth/drizzle-adapter'
-import { db } from '../db'
-import type { NextAuthConfig } from 'next-auth'
-import { User } from 'next-auth'
-import Resend from 'next-auth/providers/resend'
-import GitHub from 'next-auth/providers/github'
+import NextAuth from "next-auth"
+import { DrizzleAdapter } from "@auth/drizzle-adapter"
+import { db } from "../db"
+import type { NextAuthConfig } from "next-auth"
+import { User } from "next-auth"
+import Resend from "next-auth/providers/resend"
+import GitHub from "next-auth/providers/github"
 
-declare module 'next-auth' {
+declare module "next-auth" {
   interface Session extends User {
     user: {
       id: string
@@ -17,12 +17,12 @@ declare module 'next-auth' {
 export const config = {
   adapter: DrizzleAdapter(db),
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   providers: [
     Resend({
       apiKey: process.env.RESEND_API_KEY!,
-      from: 'info@router.so',
+      from: "info@router.so",
       // sendVerificationRequest, -> TODO: send custom email
     }),
     GitHub, // optional GitHub provider
@@ -43,8 +43,8 @@ export const config = {
     },
   },
   pages: {
-    signIn: '/login',
-    verifyRequest: '/check-email',
+    signIn: "/login",
+    verifyRequest: "/check-email",
   },
 } satisfies NextAuthConfig
 

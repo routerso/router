@@ -1,4 +1,4 @@
-import { toast } from 'sonner'
+import { toast } from "sonner"
 
 /**
  * Creates a client action function that handles form data and calls the provided server action function.
@@ -14,7 +14,7 @@ export function createClientAction(
     if (result?.error) {
       toast.error(result?.error)
     } else {
-      toast.success('Success!')
+      toast.success("Success!")
     }
   }
 }

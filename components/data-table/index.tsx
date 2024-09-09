@@ -1,7 +1,7 @@
-'use client'
+"use client"
 
-import * as React from 'react'
-import Link from 'next/link'
+import * as React from "react"
+import Link from "next/link"
 
 import {
   ColumnDef,
@@ -14,7 +14,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table'
+} from "@tanstack/react-table"
 
 import {
   Table,
@@ -23,13 +23,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
+} from "@/components/ui/table"
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
-import { DataTablePagination } from '@/components/data-table/pagination'
-import { DataTableViewOptions } from '@/components/data-table/column-toggle'
+import { DataTablePagination } from "@/components/data-table/pagination"
+import { DataTableViewOptions } from "@/components/data-table/column-toggle"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -74,12 +74,12 @@ export function DataTable<TData, TValue>({
           placeholder="Filter..."
           value={
             (table
-              .getColumn(filterColumn || 'name')
-              ?.getFilterValue() as string) ?? ''
+              .getColumn(filterColumn || "name")
+              ?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
             table
-              .getColumn(filterColumn || 'name')
+              .getColumn(filterColumn || "name")
               ?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
@@ -119,7 +119,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

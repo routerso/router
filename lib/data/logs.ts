@@ -1,11 +1,11 @@
-'use server'
+"use server"
 
-import { logs, endpoints } from '../db/schema'
-import { eq, desc } from 'drizzle-orm'
-import { revalidatePath } from 'next/cache'
-import { db } from '../db'
-import { authenticatedAction } from './safe-action'
-import { z } from 'zod'
+import { logs, endpoints } from "../db/schema"
+import { eq, desc } from "drizzle-orm"
+import { revalidatePath } from "next/cache"
+import { db } from "../db"
+import { authenticatedAction } from "./safe-action"
+import { z } from "zod"
 
 /**
  * Creates a log entry
@@ -14,7 +14,7 @@ import { z } from 'zod'
  * User does not need to be authenticated for this to happen
  */
 export async function createLog(
-  type: 'success' | 'error',
+  type: "success" | "error",
   postType: LogPostType,
   message: string,
   endpointId: string,
@@ -23,12 +23,12 @@ export async function createLog(
     type,
     postType,
     message:
-      type === 'success' ? { success: true, id: message } : { error: message },
+      type === "success" ? { success: true, id: message } : { error: message },
     createdAt: new Date(),
     endpointId,
   })
 
-  revalidatePath('/logs')
+  revalidatePath("/logs")
 }
 
 /**
@@ -51,8 +51,8 @@ export const getLogs = authenticatedAction.action(
       postType: log.log.postType,
       message: log.log.message,
       createdAt: log.log.createdAt,
-      endpointId: log.endpoint?.id || '',
-      endpoint: log.endpoint?.name || '',
+      endpointId: log.endpoint?.id || "",
+      endpoint: log.endpoint?.name || "",
     }))
 
     return data
@@ -79,9 +79,9 @@ export const deleteLog = authenticatedAction
       !logWithEndpoint.length ||
       logWithEndpoint[0].endpointUserId !== userId
     ) {
-      throw new Error('You are not authorized for this action.')
+      throw new Error("You are not authorized for this action.")
     }
 
     await db.delete(logs).where(eq(logs.id, id))
-    revalidatePath('/logs')
+    revalidatePath("/logs")
   })

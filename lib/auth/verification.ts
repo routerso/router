@@ -1,5 +1,5 @@
-import { resend } from '@/lib/utils/resend'
-import MagicLinkEmail from '@/components/email/magic-link-email'
+import { resend } from "@/lib/utils/resend"
+import MagicLinkEmail from "@/components/email/magic-link-email"
 
 export async function sendVerificationRequest(params: {
   identifier: string
@@ -12,7 +12,7 @@ export async function sendVerificationRequest(params: {
 
   try {
     const data = await resend.emails.send({
-      from: 'info@router.so',
+      from: "info@router.so",
       to: [identifier],
       subject: `Log in to ${host}`,
       text: text({ url, host }),
@@ -21,7 +21,7 @@ export async function sendVerificationRequest(params: {
     return data
   } catch (error) {
     console.log(error)
-    throw new Error('Failed to send the verification email.')
+    throw new Error("Failed to send the verification email.")
   }
 }
 

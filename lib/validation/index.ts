@@ -1,5 +1,5 @@
-import * as z from 'zod'
-import validator from 'validator'
+import * as z from "zod"
+import validator from "validator"
 
 /**
  * The validation types that are available
@@ -11,14 +11,14 @@ import validator from 'validator'
  * 3. If necessary, add respective logic to correct / cast the type in the 'convertToCorrectTypes' function
  */
 export const validationOptions: { name: ValidationType }[] = [
-  { name: 'phone' },
-  { name: 'email' },
-  { name: 'string' },
-  { name: 'number' },
-  { name: 'date' },
-  { name: 'boolean' },
-  { name: 'url' },
-  { name: 'zip_code' },
+  { name: "phone" },
+  { name: "email" },
+  { name: "string" },
+  { name: "number" },
+  { name: "date" },
+  { name: "boolean" },
+  { name: "url" },
+  { name: "zip_code" },
 ]
 
 /**
@@ -28,18 +28,18 @@ export const validationOptions: { name: ValidationType }[] = [
  */
 export const validations: { [key in ValidationType]: z.ZodType<any, any> } = {
   phone: z.string().refine(validator.isMobilePhone, {
-    message: 'Not a valid phone number.',
+    message: "Not a valid phone number.",
   }),
-  email: z.string().email('Not a valid email.'),
-  string: z.string().min(2, 'Not a valid string.'),
-  number: z.number().min(0, 'Not a valid number.'),
-  date: z.date().min(new Date(), 'Not a valid date.'),
+  email: z.string().email("Not a valid email."),
+  string: z.string().min(2, "Not a valid string."),
+  number: z.number().min(0, "Not a valid number."),
+  date: z.date().min(new Date(), "Not a valid date."),
   boolean: z.boolean(),
-  url: z.string().url('Not a valid URL.'),
+  url: z.string().url("Not a valid URL."),
   zip_code: z
     .string()
-    .min(5, 'Not a valid zip code.')
-    .max(5, 'Not a valid zip code.'),
+    .min(5, "Not a valid zip code.")
+    .max(5, "Not a valid zip code."),
 }
 
 /**
@@ -56,10 +56,10 @@ export const convertToCorrectTypes = (
   const result: any = {}
 
   schema.forEach(({ key, value }) => {
-    if (value === 'boolean') {
+    if (value === "boolean") {
       // Convert "true" and "false" strings to boolean values
-      result[key] = data[key] === 'true'
-    } else if (value === 'number') {
+      result[key] = data[key] === "true"
+    } else if (value === "number") {
       // Convert string to number, ensuring NaN is handled appropriately
       const num = Number(data[key])
       result[key] = isNaN(num) ? undefined : num

@@ -1,25 +1,25 @@
 // Component Imports
-import AccountWidget from '../auth/widget'
-import Link from 'next/link'
-import Image from 'next/image'
-import { ModeToggle } from '@/components/parts/mode-toggle'
+import AccountWidget from "../auth/widget"
+import Link from "next/link"
+import Image from "next/image"
+import { ModeToggle } from "@/components/parts/mode-toggle"
 
 // Image Imports
-import Logo from '@/public/logo.svg'
+import Logo from "@/public/logo.svg"
 
 // Icon Imports
-import { BarChart, Contact, Layers, LifeBuoy, Disc3, Book } from 'lucide-react'
+import { BarChart, Contact, Layers, LifeBuoy, Disc3, Book } from "lucide-react"
 
 const links = [
-  { href: '/', text: 'Dashboard', icon: BarChart },
-  { href: '/endpoints', text: 'Endpoints', icon: Layers },
-  { href: '/leads', text: 'Leads', icon: Contact },
-  { href: '/logs', text: 'Logs', icon: Disc3 },
+  { href: "/", text: "Dashboard", icon: BarChart },
+  { href: "/endpoints", text: "Endpoints", icon: Layers },
+  { href: "/leads", text: "Leads", icon: Contact },
+  { href: "/logs", text: "Logs", icon: Disc3 },
 ]
 
 const otherLinks = [
-  { href: 'https://router.so/docs', text: 'Documentation', icon: Book },
-  { href: '/support', text: 'Support', icon: LifeBuoy },
+  { href: "https://router.so/docs", text: "Documentation", icon: Book },
+  { href: "/support", text: "Support", icon: LifeBuoy },
 ]
 
 export default function Nav() {

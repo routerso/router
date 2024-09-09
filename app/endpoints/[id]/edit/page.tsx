@@ -5,21 +5,21 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
-import { Header } from '@/components/parts/header'
-import EditForm from '@/components/groups/endpoints/edit-form'
-import { Home } from 'lucide-react'
-import { PageWrapper } from '@/components/parts/page-wrapper'
-import Image from 'next/image'
-import Icon from '@/public/icon.svg'
-import { getEndpointById } from '@/lib/data/endpoints'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
+} from "@/components/ui/breadcrumb"
+import { Header } from "@/components/parts/header"
+import EditForm from "@/components/groups/endpoints/edit-form"
+import { Home } from "lucide-react"
+import { PageWrapper } from "@/components/parts/page-wrapper"
+import Image from "next/image"
+import Icon from "@/public/icon.svg"
+import { getEndpointById } from "@/lib/data/endpoints"
+import Link from "next/link"
+import { notFound } from "next/navigation"
 
 const pageData = {
-  name: 'Edit Endpoint',
-  title: 'Edit Your Endpoint',
-  description: 'Edit your endpoint.',
+  name: "Edit Endpoint",
+  title: "Edit Your Endpoint",
+  description: "Edit your endpoint.",
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
