@@ -5,7 +5,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
   BreadcrumbPage,
-} from "@/components/ui/breadcrumb"
+} from "@/components/ui/breadcrumb";
 import {
   Table,
   TableBody,
@@ -13,30 +13,30 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Home } from "lucide-react"
-import Icon from "@/public/icon.svg"
-import Image from "next/image"
-import { Header } from "@/components/parts/header"
-import { PageWrapper } from "@/components/parts/page-wrapper"
-import { getLeadData } from "@/lib/data/leads"
-import { notFound } from "next/navigation"
+} from "@/components/ui/table";
+import { Home } from "lucide-react";
+import Icon from "@/public/icon.svg";
+import Image from "next/image";
+import { Header } from "@/components/parts/header";
+import { PageWrapper } from "@/components/parts/page-wrapper";
+import { getLeadData } from "@/lib/data/leads";
+import { notFound } from "next/navigation";
 
 const pageData = {
   name: "Lead data",
   title: "Lead data",
   description: "Breakdown of this lead's data",
-}
+};
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const leadData = await getLeadData({ id: params.id })
-  const { data, serverError } = leadData || {}
+  const leadData = await getLeadData({ id: params.id });
+  const { data, serverError } = leadData || {};
 
   if (!data || serverError) {
-    return notFound()
+    return notFound();
   }
 
-  const dataEntries = Object.entries(data.data as any)
+  const dataEntries = Object.entries(data.data as any);
 
   return (
     <>
@@ -61,7 +61,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </Table>
       </PageWrapper>
     </>
-  )
+  );
 }
 
 function Breadcrumbs({ leadId }: { leadId: string }) {
@@ -92,5 +92,5 @@ function Breadcrumbs({ leadId }: { leadId: string }) {
         alt="Router.so Icon"
       />
     </Breadcrumb>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { cn } from "@/lib/utils"
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 import {
   Card,
@@ -10,13 +10,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 
 const chartConfig = {
   views: {
@@ -30,17 +30,17 @@ const chartConfig = {
     label: "Errors",
     color: "hsl(var(--chart-2))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function Chart({
   chartData,
   className,
 }: {
-  chartData: LeadAndErrorCountResults
-  className?: string
+  chartData: LeadAndErrorCountResults;
+  className?: string;
 }) {
   const [activeChart, setActiveChart] =
-    React.useState<keyof typeof chartConfig>("leads")
+    React.useState<keyof typeof chartConfig>("leads");
 
   const total = React.useMemo(
     () => ({
@@ -48,7 +48,7 @@ export function Chart({
       errors: chartData.reduce((acc, curr) => acc + curr.errors, 0),
     }),
     [chartData],
-  )
+  );
 
   return (
     <Card className={cn("shadow-none", className)}>
@@ -61,7 +61,7 @@ export function Chart({
         </div>
         <div className="flex">
           {["leads", "errors"].map((key) => {
-            const chart = key as keyof typeof chartConfig
+            const chart = key as keyof typeof chartConfig;
             return (
               <button
                 key={chart}
@@ -76,7 +76,7 @@ export function Chart({
                   {total[key as keyof typeof total].toLocaleString()}
                 </span>
               </button>
-            )
+            );
           })}
         </div>
       </CardHeader>
@@ -101,11 +101,11 @@ export function Chart({
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value)
+                const date = new Date(value);
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
-                })
+                });
               }}
             />
             <ChartTooltip
@@ -119,7 +119,7 @@ export function Chart({
                       day: "numeric",
                       year: "numeric",
                       timeZone: "UTC",
-                    })
+                    });
                   }}
                 />
               }
@@ -135,5 +135,5 @@ export function Chart({
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }

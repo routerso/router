@@ -5,17 +5,17 @@
  * @returns The error message as a string.
  */
 export const getErrorMessage = (error: unknown): string => {
-  let message: string
+  let message: string;
 
   if (error instanceof Error) {
-    message = error.message
+    message = error.message;
   } else if (error && typeof error === "object" && "message" in error) {
-    message = String(error.message)
+    message = String(error.message);
   } else if (typeof error === "string") {
-    message = error
+    message = error;
   } else {
-    message = "Something went wrong"
+    message = "Something went wrong";
   }
 
-  return message
-}
+  return message;
+};

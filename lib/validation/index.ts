@@ -1,5 +1,5 @@
-import * as z from "zod"
-import validator from "validator"
+import * as z from "zod";
+import validator from "validator";
 
 /**
  * The validation types that are available
@@ -19,7 +19,7 @@ export const validationOptions: { name: ValidationType }[] = [
   { name: "boolean" },
   { name: "url" },
   { name: "zip_code" },
-]
+];
 
 /**
  * Zod validations for each validation type
@@ -40,7 +40,7 @@ export const validations: { [key in ValidationType]: z.ZodType<any, any> } = {
     .string()
     .min(5, "Not a valid zip code.")
     .max(5, "Not a valid zip code."),
-}
+};
 
 /**
  * Converts the values in the provided data object to their correct types based on the given schema.
@@ -53,24 +53,24 @@ export const convertToCorrectTypes = (
   data: any,
   schema: GeneralSchema[],
 ): any => {
-  const result: any = {}
+  const result: any = {};
 
   schema.forEach(({ key, value }) => {
     if (value === "boolean") {
       // Convert "true" and "false" strings to boolean values
-      result[key] = data[key] === "true"
+      result[key] = data[key] === "true";
     } else if (value === "number") {
       // Convert string to number, ensuring NaN is handled appropriately
-      const num = Number(data[key])
-      result[key] = isNaN(num) ? undefined : num
+      const num = Number(data[key]);
+      result[key] = isNaN(num) ? undefined : num;
     } else {
       // For all other types, assume string or no conversion needed
-      result[key] = data[key]
+      result[key] = data[key];
     }
-  })
+  });
 
-  return result
-}
+  return result;
+};
 
 /**
  * Generates a dynamic schema based on the provided schema array.
@@ -82,13 +82,13 @@ export const generateDynamicSchema = (
   schema: GeneralSchema[],
 ): z.ZodRawShape => {
   return schema.reduce<z.ZodRawShape>((acc, { key, value }) => {
-    const validation = validations[value]
+    const validation = validations[value];
     if (validation) {
-      acc[key as keyof SchemaToZodMap] = validation
+      acc[key as keyof SchemaToZodMap] = validation;
     }
-    return acc
-  }, {})
-}
+    return acc;
+  }, {});
+};
 
 /**
  * Validates and parses the given data using the provided dynamic schema.
@@ -102,18 +102,18 @@ export const validateAndParseData = (
   data: any,
 ): z.SafeParseReturnType<
   {
-    [x: string]: any
+    [x: string]: any;
   },
   {
-    [x: string]: any
+    [x: string]: any;
   }
 > => {
-  const EndpointZodSchema = z.object(dynamicSchema)
+  const EndpointZodSchema = z.object(dynamicSchema);
 
   Object.keys(dynamicSchema).forEach((key) => {
-    const validation = dynamicSchema[key]
-    console.log(`Field: ${key}, Validation: ${validation._def.typeName}`)
-  })
+    const validation = dynamicSchema[key];
+    console.log(`Field: ${key}, Validation: ${validation._def.typeName}`);
+  });
 
-  return EndpointZodSchema.safeParse(data)
-}
+  return EndpointZodSchema.safeParse(data);
+};

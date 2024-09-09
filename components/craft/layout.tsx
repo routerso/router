@@ -1,12 +1,12 @@
-import { cn } from "@/lib/utils"
-import { ThemeProvider } from "@/providers/theme-provider"
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 // LAYOUT
 // Layout Component
 type LayoutProps = {
-  children: React.ReactNode
-  className?: string
-}
+  children: React.ReactNode;
+  className?: string;
+};
 
 const Layout = ({ children, className }: LayoutProps) => {
   return (
@@ -25,15 +25,15 @@ const Layout = ({ children, className }: LayoutProps) => {
         </ThemeProvider>
       </body>
     </html>
-  )
-}
+  );
+};
 
 // Main Component
 type MainProps = {
-  children: React.ReactNode
-  className?: string
-  id?: string
-}
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+};
 
 const Main = ({ children, className, id }: MainProps) => {
   return (
@@ -53,45 +53,45 @@ const Main = ({ children, className, id }: MainProps) => {
     >
       {children}
     </main>
-  )
-}
+  );
+};
 
 // Section Component
 type SectionProps = {
-  children: React.ReactNode
-  className?: string
-  id?: string
-}
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+};
 
 const Section = ({ children, className, id }: SectionProps) => {
   return (
     <section className={cn("py-12", className)} id={id}>
       {children}
     </section>
-  )
-}
+  );
+};
 
 // Container Component
 type ContainerProps = {
-  children: React.ReactNode
-  className?: string
-  id?: string
-}
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+};
 
 const Container = ({ children, className, id }: ContainerProps) => {
   return (
     <div className={cn("max-w-5xl mx-auto", "p-6 sm:p-8", className)} id={id}>
       {children}
     </div>
-  )
-}
+  );
+};
 
 // Article Component
 type ArticleProps = {
-  children: React.ReactNode
-  className?: string
-  id?: string
-}
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+};
 
 const Article = ({ children, className, id }: ArticleProps) => {
   return (
@@ -105,7 +105,7 @@ const Article = ({ children, className, id }: ArticleProps) => {
     >
       {children}
     </article>
-  )
-}
+  );
+};
 
-export { Layout, Main, Section, Container, Article }
+export { Layout, Main, Section, Container, Article };

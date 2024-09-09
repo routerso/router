@@ -5,17 +5,17 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Skeleton } from "@/components/ui/skeleton"
-import Image from "next/image"
-import Icon from "@/public/icon.svg"
+} from "@/components/ui/breadcrumb";
+import { Skeleton } from "@/components/ui/skeleton";
+import Image from "next/image";
+import Icon from "@/public/icon.svg";
 
 export const Breadcrumbs = ({
   pageName,
   isLoading,
 }: {
-  pageName?: string
-  isLoading?: boolean
+  pageName?: string;
+  isLoading?: boolean;
 }) => {
   return (
     <Breadcrumb className="h-[67.63px] bg-muted/50 rounded-lg border flex items-center justify-between p-6">
@@ -40,5 +40,5 @@ export const Breadcrumbs = ({
         alt="Router.so Icon"
       />
     </Breadcrumb>
-  )
-}
+  );
+};

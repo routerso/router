@@ -2,18 +2,18 @@
  * Prop type for navigation
  */
 type NavLinkProps = {
-  href: string
-  children: React.ReactNode
-  icon: Icon
-}
+  href: string;
+  children: React.ReactNode;
+  icon: Icon;
+};
 
 /**
  * Prop type for header
  */
 type HeaderProps = {
-  title: string
-  children?: React.ReactNode
-}
+  title: string;
+  children?: React.ReactNode;
+};
 
 /**
  * Represents a general schema.
@@ -21,10 +21,10 @@ type HeaderProps = {
  * An array of objects, each containing a key and its corresponding ValidationType.
  */
 type GeneralSchema = {
-  key: string
-  value: ValidationType
-  required?: boolean
-}
+  key: string;
+  value: ValidationType;
+  required?: boolean;
+};
 
 /**
  * Validation types
@@ -40,16 +40,16 @@ type ValidationType =
   | "date"
   | "boolean"
   | "url"
-  | "zip_code"
+  | "zip_code";
 
 /**
  * Row type for the main dashboard data on /dashboard route
  */
 type LeadAndErrorCountResults = {
-  date: string
-  leads: number
-  errors: number
-}[]
+  date: string;
+  leads: number;
+  errors: number;
+}[];
 
 /**
  * Represents a mapping between keys of type `GeneralSchema["key"]`
@@ -59,8 +59,8 @@ type LeadAndErrorCountResults = {
 type SchemaToZodMap = {
   [P in GeneralSchema["key"]]: ReturnType<
     (typeof validations)[GeneralSchema["value"]]
-  >
-}
+  >;
+};
 
 /**
  * Type for fetched logs
@@ -68,13 +68,13 @@ type SchemaToZodMap = {
  * includes attributes of the 'endpoint' db model
  */
 type LogRow = {
-  id: string
-  type: "success" | "error"
-  message: Record<string, any> | unknown
-  endpoint: string
-  endpointId: string
-  createdAt: Date
-}
+  id: string;
+  type: "success" | "error";
+  message: Record<string, any> | unknown;
+  endpoint: string;
+  endpointId: string;
+  createdAt: Date;
+};
 
 /**
  * Type for fetched leads
@@ -82,14 +82,14 @@ type LogRow = {
  * includes attributes of the 'endpoint' db model
  */
 type LeadRow = {
-  id: string
-  data: { [key: string]: any }
-  schema?: { key: string; value: ValidationType }[]
-  createdAt: Date
-  updatedAt: Date
-  endpointId: string
-  endpoint?: string
-}
+  id: string;
+  data: { [key: string]: any };
+  schema?: { key: string; value: ValidationType }[];
+  createdAt: Date;
+  updatedAt: Date;
+  endpointId: string;
+  endpoint?: string;
+};
 
 /**
  * Represents a log message.
@@ -101,13 +101,13 @@ type LeadRow = {
 type LogMessage =
   | z.SafeParseReturnType<
       {
-        [x: string]: any
+        [x: string]: any;
       },
       {
-        [x: string]: any
+        [x: string]: any;
       }
     >
-  | { success: string }
+  | { success: string };
 
 /**
  * Represents a function that handles server actions.
@@ -117,6 +117,6 @@ type LogMessage =
  */
 type ServerActionFunction = (
   formData: FormData,
-) => Promise<{ error: string } | undefined>
+) => Promise<{ error: string } | undefined>;
 
-type LogPostType = "http" | "form" | "webhook" | "email"
+type LogPostType = "http" | "form" | "webhook" | "email";

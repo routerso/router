@@ -1,4 +1,4 @@
-import { Pin, Slash } from "lucide-react"
+import { Pin, Slash } from "lucide-react";
 
 export const Header: React.FC<HeaderProps> = ({ title, children }) => {
   return (
@@ -6,5 +6,5 @@ export const Header: React.FC<HeaderProps> = ({ title, children }) => {
       <h1 className="font-normal">{title}</h1>
       {children && <h3 className="text-muted-foreground">: {children}</h3>}
     </section>
-  )
-}
+  );
+};

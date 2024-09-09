@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import { Cross2Icon } from "@radix-ui/react-icons"
-import { Table } from "@tanstack/react-table"
+import { Cross2Icon } from "@radix-ui/react-icons";
+import { Table } from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
-import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter"
-import { CircleCheck, CircleX, Webhook, CodeXml } from "lucide-react"
-import { Endpoint } from "@/lib/db"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { DataTableViewOptions } from "@/components/data-table/data-table-view-options";
+import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
+import { CircleCheck, CircleX, Webhook, CodeXml } from "lucide-react";
+import { Endpoint } from "@/lib/db";
 
 interface DataTableToolbarProps<TData> {
-  table: Table<TData>
-  endpoints: Endpoint[]
+  table: Table<TData>;
+  endpoints: Endpoint[];
 }
 
 const logTypeFilter = [
@@ -26,7 +26,7 @@ const logTypeFilter = [
     label: "Error",
     icon: CircleX,
   },
-]
+];
 
 const postTypeFilter = [
   {
@@ -39,7 +39,7 @@ const postTypeFilter = [
     label: "Form",
     icon: CodeXml,
   },
-]
+];
 
 export function DataTableToolbar<TData>({
   table,
@@ -49,9 +49,9 @@ export function DataTableToolbar<TData>({
     value: endpoint.name,
     label: endpoint.name,
     icon: undefined,
-  }))
+  }));
 
-  const isFiltered = table.getState().columnFilters.length > 0
+  const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
     <div className="flex items-center justify-between">
@@ -98,5 +98,5 @@ export function DataTableToolbar<TData>({
       </div>
       <DataTableViewOptions table={table} />
     </div>
-  )
+  );
 }

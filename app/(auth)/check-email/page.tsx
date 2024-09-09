@@ -1,7 +1,7 @@
-import Image from "next/image"
-import { redirect } from "next/navigation"
-import Link from "next/link"
-import Balancer from "react-wrap-balancer"
+import Image from "next/image";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import Balancer from "react-wrap-balancer";
 
 export default async function LoginPage() {
   return (
@@ -37,5 +37,5 @@ export default async function LoginPage() {
         .
       </p>
     </section>
-  )
+  );
 }

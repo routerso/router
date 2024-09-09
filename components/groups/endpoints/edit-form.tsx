@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 
 // type imports
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { useFieldArray, useForm } from "react-hook-form"
-import { updateEndpointFormSchema as formSchema } from "@/lib/data/validations"
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useFieldArray, useForm } from "react-hook-form";
+import { updateEndpointFormSchema as formSchema } from "@/lib/data/validations";
 
-import { validationOptions } from "@/lib/validation"
+import { validationOptions } from "@/lib/validation";
 
 // next imports
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 
 // UI Imports
 import {
@@ -21,12 +21,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Switch } from "@/components/ui/switch"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { X } from "lucide-react"
-import { toast } from "sonner"
+} from "@/components/ui/form";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { X } from "lucide-react";
+import { toast } from "sonner";
 
 import {
   Select,
@@ -34,30 +34,30 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Endpoint } from "@/lib/db"
+} from "@/components/ui/select";
+import { Endpoint } from "@/lib/db";
 
-import { useAction } from "next-safe-action/hooks"
-import { parseActionError } from "@/lib/data/safe-action"
-import { updateEndpoint } from "@/lib/data/endpoints"
+import { useAction } from "next-safe-action/hooks";
+import { parseActionError } from "@/lib/data/safe-action";
+import { updateEndpoint } from "@/lib/data/endpoints";
 
-type DomainValues = z.infer<typeof formSchema>
+type DomainValues = z.infer<typeof formSchema>;
 
 export default function EditForm({
   id,
   endpoint,
 }: {
-  id: string
-  endpoint: Endpoint
+  id: string;
+  endpoint: Endpoint;
 }) {
   const { execute, isExecuting } = useAction(updateEndpoint, {
     onSuccess() {
-      toast.success("Endpoint updated successfully.")
+      toast.success("Endpoint updated successfully.");
     },
     onError({ error }) {
-      toast.error(parseActionError(error))
+      toast.error(parseActionError(error));
     },
-  })
+  });
 
   const defaultValues: Partial<DomainValues> = {
     id: id,
@@ -68,18 +68,18 @@ export default function EditForm({
     failUrl: endpoint.failUrl ?? undefined,
     webhookEnabled: endpoint.webhookEnabled,
     webhook: endpoint.webhook ?? undefined,
-  }
+  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
     mode: "onChange",
-  })
+  });
 
   const { fields, append, remove } = useFieldArray({
     name: "schema",
     control: form.control,
-  })
+  });
 
   return (
     <Form {...form}>
@@ -166,7 +166,7 @@ export default function EditForm({
 
           <Button
             onClick={() => {
-              append({ key: "", value: "string" })
+              append({ key: "", value: "string" });
             }}
           >
             Add Field +
@@ -291,5 +291,5 @@ export default function EditForm({
         </Button>
       </form>
     </Form>
-  )
+  );
 }

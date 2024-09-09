@@ -7,13 +7,13 @@ import {
   pgEnum,
   boolean,
   jsonb,
-} from "drizzle-orm/pg-core"
-import type { AdapterAccount } from "@auth/core/adapters"
-import { init } from "@paralleldrive/cuid2"
+} from "drizzle-orm/pg-core";
+import type { AdapterAccount } from "@auth/core/adapters";
+import { init } from "@paralleldrive/cuid2";
 
 const createId = init({
   length: 8,
-})
+});
 
 export const users = pgTable("user", {
   id: text("id")
@@ -25,7 +25,7 @@ export const users = pgTable("user", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   leadCount: integer("leadCount").notNull().default(0),
-})
+});
 
 export const accounts = pgTable(
   "account",
@@ -49,7 +49,7 @@ export const accounts = pgTable(
       columns: [account.provider, account.providerAccountId],
     }),
   }),
-)
+);
 
 export const sessions = pgTable("session", {
   sessionToken: text("sessionToken").notNull().primaryKey(),
@@ -57,7 +57,7 @@ export const sessions = pgTable("session", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date" }).notNull(),
-})
+});
 
 export const verificationTokens = pgTable(
   "verificationToken",
@@ -69,7 +69,7 @@ export const verificationTokens = pgTable(
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   }),
-)
+);
 
 export const endpoints = pgTable("endpoint", {
   id: text("id")
@@ -93,7 +93,7 @@ export const endpoints = pgTable("endpoint", {
   token: text("token"),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
-})
+});
 
 export const leads = pgTable("lead", {
   id: text("id")
@@ -106,15 +106,15 @@ export const leads = pgTable("lead", {
   data: jsonb("data").$type<{ [key: string]: any }>().notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
-})
+});
 
-export const logTypeEnum = pgEnum("logType", ["success", "error"])
+export const logTypeEnum = pgEnum("logType", ["success", "error"]);
 export const logPostTypeEnum = pgEnum("logPostType", [
   "http",
   "form",
   "webhook",
   "email",
-])
+]);
 
 export const logs = pgTable("log", {
   id: text("id")
@@ -128,4 +128,4 @@ export const logs = pgTable("log", {
   postType: logPostTypeEnum("postType").notNull(),
   message: jsonb("message").$type<Record<string, any> | unknown>().notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
-})
+});

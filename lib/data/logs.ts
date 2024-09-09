@@ -1,11 +1,11 @@
-"use server"
+"use server";
 
-import { logs, endpoints } from "../db/schema"
-import { eq, desc } from "drizzle-orm"
-import { revalidatePath } from "next/cache"
-import { db } from "../db"
-import { authenticatedAction } from "./safe-action"
-import { z } from "zod"
+import { logs, endpoints } from "../db/schema";
+import { eq, desc } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+import { db } from "../db";
+import { authenticatedAction } from "./safe-action";
+import { z } from "zod";
 
 /**
  * Creates a log entry
@@ -26,9 +26,9 @@ export async function createLog(
       type === "success" ? { success: true, id: message } : { error: message },
     createdAt: new Date(),
     endpointId,
-  })
+  });
 
-  revalidatePath("/logs")
+  revalidatePath("/logs");
 }
 
 /**
@@ -43,7 +43,7 @@ export const getLogs = authenticatedAction.action(
       .from(logs)
       .leftJoin(endpoints, eq(logs.endpointId, endpoints.id))
       .where(eq(endpoints.userId, userId))
-      .orderBy(desc(logs.createdAt))
+      .orderBy(desc(logs.createdAt));
 
     const data: LogRow[] = logsData.map((log) => ({
       id: log.log.id,
@@ -53,11 +53,11 @@ export const getLogs = authenticatedAction.action(
       createdAt: log.log.createdAt,
       endpointId: log.endpoint?.id || "",
       endpoint: log.endpoint?.name || "",
-    }))
+    }));
 
-    return data
+    return data;
   },
-)
+);
 
 /**
  * Deletes a log
@@ -73,15 +73,15 @@ export const deleteLog = authenticatedAction
       })
       .from(logs)
       .innerJoin(endpoints, eq(logs.endpointId, endpoints.id))
-      .where(eq(logs.id, id))
+      .where(eq(logs.id, id));
 
     if (
       !logWithEndpoint.length ||
       logWithEndpoint[0].endpointUserId !== userId
     ) {
-      throw new Error("You are not authorized for this action.")
+      throw new Error("You are not authorized for this action.");
     }
 
-    await db.delete(logs).where(eq(logs.id, id))
-    revalidatePath("/logs")
-  })
+    await db.delete(logs).where(eq(logs.id, id));
+    revalidatePath("/logs");
+  });

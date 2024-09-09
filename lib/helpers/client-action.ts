@@ -1,4 +1,4 @@
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 /**
  * Creates a client action function that handles form data and calls the provided server action function.
@@ -10,11 +10,11 @@ export function createClientAction(
   createParamWithId: ServerActionFunction,
 ): (formData: FormData) => Promise<void> {
   return async function clientAction(formData: FormData) {
-    const result = await createParamWithId(formData)
+    const result = await createParamWithId(formData);
     if (result?.error) {
-      toast.error(result?.error)
+      toast.error(result?.error);
     } else {
-      toast.success("Success!")
+      toast.success("Success!");
     }
-  }
+  };
 }

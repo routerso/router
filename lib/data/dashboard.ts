@@ -1,8 +1,8 @@
-"use server"
+"use server";
 
-import { sql } from "drizzle-orm"
-import { db } from "../db"
-import { authenticatedAction } from "./safe-action"
+import { sql } from "drizzle-orm";
+import { db } from "../db";
+import { authenticatedAction } from "./safe-action";
 
 /**
  * Get lead and error counts in proper format for shadcn/ui charts
@@ -62,8 +62,8 @@ export const getLeadAndErrorCounts = authenticatedAction.action(
         error_counts ec ON ds.date = ec.date
     ORDER BY
         ds.date;
-    `)
+    `);
 
-    return data.rows as LeadAndErrorCountResults
+    return data.rows as LeadAndErrorCountResults;
   },
-)
+);

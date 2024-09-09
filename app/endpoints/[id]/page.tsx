@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation"
+import { redirect } from "next/navigation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,49 +6,49 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Header } from "@/components/parts/header"
-import { getEndpointById } from "@/lib/data/endpoints"
-import SchemaTable from "@/components/groups/endpoints/schema-table"
-import * as Craft from "@/components/craft/layout"
-import { Separator } from "@/components/ui/separator"
-import { Home } from "lucide-react"
-import { PageWrapper } from "@/components/parts/page-wrapper"
-import Image from "next/image"
-import Icon from "@/public/icon.svg"
-import CopyButton from "@/components/parts/copy-button"
-import { generateShadcnForm } from "@/lib/helpers/generate-form"
-import { notFound } from "next/navigation"
+} from "@/components/ui/breadcrumb";
+import { Header } from "@/components/parts/header";
+import { getEndpointById } from "@/lib/data/endpoints";
+import SchemaTable from "@/components/groups/endpoints/schema-table";
+import * as Craft from "@/components/craft/layout";
+import { Separator } from "@/components/ui/separator";
+import { Home } from "lucide-react";
+import { PageWrapper } from "@/components/parts/page-wrapper";
+import Image from "next/image";
+import Icon from "@/public/icon.svg";
+import CopyButton from "@/components/parts/copy-button";
+import { generateShadcnForm } from "@/lib/helpers/generate-form";
+import { notFound } from "next/navigation";
 
 const pageData = {
   title: "Endpoint",
   description: "Schema details and posting instructions for your endpoint",
-}
+};
 
 export default async function Page({ params }: { params: { id: string } }) {
   // fetch endpoint
-  const endpoint = await getEndpointById({ id: params?.id })
-  const { data: endpointData, serverError } = endpoint || {}
+  const endpoint = await getEndpointById({ id: params?.id });
+  const { data: endpointData, serverError } = endpoint || {};
 
   // check for errors
-  if (!endpointData || serverError) notFound()
+  if (!endpointData || serverError) notFound();
 
-  const schema = endpointData?.schema as GeneralSchema[]
+  const schema = endpointData?.schema as GeneralSchema[];
 
-  const url = `https://app.router.so/api/endpoints/${endpointData.id}`
+  const url = `https://app.router.so/api/endpoints/${endpointData.id}`;
 
   //  ---------- TODO: make this into its own function ----------
-  const formattedSchema = new Object() as { [key: string]: ValidationType }
+  const formattedSchema = new Object() as { [key: string]: ValidationType };
   schema.forEach((field) => {
-    formattedSchema[field.key] = field.value
-  })
-  const schemaString = JSON.stringify(formattedSchema, null, 2)
+    formattedSchema[field.key] = field.value;
+  });
+  const schemaString = JSON.stringify(formattedSchema, null, 2);
   //  ---------------------------------------------------------
 
   const exampleCurl = `curl -X POST ${url} \\
   --header "Content-Type: application/json" \\
   --header "Authorization: Bearer ${endpointData?.token}" \\
-  --data '${schemaString}'`
+  --data '${schemaString}'`;
 
   const exampleJs = `fetch("${url}", {
     method: "POST",
@@ -57,7 +57,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       "Authorization": "Bearer ${endpointData?.token}"
     },
     body: JSON.stringify(${schemaString})
-  })`
+  })`;
 
   const exampleForm = `<form action="${url}" method="GET">
     ${schema.map(
@@ -71,9 +71,9 @@ export default async function Page({ params }: { params: { id: string } }) {
         }" name="${field.key}" />`,
     )}
     <button type="submit" value="Submit" />
-  </form>`
+  </form>`;
 
-  const shadcnForm = generateShadcnForm(schema)
+  const shadcnForm = generateShadcnForm(schema);
 
   return (
     <>
@@ -189,7 +189,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </Craft.Main>
       </PageWrapper>
     </>
-  )
+  );
 }
 
 function Breadcrumbs({ endpointId }: { endpointId: string }) {
@@ -218,5 +218,5 @@ function Breadcrumbs({ endpointId }: { endpointId: string }) {
         alt="Router.so Icon"
       />
     </Breadcrumb>
-  )
+  );
 }

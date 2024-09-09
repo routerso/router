@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { useSession, SessionProvider } from "next-auth/react"
-import { useEffect } from "react"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useSession, SessionProvider } from "next-auth/react";
+import { useEffect } from "react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,10 +15,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "sonner"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 
 // Define the form schema using Zod
 const formSchema = z.object({
@@ -31,10 +31,10 @@ const formSchema = z.object({
   help: z.string().min(1, {
     message: "Please let us know how we can help",
   }),
-})
+});
 
 function HelpFormContent() {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
 
   // Define the form using useForm and zodResolver
   const form = useForm<z.infer<typeof formSchema>>({
@@ -44,19 +44,19 @@ function HelpFormContent() {
       email: "",
       help: "",
     },
-  })
+  });
 
   useEffect(() => {
     if (session?.user?.email) {
-      form.setValue("email", session.user.email)
+      form.setValue("email", session.user.email);
     }
-  }, [session, form])
+  }, [session, form]);
 
   // Define the submit handler
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Handle form submission
-    console.log(values)
-    toast.success("Thank you. We will get back to you shortly.")
+    console.log(values);
+    toast.success("Thank you. We will get back to you shortly.");
   }
 
   return (
@@ -107,7 +107,7 @@ function HelpFormContent() {
         <Button type="submit">Submit</Button>
       </form>
     </Form>
-  )
+  );
 }
 
 export function HelpForm() {
@@ -115,5 +115,5 @@ export function HelpForm() {
     <SessionProvider>
       <HelpFormContent />
     </SessionProvider>
-  )
+  );
 }

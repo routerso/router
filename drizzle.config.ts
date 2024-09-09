@@ -1,4 +1,4 @@
-import { defineConfig } from "drizzle-kit"
+import { defineConfig } from "drizzle-kit";
 export default defineConfig({
   schema: "lib/db/schema.ts",
   out: "lib/db/drizzle",
@@ -8,4 +8,4 @@ export default defineConfig({
   },
   verbose: true,
   strict: true,
-})
+});

@@ -1,42 +1,42 @@
-import Link from "next/link"
+import Link from "next/link";
 
-import { Breadcrumbs } from "@/components/parts/breadcrumbs"
-import { Header } from "@/components/parts/header"
-import { Chart } from "@/components/dashboard/chart"
-import { PageWrapper } from "@/components/parts/page-wrapper"
-import { getLeadAndErrorCounts } from "@/lib/data/dashboard"
-import { notFound } from "next/navigation"
-import { getLeads } from "@/lib/data/leads"
-import { getEndpoints } from "@/lib/data/endpoints"
-import { DataTable } from "@/components/groups/leads/data-table"
-import { columns } from "@/components/groups/leads/columns"
-import { getUsageForUser } from "@/lib/data/users"
-import { Usage } from "@/components/parts/usage"
+import { Breadcrumbs } from "@/components/parts/breadcrumbs";
+import { Header } from "@/components/parts/header";
+import { Chart } from "@/components/dashboard/chart";
+import { PageWrapper } from "@/components/parts/page-wrapper";
+import { getLeadAndErrorCounts } from "@/lib/data/dashboard";
+import { notFound } from "next/navigation";
+import { getLeads } from "@/lib/data/leads";
+import { getEndpoints } from "@/lib/data/endpoints";
+import { DataTable } from "@/components/groups/leads/data-table";
+import { columns } from "@/components/groups/leads/columns";
+import { getUsageForUser } from "@/lib/data/users";
+import { Usage } from "@/components/parts/usage";
 
 const pageData = {
   name: "Dashboard",
   title: "Dashboard",
   description: "Snapshot of your endpoints and leads",
-}
+};
 
 export default async function Page() {
   // fetch chart data
-  const charts = await getLeadAndErrorCounts()
-  const { data: chartData, serverError: chartServerError } = charts || {}
+  const charts = await getLeadAndErrorCounts();
+  const { data: chartData, serverError: chartServerError } = charts || {};
 
   // fetch leads
-  const leads = await getLeads()
-  const { data: leadsData, serverError: leadsServerError } = leads || {}
+  const leads = await getLeads();
+  const { data: leadsData, serverError: leadsServerError } = leads || {};
 
   // fetch endpoints
-  const endpoints = await getEndpoints()
+  const endpoints = await getEndpoints();
   const { data: endpointsData, serverError: endpointsServerError } =
-    endpoints || {}
+    endpoints || {};
 
   // fetch number of leads for user this month
-  const usage = await getUsageForUser()
-  const { data: usageData, serverError: usageServerError } = usage || {}
-  console.log(usageData)
+  const usage = await getUsageForUser();
+  const { data: usageData, serverError: usageServerError } = usage || {};
+  console.log(usageData);
 
   // check for errors
   if (
@@ -50,11 +50,11 @@ export default async function Page() {
     chartServerError ||
     usageServerError
   ) {
-    notFound()
+    notFound();
   }
 
   // get the 5 most recent leads
-  const recentLeads = leadsData.slice(0, 5)
+  const recentLeads = leadsData.slice(0, 5);
 
   return (
     <>
@@ -76,7 +76,7 @@ export default async function Page() {
         </div>
       </PageWrapper>
     </>
-  )
+  );
 }
 
 const navLinks = [
@@ -95,7 +95,7 @@ const navLinks = [
     description: "Monitor your API usage and errors",
     href: "/logs",
   },
-]
+];
 
 const Links = () => {
   return (
@@ -111,5 +111,5 @@ const Links = () => {
         </Link>
       ))}
     </>
-  )
-}
+  );
+};

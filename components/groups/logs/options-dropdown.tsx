@@ -4,7 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 import {
   AlertDialog,
@@ -15,26 +15,26 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 
-import { MoreHorizontal } from "lucide-react"
-import { useState } from "react"
+import { MoreHorizontal } from "lucide-react";
+import { useState } from "react";
 
-import { deleteLog } from "@/lib/data/logs"
-import { useAction } from "next-safe-action/hooks"
-import { parseActionError } from "@/lib/data/safe-action"
-import { toast } from "sonner"
+import { deleteLog } from "@/lib/data/logs";
+import { useAction } from "next-safe-action/hooks";
+import { parseActionError } from "@/lib/data/safe-action";
+import { toast } from "sonner";
 
 export default function OptionsDropdown({ id }: { id: string }) {
   const { execute } = useAction(deleteLog, {
     onSuccess() {
-      toast.success("Successfully deleted log.")
+      toast.success("Successfully deleted log.");
     },
     onError({ error }) {
-      toast.error(parseActionError(error))
+      toast.error(parseActionError(error));
     },
-  })
-  const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false)
+  });
+  const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
 
   return (
     <>
@@ -73,5 +73,5 @@ export default function OptionsDropdown({ id }: { id: string }) {
         </AlertDialogContent>
       </AlertDialog>
     </>
-  )
+  );
 }

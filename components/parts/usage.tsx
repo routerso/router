@@ -5,32 +5,32 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 
-import { Progress } from "@/components/ui/progress"
-import { CircleAlert, ArrowUp } from "lucide-react"
-import { Badge } from "../ui/badge"
-import Link from "next/link"
+import { Progress } from "@/components/ui/progress";
+import { CircleAlert, ArrowUp } from "lucide-react";
+import { Badge } from "../ui/badge";
+import Link from "next/link";
 
 export const Usage = ({
   totalUsage,
   used,
   plan,
 }: {
-  totalUsage: number
-  used: number
-  plan: string
+  totalUsage: number;
+  used: number;
+  plan: string;
 }) => {
   const calculateDaysLeft = () => {
-    const now = new Date()
-    const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1)
-    const timeDiff = nextMonth.getTime() - now.getTime()
-    return Math.ceil(timeDiff / (1000 * 3600 * 24))
-  }
+    const now = new Date();
+    const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    const timeDiff = nextMonth.getTime() - now.getTime();
+    return Math.ceil(timeDiff / (1000 * 3600 * 24));
+  };
 
-  const daysLeft = calculateDaysLeft()
-  const remaining = totalUsage - used
-  const usagePercentage = (used / totalUsage) * 100
+  const daysLeft = calculateDaysLeft();
+  const remaining = totalUsage - used;
+  const usagePercentage = (used / totalUsage) * 100;
 
   return (
     <Card className="w-full flex flex-col">
@@ -74,8 +74,8 @@ export const Usage = ({
         </CardFooter>
       )}
     </Card>
-  )
-}
+  );
+};
 
 const UpgradePlan = () => {
   return (
@@ -93,5 +93,5 @@ const UpgradePlan = () => {
         Upgrade your plan to capture more leads
       </span>
     </a>
-  )
-}
+  );
+};
