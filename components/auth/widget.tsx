@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import SignOut from "./signout";
+import SignOut from "@/components/auth/signout";
 import {
   DropdownMenu,
   DropdownMenuContent,

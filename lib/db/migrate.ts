@@ -1,6 +1,6 @@
 import { loadEnvConfig } from "@next/env";
 import { migrate } from "drizzle-orm/vercel-postgres/migrator";
-import { db } from ".";
+import { db } from "@/lib/db/index";
 
 /**
  * Migration function

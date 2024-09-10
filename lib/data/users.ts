@@ -1,9 +1,9 @@
 "use server";
 
-import { db } from "../db";
-import { users, endpoints } from "../db/schema";
+import { db } from "@/lib/db";
+import { users, endpoints } from "@/lib/db/schema";
 import { eq, sql } from "drizzle-orm";
-import { authenticatedAction } from "./safe-action";
+import { authenticatedAction } from "@/lib/data/safe-action";
 
 /**
  * Increments the lead count for a user

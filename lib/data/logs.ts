@@ -1,10 +1,10 @@
 "use server";
 
-import { logs, endpoints } from "../db/schema";
+import { logs, endpoints } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { db } from "../db";
-import { authenticatedAction } from "./safe-action";
+import { db } from "@/lib/db";
+import { authenticatedAction } from "@/lib/data/safe-action";
 import { z } from "zod";
 
 /**

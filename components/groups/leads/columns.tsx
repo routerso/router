@@ -5,7 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { DataTableColumnHeader } from "@/components/data-table/header";
 import Link from "next/link";
-import OptionsDropdown from "./options-dropdown";
+import OptionsDropdown from "@/components/groups/leads/options-dropdown";
 
 export const columns: ColumnDef<Lead>[] = [
   {

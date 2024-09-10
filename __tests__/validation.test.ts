@@ -1,5 +1,5 @@
 import { expect, test, describe } from "vitest";
-import * as validation from "../lib/validation";
+import * as validation from "@/lib/validation";
 
 describe("convertToCorrectTypes", () => {
   test('should convert "true" and "false" strings to boolean values', () => {

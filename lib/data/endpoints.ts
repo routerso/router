@@ -2,15 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 import { db, Endpoint } from "../db";
-import { endpoints } from "../db/schema";
+import { endpoints } from "@/lib/db/schema";
 import { eq, desc, and } from "drizzle-orm";
 import { getErrorMessage } from "@/lib/helpers/error-message";
-import { authenticatedAction } from "./safe-action";
+import { authenticatedAction } from "@/lib/data/safe-action";
 import { z } from "zod";
 import {
   createEndpointFormSchema,
   updateEndpointFormSchema,
-} from "./validations";
+} from "@/lib/data/validations";
 import { randomBytes } from "crypto";
 import { redirect } from "next/navigation";
 

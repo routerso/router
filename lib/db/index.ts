@@ -2,7 +2,7 @@
 import { InferSelectModel, InferInsertModel } from "drizzle-orm";
 import { sql } from "@vercel/postgres";
 import { drizzle } from "drizzle-orm/vercel-postgres";
-import { users, endpoints, logs, leads } from "./schema";
+import { users, endpoints, logs, leads } from "@/lib/db/schema";
 
 export type User = InferSelectModel<typeof users>;
 export type NewUser = InferInsertModel<typeof users>;

@@ -1,5 +1,5 @@
 import { expect, test, describe } from "vitest";
-import { constructBodyFromURLParameters } from "../lib/helpers/construct-body";
+import { constructBodyFromURLParameters } from "@/lib/helpers/construct-body";
 
 describe("constructBodyFromURLParameters", () => {
   test("should return an empty object when there are no URL parameters", () => {

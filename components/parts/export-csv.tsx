@@ -1,7 +1,7 @@
 "use client";
 
 import { Lead } from "@/lib/db";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { parse } from "json2csv";
 import { toast } from "sonner";
 
