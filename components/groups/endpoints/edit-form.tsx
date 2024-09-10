@@ -283,9 +283,9 @@ export default function EditForm({
 
         <Button
           type="submit"
-          variant={"secondary"}
+          variant="secondary"
           className="mt-12"
-          disabled={isExecuting}
+          loading={isExecuting}
         >
           Update Endpoint
         </Button>

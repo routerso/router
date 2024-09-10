@@ -275,7 +275,7 @@ export default function CreateForm() {
           )}
         </div>
 
-        <Button type="submit" className="mt-12" disabled={isExecuting}>
+        <Button type="submit" className="mt-12" loading={isExecuting}>
           Create Endpoint
         </Button>
       </form>

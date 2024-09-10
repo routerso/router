@@ -1,10 +1,11 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Separator } from "../ui/separator";
 import * as z from "zod";
+import { Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,11 +17,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import { Input } from "@/components/ui/input";
-import { useSearchParams } from "next/navigation";
-
-import { Mail } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const formSchema = z.object({
   email: z
@@ -41,7 +39,7 @@ export default function MagicLinkForm() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    signIn("resend", { email: values.email, callbackUrl: callbackUrl });
+    await signIn("resend", { email: values.email, callbackUrl: callbackUrl });
   };
 
   return (
@@ -67,7 +65,11 @@ export default function MagicLinkForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full items-center">
+          <Button
+            type="submit"
+            className="w-full items-center"
+            loading={form.formState.isSubmitting}
+          >
             Send Magic Link <Mail className="w-4 ml-2" />
           </Button>
         </form>
@@ -80,6 +82,7 @@ export default function MagicLinkForm() {
           variant="outline"
           className="w-full flex items-center justify-center"
           onClick={() => signIn("github", { callbackUrl })}
+          disabled={form.formState.isSubmitting}
         >
           <svg
             className="w-5 h-5 mr-2"
