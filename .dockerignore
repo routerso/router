@@ -3,3 +3,4 @@ git
 .gitignore
 .env.example
 .env
+.env.local
