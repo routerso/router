@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import { PageWrapper } from "@/components/parts/page-wrapper";
-import { HelpForm } from "./help-form";
+import { HelpForm } from "@/app/support/help-form";
 
 const pageData = {
   name: "Support",

@@ -5,7 +5,7 @@ import { DataTableColumnHeader } from "@/components/data-table/header";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import OptionsDropdown from "./options-dropdown";
-import LogModal from "./log-modal";
+import LogModal from "@/components/groups/logs/log-modal";
 import { Button } from "@/components/ui/button";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";

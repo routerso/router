@@ -1,5 +1,5 @@
 import { expect, test, describe } from "vitest";
-import * as validation from "../lib/validation";
+import * as validation from "@/lib/validation";
 
 describe("convertToCorrectTypes", () => {
   test('should convert "true" and "false" strings to boolean values', () => {
@@ -228,7 +228,7 @@ describe("validateAndParseData", () => {
 
     const result = validation.validateAndParseData(
       dynamicSchema,
-      incompleteData
+      incompleteData,
     );
 
     expect(result.success).toBe(false);
@@ -248,7 +248,7 @@ describe("validateAndParseData", () => {
 
     const result = validation.validateAndParseData(
       dynamicSchema,
-      dataWithExtraFields
+      dataWithExtraFields,
     );
 
     expect(result.success).toBe(true);

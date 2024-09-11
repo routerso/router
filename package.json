@@ -8,9 +8,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,json,scss,css}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,scss,css}\"",
     "test:unit": "vitest",
     "db:generate": "drizzle-kit generate:pg",
-    "db:migrate": "tsx lib/db/migrate.ts"
+    "db:migrate": "tsx lib/db/migrate.ts",
+    "prepare": "husky"
   },
   "dependencies": {
     "@auth/core": "^0.34.2",
@@ -54,6 +58,7 @@
     "date-fns": "^3.6.0",
     "drizzle-orm": "^0.33.0",
     "embla-carousel-react": "^8.0.0",
+    "husky": "^9.1.5",
     "input-otp": "^1.2.3",
     "json2csv": "6.0.0-alpha.2",
     "lucide-react": "^0.363.0",
@@ -62,6 +67,7 @@
     "next-safe-action": "^7.5.0",
     "next-themes": "^0.3.0",
     "pg": "^8.12.0",
+    "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.0",
     "react-dom": "^18.3.1",

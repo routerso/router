@@ -1,5 +1,5 @@
 // Component Imports
-import AccountWidget from "../auth/widget";
+import AccountWidget from "@/components/auth/widget";
 import Link from "next/link";
 import Image from "next/image";
 import { ModeToggle } from "@/components/parts/mode-toggle";

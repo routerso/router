@@ -9,7 +9,7 @@ import {
 
 import { Progress } from "@/components/ui/progress";
 import { CircleAlert, ArrowUp } from "lucide-react";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
 export const Usage = ({

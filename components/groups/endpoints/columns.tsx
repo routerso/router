@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 import Link from "next/link";
-import OptionsDropdown from "./options-dropdown";
+import OptionsDropdown from "@/components/groups/endpoints/options-dropdown";
 
 export const columns: ColumnDef<Endpoint>[] = [
   {
@@ -57,7 +57,7 @@ export const columns: ColumnDef<Endpoint>[] = [
           size="sm"
           onClick={() => {
             navigator.clipboard.writeText(
-              `https://app.router.so/api/endpoints/${id}`
+              `https://app.router.so/api/endpoints/${id}`,
             );
             toast.success("Endpoint Copied");
           }}

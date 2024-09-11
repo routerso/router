@@ -1,5 +1,5 @@
 import { expect, test, describe } from "vitest";
-import { constructBodyFromURLParameters } from "../lib/helpers/construct-body";
+import { constructBodyFromURLParameters } from "@/lib/helpers/construct-body";
 
 describe("constructBodyFromURLParameters", () => {
   test("should return an empty object when there are no URL parameters", () => {
@@ -20,7 +20,7 @@ describe("constructBodyFromURLParameters", () => {
 
   test("should construct an object with multiple key-value pairs from URL parameters", () => {
     const searchParams = new URLSearchParams(
-      "name=JohnDoe&age=30&country=USA&i=true"
+      "name=JohnDoe&age=30&country=USA&i=true",
     );
 
     const result = constructBodyFromURLParameters(searchParams);
@@ -43,7 +43,7 @@ describe("constructBodyFromURLParameters", () => {
 
   test("should handle URL parameters with special characters", () => {
     const searchParams = new URLSearchParams(
-      "name=John%20Doe&city=New%20York&query=a%26b%3Dc"
+      "name=John%20Doe&city=New%20York&query=a%26b%3Dc",
     );
 
     const result = constructBodyFromURLParameters(searchParams);
