@@ -1,10 +1,8 @@
 {
-  "id": "4a27b69c-9270-4dcb-a6f7-9988e98c83c9",
-  "prevId": "aac0d4d3-bfd6-4842-9eeb-94ca03658cba",
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "account": {
+    "public.account": {
       "name": "account",
       "schema": "",
       "columns": {
@@ -80,15 +78,15 @@
         "account_userId_user_id_fk": {
           "name": "account_userId_user_id_fk",
           "tableFrom": "account",
-          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {
@@ -102,7 +100,7 @@
       },
       "uniqueConstraints": {}
     },
-    "endpoint": {
+    "public.endpoint": {
       "name": "endpoint",
       "schema": "",
       "columns": {
@@ -200,21 +198,21 @@
         "endpoint_userId_user_id_fk": {
           "name": "endpoint_userId_user_id_fk",
           "tableFrom": "endpoint",
-          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "lead": {
+    "public.lead": {
       "name": "lead",
       "schema": "",
       "columns": {
@@ -254,21 +252,21 @@
         "lead_endpointId_endpoint_id_fk": {
           "name": "lead_endpointId_endpoint_id_fk",
           "tableFrom": "lead",
-          "tableTo": "endpoint",
           "columnsFrom": [
             "endpointId"
           ],
+          "tableTo": "endpoint",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "log": {
+    "public.log": {
       "name": "log",
       "schema": "",
       "columns": {
@@ -314,21 +312,21 @@
         "log_endpointId_endpoint_id_fk": {
           "name": "log_endpointId_endpoint_id_fk",
           "tableFrom": "log",
-          "tableTo": "endpoint",
           "columnsFrom": [
             "endpointId"
           ],
+          "tableTo": "endpoint",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "session": {
+    "public.session": {
       "name": "session",
       "schema": "",
       "columns": {
@@ -356,21 +354,21 @@
         "session_userId_user_id_fk": {
           "name": "session_userId_user_id_fk",
           "tableFrom": "session",
-          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user": {
+    "public.user": {
       "name": "user",
       "schema": "",
       "columns": {
@@ -410,7 +408,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "verificationToken": {
+    "public.verificationToken": {
       "name": "verificationToken",
       "schema": "",
       "columns": {
@@ -448,27 +446,32 @@
     }
   },
   "enums": {
-    "logPostType": {
+    "public.logPostType": {
       "name": "logPostType",
-      "values": {
-        "http": "http",
-        "form": "form",
-        "webhook": "webhook",
-        "email": "email"
-      }
+      "schema": "public",
+      "values": [
+        "http",
+        "form",
+        "webhook",
+        "email"
+      ]
     },
-    "logType": {
+    "public.logType": {
       "name": "logType",
-      "values": {
-        "success": "success",
-        "error": "error"
-      }
+      "schema": "public",
+      "values": [
+        "success",
+        "error"
+      ]
     }
   },
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "4a27b69c-9270-4dcb-a6f7-9988e98c83c9",
+  "prevId": "aac0d4d3-bfd6-4842-9eeb-94ca03658cba",
+  "sequences": {}
 }
