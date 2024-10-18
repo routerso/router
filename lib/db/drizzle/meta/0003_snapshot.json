@@ -1,4 +1,6 @@
 {
+  "id": "7f749490-e86a-4ff3-adf0-f5446ca58dbd",
+  "prevId": "6f6f3017-97ef-49bc-b4b6-99235f267ede",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -78,15 +80,15 @@
         "account_userId_user_id_fk": {
           "name": "account_userId_user_id_fk",
           "tableFrom": "account",
+          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
-          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -198,15 +200,15 @@
         "endpoint_userId_user_id_fk": {
           "name": "endpoint_userId_user_id_fk",
           "tableFrom": "endpoint",
+          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
-          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -252,15 +254,15 @@
         "lead_endpointId_endpoint_id_fk": {
           "name": "lead_endpointId_endpoint_id_fk",
           "tableFrom": "lead",
+          "tableTo": "endpoint",
           "columnsFrom": [
             "endpointId"
           ],
-          "tableTo": "endpoint",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -285,12 +287,14 @@
         "type": {
           "name": "type",
           "type": "logType",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
         "postType": {
           "name": "postType",
           "type": "logPostType",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -312,15 +316,15 @@
         "log_endpointId_endpoint_id_fk": {
           "name": "log_endpointId_endpoint_id_fk",
           "tableFrom": "log",
+          "tableTo": "endpoint",
           "columnsFrom": [
             "endpointId"
           ],
-          "tableTo": "endpoint",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -354,15 +358,15 @@
         "session_userId_user_id_fk": {
           "name": "session_userId_user_id_fk",
           "tableFrom": "session",
+          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
-          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -408,6 +412,13 @@
           "primaryKey": false,
           "notNull": true,
           "default": 0
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -473,12 +484,10 @@
     }
   },
   "schemas": {},
+  "sequences": {},
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {}
-  },
-  "id": "6f6f3017-97ef-49bc-b4b6-99235f267ede",
-  "prevId": "4a27b69c-9270-4dcb-a6f7-9988e98c83c9",
-  "sequences": {}
+    "tables": {}
+  }
 }
