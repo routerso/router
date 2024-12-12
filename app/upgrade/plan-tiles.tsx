@@ -162,10 +162,8 @@ const Tile = ({
         {!isCurrentPlan &&
           (plan.monthlyPrice !== "Contact For Pricing" ? (
             <>
+              <Button className="w-full">Purchase Monthly</Button>
               <Button className="w-full" variant="outline">
-                Purchase Monthly
-              </Button>
-              <Button className="w-full" variant="secondary">
                 Purchase Yearly
               </Button>
             </>
