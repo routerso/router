@@ -11,7 +11,6 @@ interface PlanProps {
   yearlyStripePriceId?: string;
   stripeProductId?: string;
   features?: string[];
-  isPopular?: boolean;
 }
 
 const plans: PlanProps[] = [
@@ -44,7 +43,6 @@ const plans: PlanProps[] = [
       "Unlimited Form Generations",
       "Unlimited Webhooks",
     ],
-    isPopular: true,
   },
   {
     name: "Business",
@@ -103,20 +101,21 @@ const Tile = ({
   plan: PlanProps;
   currentPlan?: string;
 }) => {
-  const isCurrentPlan = currentPlan === plan.name;
+  const isCurrentPlan = currentPlan?.toLowerCase() === plan.name.toLowerCase();
+
+  console.log(currentPlan);
 
   return (
     <div
       className={cn(
-        "relative bg-background p-6 rounded-lg border flex flex-col gap-4 transition-all hover:shadow-md",
-        plan.isPopular && "border-primary shadow-sm",
-        isCurrentPlan && "border-primary/50"
+        "relative bg-background p-6 rounded-lg border flex flex-col gap-4 transition-all",
+        isCurrentPlan && "border-2 border-primary bg-primary/5"
       )}
     >
-      {plan.isPopular && (
+      {isCurrentPlan && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary px-3 py-1 rounded-full">
           <p className="text-xs text-primary-foreground font-medium">
-            Most Popular
+            Current Plan
           </p>
         </div>
       )}
@@ -137,8 +136,10 @@ const Tile = ({
                 </span>
               </p>
               <p className="text-muted-foreground text-sm">
-                ${plan.yearlyPrice}/year (save $
-                {plan.monthlyPrice * 12 - plan.yearlyPrice})
+                ${plan.yearlyPrice}/year
+                {typeof plan.monthlyPrice === "number" &&
+                  typeof plan.yearlyPrice === "number" &&
+                  ` (save $${plan.monthlyPrice * 12 - plan.yearlyPrice})`}
               </p>
             </div>
           ) : (
@@ -156,29 +157,28 @@ const Tile = ({
       </div>
 
       <div className="space-y-2 pt-4">
-        {plan.monthlyPrice !== "Contact For Pricing" ? (
-          <>
-            <Button
-              className="w-full"
-              variant={plan.isPopular ? "default" : "outline"}
-            >
-              Purchase Monthly
-            </Button>
-            <Button
-              className="w-full"
-              variant={plan.isPopular ? "outline" : "secondary"}
-            >
-              Purchase Yearly
-            </Button>
-          </>
-        ) : (
-          <Button className="w-full">Contact Sales</Button>
+        {!isCurrentPlan &&
+          (plan.monthlyPrice !== "Contact For Pricing" ? (
+            <>
+              <Button className="w-full" variant="outline">
+                Purchase Monthly
+              </Button>
+              <Button className="w-full" variant="secondary">
+                Purchase Yearly
+              </Button>
+            </>
+          ) : (
+            <Button className="w-full">Contact Sales</Button>
+          ))}
+        {isCurrentPlan && (
+          <Button
+            variant="outline"
+            className="w-full pointer-events-none cursor-default"
+          >
+            Your Active Plan
+          </Button>
         )}
       </div>
-
-      {isCurrentPlan && (
-        <p className="text-center text-sm text-primary">Current Plan</p>
-      )}
     </div>
   );
 };
