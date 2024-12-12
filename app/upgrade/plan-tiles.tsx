@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface PlanProps {
   name: string;
@@ -9,12 +11,13 @@ interface PlanProps {
   yearlyStripePriceId?: string;
   stripeProductId?: string;
   features?: string[];
+  isPopular?: boolean;
 }
 
 const plans: PlanProps[] = [
   {
     name: "Lite",
-    description: "Get started with our lite plan.",
+    description: "Perfect for small projects and individual developers.",
     monthlyPrice: 7,
     yearlyPrice: 60,
     stripeProductId: "prod_RO4s2U30VgdeFN",
@@ -29,7 +32,7 @@ const plans: PlanProps[] = [
   },
   {
     name: "Pro",
-    description: "Get started with our pro plan.",
+    description: "Best for growing teams and businesses.",
     monthlyPrice: 20,
     yearlyPrice: 200,
     stripeProductId: "prod_RO4sb2253IZWhU",
@@ -41,10 +44,11 @@ const plans: PlanProps[] = [
       "Unlimited Form Generations",
       "Unlimited Webhooks",
     ],
+    isPopular: true,
   },
   {
     name: "Business",
-    description: "Get started with our business plan.",
+    description: "Advanced features for larger organizations.",
     monthlyPrice: 50,
     yearlyPrice: 500,
     stripeProductId: "prod_RO4xe0gGxzWtSb",
@@ -61,7 +65,7 @@ const plans: PlanProps[] = [
   },
   {
     name: "Enterprise",
-    description: "Get started with our enterprise plan.",
+    description: "Custom solutions for enterprise needs.",
     monthlyPrice: "Contact For Pricing",
     yearlyPrice: "Contact For Pricing",
     features: [
@@ -78,39 +82,103 @@ const plans: PlanProps[] = [
 export const PlanTiles = ({ usage }: { usage: any }) => {
   return (
     <section className="grid gap-12">
-      <div className="grid grid-cols-2 gap-4">
-        {plans.map((plan) => {
-          return <Tile key={plan.name} plan={plan} />;
-        })}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {plans.map((plan) => (
+          <Tile key={plan.name} plan={plan} currentPlan={usage?.plan} />
+        ))}
       </div>
 
-      <p>Current Plan: {usage?.plan}</p>
+      <p className="text-center text-muted-foreground">
+        Current Plan:{" "}
+        <span className="font-medium text-foreground">{usage?.plan}</span>
+      </p>
     </section>
   );
 };
 
-const Tile = ({ plan }: { plan: PlanProps }) => {
-  return (
-    <div className="bg-background p-4 rounded-lg border grid gap-4">
-      <p>{plan.name} Plan</p>
-      <p className="text-muted-foreground">{plan.description}</p>
-      <p>
-        {plan.monthlyPrice !== "Contact For Pricing"
-          ? `$${plan.monthlyPrice}/month`
-          : plan.monthlyPrice}
-      </p>
-      {plan.monthlyPrice !== "Contact For Pricing" ? (
-        <Button>Purchase Monthly</Button>
-      ) : null}
+const Tile = ({
+  plan,
+  currentPlan,
+}: {
+  plan: PlanProps;
+  currentPlan?: string;
+}) => {
+  const isCurrentPlan = currentPlan === plan.name;
 
-      <p>
-        {plan.yearlyPrice !== "Contact For Pricing"
-          ? `$${plan.yearlyPrice}/year`
-          : null}
-      </p>
-      {plan.yearlyPrice !== "Contact For Pricing" ? (
-        <Button>Purchase Yearly</Button>
-      ) : null}
+  return (
+    <div
+      className={cn(
+        "relative bg-background p-6 rounded-lg border flex flex-col gap-4 transition-all hover:shadow-md",
+        plan.isPopular && "border-primary shadow-sm",
+        isCurrentPlan && "border-primary/50"
+      )}
+    >
+      {plan.isPopular && (
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary px-3 py-1 rounded-full">
+          <p className="text-xs text-primary-foreground font-medium">
+            Most Popular
+          </p>
+        </div>
+      )}
+
+      <div className="space-y-2">
+        <h3 className="text-xl font-semibold">{plan.name}</h3>
+        <p className="text-muted-foreground text-sm">{plan.description}</p>
+      </div>
+
+      <div className="space-y-4 flex-1">
+        <div className="space-y-2">
+          {plan.monthlyPrice !== "Contact For Pricing" ? (
+            <div className="space-y-1">
+              <p className="text-3xl font-bold">
+                ${plan.monthlyPrice}
+                <span className="text-muted-foreground text-sm font-normal">
+                  /month
+                </span>
+              </p>
+              <p className="text-muted-foreground text-sm">
+                ${plan.yearlyPrice}/year (save $
+                {plan.monthlyPrice * 12 - plan.yearlyPrice})
+              </p>
+            </div>
+          ) : (
+            <p className="text-xl font-semibold">{plan.monthlyPrice}</p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          {plan.features?.map((feature) => (
+            <p className="flex items-center gap-2 text-sm" key={feature}>
+              <Check className="text-primary" size={14} /> {feature}
+            </p>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-2 pt-4">
+        {plan.monthlyPrice !== "Contact For Pricing" ? (
+          <>
+            <Button
+              className="w-full"
+              variant={plan.isPopular ? "default" : "outline"}
+            >
+              Purchase Monthly
+            </Button>
+            <Button
+              className="w-full"
+              variant={plan.isPopular ? "outline" : "secondary"}
+            >
+              Purchase Yearly
+            </Button>
+          </>
+        ) : (
+          <Button className="w-full">Contact Sales</Button>
+        )}
+      </div>
+
+      {isCurrentPlan && (
+        <p className="text-center text-sm text-primary">Current Plan</p>
+      )}
     </div>
   );
 };
