@@ -10,7 +10,11 @@ import { createLog } from "@/lib/data/logs";
 import { getErrorMessage } from "@/lib/helpers/error-message";
 import { constructBodyFromURLParameters } from "@/lib/helpers/construct-body";
 import { getPostingEndpointById } from "@/lib/data/endpoints";
-import { incrementLeadCount, getLeadCount } from "@/lib/data/users";
+import {
+  incrementLeadCount,
+  getUserPlan,
+  getLeadCount,
+} from "@/lib/data/users";
 
 /**
  * API route for posting a lead using POST
@@ -54,9 +58,31 @@ export async function POST(
       );
     }
 
+    const plan = await getUserPlan(params.id);
     const leadCount = await getLeadCount(params.id);
 
-    if (leadCount >= 75) {
+    let leadLimit: number;
+    switch (plan) {
+      case "free":
+        leadLimit = 100;
+        break;
+      case "lite":
+        leadLimit = 1000;
+        break;
+      case "pro":
+        leadLimit = 10000;
+        break;
+      case "business":
+        leadLimit = 50000;
+        break;
+      case "enterprise":
+        leadLimit = 999999;
+        break;
+      default:
+        leadLimit = 100; // Fallback to free tier limit
+    }
+
+    if (leadCount >= leadLimit) {
       return NextResponse.json(
         { message: "Lead limit reached." },
         { status: 429 }
@@ -172,9 +198,31 @@ export async function GET(
       );
     }
 
+    const plan = await getUserPlan(params.id);
     const leadCount = await getLeadCount(params.id);
 
-    if (leadCount >= 75) {
+    let leadLimit: number;
+    switch (plan) {
+      case "free":
+        leadLimit = 100;
+        break;
+      case "lite":
+        leadLimit = 1000;
+        break;
+      case "pro":
+        leadLimit = 10000;
+        break;
+      case "business":
+        leadLimit = 50000;
+        break;
+      case "enterprise":
+        leadLimit = 999999;
+        break;
+      default:
+        leadLimit = 100; // Fallback to free tier limit
+    }
+
+    if (leadCount >= leadLimit) {
       return NextResponse.json(
         { message: "Lead limit reached." },
         { status: 429 }

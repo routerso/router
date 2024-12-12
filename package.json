@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "test:unit": "vitest",
-    "db:generate": "drizzle-kit generate:pg",
+    "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx lib/db/migrate.ts"
   },
   "dependencies": {

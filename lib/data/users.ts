@@ -48,6 +48,27 @@ export const getLeadCount = async (endpointId: string) => {
 };
 
 /**
+ * Retrieves the user's plan for a specific endpoint
+ *
+ * @returns The user's plan associated with the endpoint's user
+ * @throws Error if the endpoint is not found or not associated with a user
+ */
+export const getUserPlan = async (endpointId: string) => {
+  const result = await db
+    .select({ plan: users.plan })
+    .from(users)
+    .innerJoin(endpoints, eq(users.id, endpoints.userId))
+    .where(eq(endpoints.id, endpointId))
+    .limit(1);
+
+  if (result.length === 0) {
+    throw new Error("Endpoint not found or not associated with a user");
+  }
+
+  return result[0].plan;
+};
+
+/**
  * Clears the lead count for all users
  *
  * Runs once a month on a CRON trigger
@@ -65,7 +86,7 @@ export const clearLeadCount = async () => {
 export const getUsageForUser = authenticatedAction.action(
   async ({ ctx: { userId } }) => {
     const result = await db
-      .select({ leadCount: users.leadCount })
+      .select({ leadCount: users.leadCount, plan: users.plan })
       .from(users)
       .where(eq(users.id, userId));
 
@@ -73,6 +94,6 @@ export const getUsageForUser = authenticatedAction.action(
       throw new Error("User not found");
     }
 
-    return result[0].leadCount;
+    return result[0];
   }
 );
