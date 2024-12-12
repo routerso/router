@@ -80,7 +80,7 @@ const plans: PlanProps[] = [
 export const PlanTiles = ({ usage }: { usage: any }) => {
   return (
     <section className="grid gap-12">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4">
         {plans.map((plan) => (
           <Tile key={plan.name} plan={plan} currentPlan={usage?.plan} />
         ))}
@@ -88,7 +88,9 @@ export const PlanTiles = ({ usage }: { usage: any }) => {
 
       <p className="text-center text-muted-foreground">
         Current Plan:{" "}
-        <span className="font-medium text-foreground">{usage?.plan}</span>
+        <span className="font-medium text-foreground uppercase">
+          {usage?.plan}
+        </span>
       </p>
     </section>
   );
