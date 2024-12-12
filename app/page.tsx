@@ -36,7 +36,6 @@ export default async function Page() {
   // fetch number of leads for user this month
   const usage = await getUsageForUser();
   const { data: usageData, serverError: usageServerError } = usage || {};
-  console.log(usageData);
 
   // check for errors
   if (
@@ -56,14 +55,47 @@ export default async function Page() {
   // get the 5 most recent leads
   const recentLeads = leadsData.slice(0, 5);
 
+  // get the lead limit for the user's plan
+  let leadLimit: number;
+  switch (usageData?.plan) {
+    case "free":
+      leadLimit = 100;
+      break;
+    case "lite":
+      leadLimit = 1000;
+      break;
+    case "pro":
+      leadLimit = 10000;
+      break;
+    case "business":
+      leadLimit = 50000;
+      break;
+    case "enterprise":
+      leadLimit = 999999;
+      break;
+    default:
+      leadLimit = 100; // Fallback to free tier limit
+  }
+
   return (
     <>
       <Breadcrumbs pageName={pageData?.name} />
       <PageWrapper>
         <Header title={pageData?.title}>{pageData?.description}</Header>
         <div className="grid grid-cols-3 gap-4">
-          <Chart chartData={chartData} className="col-span-2" />
-          <Usage totalUsage={75} used={usageData} plan="Free" />
+          <Chart
+            chartData={chartData}
+            className={`${
+              usageData.plan === "enterprise" ? "col-span-3" : "col-span-2"
+            }`}
+          />
+          {usageData.plan !== "enterprise" && (
+            <Usage
+              totalUsage={leadLimit}
+              used={usageData.leadCount}
+              plan={usageData.plan}
+            />
+          )}
           <Links />
         </div>
         <div className="mt-8">

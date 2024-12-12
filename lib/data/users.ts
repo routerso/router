@@ -86,7 +86,7 @@ export const clearLeadCount = async () => {
 export const getUsageForUser = authenticatedAction.action(
   async ({ ctx: { userId } }) => {
     const result = await db
-      .select({ leadCount: users.leadCount })
+      .select({ leadCount: users.leadCount, plan: users.plan })
       .from(users)
       .where(eq(users.id, userId));
 
@@ -94,6 +94,6 @@ export const getUsageForUser = authenticatedAction.action(
       throw new Error("User not found");
     }
 
-    return result[0].leadCount;
+    return result[0];
   }
 );
