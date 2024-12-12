@@ -8,15 +8,10 @@ interface PlanProps {
   monthlyStripePriceId?: string;
   yearlyStripePriceId?: string;
   stripeProductId?: string;
+  features?: string[];
 }
 
 const plans: PlanProps[] = [
-  {
-    name: "Free",
-    description: "Get started with our free plan.",
-    monthlyPrice: 0,
-    yearlyPrice: 0,
-  },
   {
     name: "Lite",
     description: "Get started with our lite plan.",
@@ -25,6 +20,12 @@ const plans: PlanProps[] = [
     stripeProductId: "prod_RO4s2U30VgdeFN",
     monthlyStripePriceId: "price_1QVIiNCr7fYvZ7eq3SRX0YGS",
     yearlyStripePriceId: "price_1QVIiNCr7fYvZ7eqmJT5DnJc",
+    features: [
+      "1,000 form submissions",
+      "Unlimited endpoints",
+      "Unlimited Form Generations",
+      "Unlimited Webhooks",
+    ],
   },
   {
     name: "Pro",
@@ -34,6 +35,12 @@ const plans: PlanProps[] = [
     stripeProductId: "prod_RO4sb2253IZWhU",
     monthlyStripePriceId: "price_1QVIjDCr7fYvZ7eqYZ884nMA",
     yearlyStripePriceId: "price_1QVIjDCr7fYvZ7eqcw53Mtin",
+    features: [
+      "10,000 form submissions",
+      "Unlimited endpoints",
+      "Unlimited Form Generations",
+      "Unlimited Webhooks",
+    ],
   },
   {
     name: "Business",
@@ -43,19 +50,35 @@ const plans: PlanProps[] = [
     stripeProductId: "prod_RO4xe0gGxzWtSb",
     monthlyStripePriceId: "price_1QVInWCr7fYvZ7eqZ3FSVlFE",
     yearlyStripePriceId: "price_1QVInWCr7fYvZ7eqZg6AMiIv",
+    features: [
+      "50,000 form submissions",
+      "Unlimited endpoints",
+      "Unlimited Form Generations",
+      "Unlimited Webhooks",
+      "CRM Integrations",
+      "Slack Support",
+    ],
   },
   {
     name: "Enterprise",
     description: "Get started with our enterprise plan.",
     monthlyPrice: "Contact For Pricing",
     yearlyPrice: "Contact For Pricing",
+    features: [
+      "Unlimited form submissions",
+      "Unlimited endpoints",
+      "Unlimited Form Generations",
+      "Unlimited Webhooks",
+      "CRM Integrations",
+      "Slack Support",
+    ],
   },
 ];
 
 export const PlanTiles = ({ usage }: { usage: any }) => {
   return (
     <section className="grid gap-12">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         {plans.map((plan) => {
           return <Tile key={plan.name} plan={plan} />;
         })}
@@ -69,7 +92,7 @@ export const PlanTiles = ({ usage }: { usage: any }) => {
 const Tile = ({ plan }: { plan: PlanProps }) => {
   return (
     <div className="bg-background p-4 rounded-lg border grid gap-4">
-      <p>{plan.name}</p>
+      <p>{plan.name} Plan</p>
       <p className="text-muted-foreground">{plan.description}</p>
       <p>
         {plan.monthlyPrice !== "Contact For Pricing"
