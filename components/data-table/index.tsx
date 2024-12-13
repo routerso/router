@@ -69,28 +69,27 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter..."
-          value={
-            (table
-              .getColumn(filterColumn || "name")
-              ?.getFilterValue() as string) ?? ""
-          }
-          onChange={(event) =>
-            table
-              .getColumn(filterColumn || "name")
-              ?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-
-        <DataTableViewOptions table={table} />
+      <div className="flex items-center justify-between gap-2 py-4">
+        <div className="flex items-center gap-2">
+          <Input
+            placeholder="Filter..."
+            value={
+              (table
+                .getColumn(filterColumn || "name")
+                ?.getFilterValue() as string) ?? ""
+            }
+            onChange={(event) =>
+              table
+                .getColumn(filterColumn || "name")
+                ?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+          <DataTableViewOptions table={table} />
+        </div>
         {createObject && (
           <Link href="/endpoints/create">
-            <Button size="sm" variant="outline" className="h-8 ml-2">
-              Create endpoint
-            </Button>
+            <Button variant="outline">Create endpoint</Button>
           </Link>
         )}
       </div>
