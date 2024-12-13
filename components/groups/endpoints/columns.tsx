@@ -31,6 +31,21 @@ export const columns: ColumnDef<Endpoint>[] = [
     },
   },
   {
+    accessorKey: "leads",
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Leads" />;
+    },
+    cell: ({ row }) => {
+      const id: string = row.original.id;
+      return (
+        <Button asChild size="sm">
+          <Link href={`/endpoints/${id}/leads`}>View Leads</Link>
+        </Button>
+      );
+    },
+    enableSorting: false,
+  },
+  {
     accessorKey: "id",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="ID" />;
@@ -104,24 +119,6 @@ export const columns: ColumnDef<Endpoint>[] = [
       const id: string = row.original.id;
       const enabled: boolean = row.getValue("enabled");
       return <OptionsDropdown id={id} enabled={enabled} />;
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: "leads",
-    header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Leads" />;
-    },
-    cell: ({ row }) => {
-      const id: string = row.original.id;
-      return (
-        <Button asChild size="sm">
-          <Link href={`/endpoints/${id}/leads`}>
-            <Eye size={16} className="mr-2 inline" />
-            View Leads
-          </Link>
-        </Button>
-      );
     },
     enableSorting: false,
   },
