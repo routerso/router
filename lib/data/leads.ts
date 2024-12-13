@@ -1,12 +1,10 @@
 "use server";
 
 import { leads, endpoints } from "../db/schema";
-import { eq, desc, sql, and } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { db, Lead } from "../db";
-import { getErrorMessage } from "@/lib/helpers/error-message";
+import { db } from "../db";
 import { authenticatedAction } from "./safe-action";
-import { getLeadDataSchema } from "./validations";
 import { z } from "zod";
 
 /**
