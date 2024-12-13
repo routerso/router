@@ -32,7 +32,7 @@ export const columns: ColumnDef<Lead>[] = [
       return (
         <Link
           className="underline underline-offset-4 hover:opacity-70 transition-all"
-          href={`/endpoints/${row.original.endpointId}`}
+          href={`/endpoints/${row.original.endpointId}/leads`}
         >
           {endpoint}
         </Link>
