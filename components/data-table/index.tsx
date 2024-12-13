@@ -94,7 +94,7 @@ export function DataTable<TData, TValue>({
         )}
       </div>
       <div className="rounded-md">
-        <Table className="bg-background">
+        <Table className="bg-background overflow-x-auto">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
