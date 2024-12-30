@@ -58,7 +58,7 @@ export default function Nav() {
             <div className="flex justify-between items-center gap-2">
               <ModeToggle />
               <p className="text-xs text-muted-foreground opacity-50">
-                © router.so, 2024
+                © Router.so, 2024
               </p>
             </div>
           </div>

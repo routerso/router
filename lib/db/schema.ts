@@ -15,6 +15,14 @@ const createId = init({
   length: 8,
 });
 
+export const planEnum = pgEnum("plan", [
+  "free",
+  "lite",
+  "pro",
+  "business",
+  "enterprise",
+]);
+
 export const users = pgTable("user", {
   id: text("id")
     .primaryKey()
@@ -25,6 +33,8 @@ export const users = pgTable("user", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   leadCount: integer("leadCount").notNull().default(0),
+  plan: planEnum("plan").notNull().default("free"),
+  stripeCustomerId: text("stripeCustomerId"),
   createdAt: timestamp("createdAt", { withTimezone: true })
     .notNull()
     .defaultNow(),

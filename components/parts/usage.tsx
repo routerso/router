@@ -10,7 +10,6 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { CircleAlert, ArrowUp } from "lucide-react";
 import { Badge } from "../ui/badge";
-import Link from "next/link";
 
 export const Usage = ({
   totalUsage,
@@ -28,6 +27,10 @@ export const Usage = ({
     return Math.ceil(timeDiff / (1000 * 3600 * 24));
   };
 
+  const formatNumber = (num: number) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const daysLeft = calculateDaysLeft();
   const remaining = totalUsage - used;
   const usagePercentage = (used / totalUsage) * 100;
@@ -36,15 +39,13 @@ export const Usage = ({
     <Card className="w-full flex flex-col">
       <CardHeader className="mb-6 border-b">
         <CardTitle>Usage Overview</CardTitle>
-        <CardDescription>
-          Total leads captured out of your current plan limit.
-        </CardDescription>
+        <CardDescription>Monitor your usage.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6 flex-grow">
         <div className="grid gap-3 p-3 border rounded-sm bg-muted/25">
           <div className="flex justify-between items-center">
             <p>
-              {used} / {totalUsage}{" "}
+              {formatNumber(used)} / {formatNumber(totalUsage)}{" "}
               <span className="text-muted-foreground text-xs">
                 Leads Captured
               </span>
@@ -54,9 +55,9 @@ export const Usage = ({
             </Badge>
           </div>
           <Progress value={usagePercentage} className="h-2" />
-          <div className="flex justify-between">
+          <div className="space-y-1">
             <p className="text-xs text-muted-foreground">
-              {remaining} leads remaining
+              {formatNumber(remaining)} leads remaining
             </p>
             <p className="flex items-center space-x-1 text-xs">
               <CircleAlert className="h-3 w-3 text-green-500" />
