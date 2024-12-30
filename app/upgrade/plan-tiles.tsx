@@ -1,6 +1,9 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { postStripeSession } from "@/lib/data/stripe";
 
 interface PlanProps {
   name: string;
@@ -105,8 +108,6 @@ const Tile = ({
 }) => {
   const isCurrentPlan = currentPlan?.toLowerCase() === plan.name.toLowerCase();
 
-  console.log(currentPlan);
-
   return (
     <div
       className={cn(
@@ -162,8 +163,25 @@ const Tile = ({
         {!isCurrentPlan &&
           (plan.monthlyPrice !== "Contact For Pricing" ? (
             <>
-              <Button className="w-full">Purchase Monthly</Button>
-              <Button className="w-full" variant="outline">
+              <Button
+                onClick={() =>
+                  postStripeSession({
+                    priceId: plan.monthlyStripePriceId!,
+                  })
+                }
+                className="w-full"
+              >
+                Purchase Monthly
+              </Button>
+              <Button
+                onClick={() =>
+                  postStripeSession({
+                    priceId: plan.yearlyStripePriceId!,
+                  })
+                }
+                className="w-full"
+                variant="outline"
+              >
                 Purchase Yearly
               </Button>
             </>
