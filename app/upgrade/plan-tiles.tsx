@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { Check, Link } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { postStripeSession } from "@/lib/data/stripe";
 
@@ -189,12 +189,17 @@ const Tile = ({
             <Button className="w-full">Contact Sales</Button>
           ))}
         {isCurrentPlan && (
-          <Button
-            variant="outline"
-            className="w-full pointer-events-none cursor-default"
-          >
-            Your Active Plan
-          </Button>
+          <>
+            <Button
+              variant="outline"
+              className="w-full pointer-events-none cursor-default"
+            >
+              Your Active Plan
+            </Button>
+            <Button variant="secondary" className="w-full">
+              Manage Your Plan
+            </Button>
+          </>
         )}
       </div>
     </div>
