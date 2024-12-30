@@ -37,7 +37,7 @@ export const postStripeSession = authenticatedAction
       ],
       mode: "subscription",
       customer_email: email,
-      success_url: `${protocol}://${host}/result?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${protocol}://${host}/`,
     });
 
     if (!session.url) {

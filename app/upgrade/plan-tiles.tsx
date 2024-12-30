@@ -112,7 +112,7 @@ const Tile = ({
     <div
       className={cn(
         "relative bg-background p-6 rounded-lg border flex flex-col gap-4 transition-all",
-        isCurrentPlan && "border-2 border-primary bg-primary/5",
+        isCurrentPlan && "border-2 border-primary bg-primary/5"
       )}
     >
       {isCurrentPlan && (
