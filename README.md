@@ -1,4 +1,4 @@
-# Router.so / Open Soruce Form Backend
+# Router.so / Open Source Form Backend
 
 <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Frouterso%2Frouter%2Ftree%2Fmain&env=RESEND_API_KEY,NEXTAUTH_SECRET,NODE_ENV,POSTGRES_URL&envDescription=NODE_ENV%20should%20be%20%60development%60.%20Resend%20will%20require%20an%20account%20to%20get%20an%20API%20key.&envLink=https%3A%2F%2Fgithub.com%2Frouterso%2Frouter%2Ftree%2Fmain%3Ftab%3Dreadme-ov-file%23prerequisites&project-name=router-so&repository-name=router-so"><img src="https://vercel.com/button" alt="Deploy with Vercel"/></a>
 
