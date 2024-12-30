@@ -1,4 +1,4 @@
-# Router.so / Open Soruce Form Backend
+# Router.so / Open Source Form Backend
 
 <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Frouterso%2Frouter%2Ftree%2Fmain&env=RESEND_API_KEY,NEXTAUTH_SECRET,NODE_ENV,POSTGRES_URL&envDescription=NODE_ENV%20should%20be%20%60development%60.%20Resend%20will%20require%20an%20account%20to%20get%20an%20API%20key.&envLink=https%3A%2F%2Fgithub.com%2Frouterso%2Frouter%2Ftree%2Fmain%3Ftab%3Dreadme-ov-file%23prerequisites&project-name=router-so&repository-name=router-so"><img src="https://vercel.com/button" alt="Deploy with Vercel"/></a>
 
@@ -18,14 +18,14 @@ Before starting, ensure you have the following:
 
 ## Environment Variables
 
-After creating your accounts, update your `.env.example` to be `.env.local` for running the application locally. Then update the keys for each value.
+After creating your accounts, update your `.env.example` to be `.env.local` for running the application locally. Then, update the keys for each value.
 
 ## Step-by-Step Instructions
 
 1. **Clone the Repository**
 
    ```sh
-   git clone https://github.com/9d8dev/router.git
+   git clone https://github.com/routerso/router.git
    cd router/main
    ```
 ### Without Docker
@@ -46,7 +46,7 @@ After creating your accounts, update your `.env.example` to be `.env.local` for 
    npm drizzle-kit generate
    ```
 
-5. **Run the Databse Migrations**
+5. **Run the Database Migrations**
 
    ```sh
    npm tsx lib/db/migrate.ts
@@ -78,4 +78,4 @@ After creating your accounts, update your `.env.example` to be `.env.local` for 
 - [Vercel Documentation](https://vercel.com/docs)
 - [Resend Documentation](https://resend.com/docs)
 
-For any issues or questions, please open an issue on the [GitHub repository](https://github.com/9d8dev/router).
+For any issues or questions, please open an issue on the [GitHub repository](https://github.com/routerso/router).
