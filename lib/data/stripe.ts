@@ -46,3 +46,36 @@ export const postStripeSession = authenticatedAction
 
     redirect(session.url);
   });
+
+export const createCustomerPortalSession = authenticatedAction.action(
+  async ({ ctx: { userId } }) => {
+    const host = headers().get("host");
+    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+
+    const [{ email }] = await db
+      .select({ email: users.email })
+      .from(users)
+      .where(eq(users.id, userId));
+
+    // Get Stripe customer ID
+    const customer = await stripe.customers.list({
+      email,
+      limit: 1,
+    });
+
+    if (!customer.data[0]?.id) {
+      throw new Error("No Stripe customer found");
+    }
+
+    const session = await stripe.billingPortal.sessions.create({
+      customer: customer.data[0].id,
+      return_url: `${protocol}://${host}/upgrade`,
+    });
+
+    if (!session.url) {
+      throw new Error("Failed to create customer portal session");
+    }
+
+    redirect(session.url);
+  }
+);

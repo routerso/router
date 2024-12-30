@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Check, Link } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { postStripeSession } from "@/lib/data/stripe";
+import { createCustomerPortalSession } from "@/lib/data/stripe";
 
 interface PlanProps {
   name: string;
@@ -196,7 +197,11 @@ const Tile = ({
             >
               Your Active Plan
             </Button>
-            <Button variant="secondary" className="w-full">
+            <Button
+              variant="secondary"
+              className="w-full"
+              onClick={() => createCustomerPortalSession()}
+            >
               Manage Your Plan
             </Button>
           </>

@@ -34,6 +34,7 @@ export const users = pgTable("user", {
   image: text("image"),
   leadCount: integer("leadCount").notNull().default(0),
   plan: planEnum("plan").notNull().default("free"),
+  stripeCustomerId: text("stripeCustomerId"),
   createdAt: timestamp("createdAt", { withTimezone: true })
     .notNull()
     .defaultNow(),
