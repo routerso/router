@@ -18,14 +18,14 @@ Before starting, ensure you have the following:
 
 ## Environment Variables
 
-After creating your accounts, update your `.env.example` to be `.env.local` for running the application locally. Then update the keys for each value.
+After creating your accounts, update your `.env.example` to be `.env.local` for running the application locally. Then, update the keys for each value.
 
 ## Step-by-Step Instructions
 
 1. **Clone the Repository**
 
    ```sh
-   git clone https://github.com/9d8dev/router.git
+   git clone https://github.com/routerso/router.git
    cd router/main
    ```
 ### Without Docker
@@ -46,7 +46,7 @@ After creating your accounts, update your `.env.example` to be `.env.local` for 
    npm drizzle-kit generate
    ```
 
-5. **Run the Databse Migrations**
+5. **Run the Database Migrations**
 
    ```sh
    npm tsx lib/db/migrate.ts
@@ -78,4 +78,4 @@ After creating your accounts, update your `.env.example` to be `.env.local` for 
 - [Vercel Documentation](https://vercel.com/docs)
 - [Resend Documentation](https://resend.com/docs)
 
-For any issues or questions, please open an issue on the [GitHub repository](https://github.com/9d8dev/router).
+For any issues or questions, please open an issue on the [GitHub repository](https://github.com/routerso/router).
