@@ -5,6 +5,7 @@ import { Check, Link } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { postStripeSession } from "@/lib/data/stripe";
 import { createCustomerPortalSession } from "@/lib/data/stripe";
+import { STRIPE_PLANS } from "@/lib/constants/stripe";
 
 interface PlanProps {
   name: string;
@@ -17,15 +18,17 @@ interface PlanProps {
   features?: string[];
 }
 
+const ENV = process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
+
 const plans: PlanProps[] = [
   {
     name: "Lite",
     description: "Perfect for small projects and individual developers.",
     monthlyPrice: 7,
     yearlyPrice: 60,
-    stripeProductId: "prod_RO4s2U30VgdeFN",
-    monthlyStripePriceId: "price_1QVIiNCr7fYvZ7eq3SRX0YGS",
-    yearlyStripePriceId: "price_1QVIiNCr7fYvZ7eqmJT5DnJc",
+    stripeProductId: STRIPE_PLANS.lite.productId[ENV],
+    monthlyStripePriceId: STRIPE_PLANS.lite.monthlyPriceId[ENV],
+    yearlyStripePriceId: STRIPE_PLANS.lite.yearlyPriceId[ENV],
     features: [
       "1,000 form submissions",
       "Unlimited endpoints",
@@ -38,9 +41,9 @@ const plans: PlanProps[] = [
     description: "Best for growing teams and businesses.",
     monthlyPrice: 20,
     yearlyPrice: 200,
-    stripeProductId: "prod_RO4sb2253IZWhU",
-    monthlyStripePriceId: "price_1QVIjDCr7fYvZ7eqYZ884nMA",
-    yearlyStripePriceId: "price_1QVIjDCr7fYvZ7eqcw53Mtin",
+    stripeProductId: STRIPE_PLANS.pro.productId[ENV],
+    monthlyStripePriceId: STRIPE_PLANS.pro.monthlyPriceId[ENV],
+    yearlyStripePriceId: STRIPE_PLANS.pro.yearlyPriceId[ENV],
     features: [
       "10,000 form submissions",
       "Unlimited endpoints",
@@ -53,9 +56,9 @@ const plans: PlanProps[] = [
     description: "Advanced features for larger organizations.",
     monthlyPrice: 50,
     yearlyPrice: 500,
-    stripeProductId: "prod_RO4xe0gGxzWtSb",
-    monthlyStripePriceId: "price_1QVInWCr7fYvZ7eqZ3FSVlFE",
-    yearlyStripePriceId: "price_1QVInWCr7fYvZ7eqZg6AMiIv",
+    stripeProductId: STRIPE_PLANS.business.productId[ENV],
+    monthlyStripePriceId: STRIPE_PLANS.business.monthlyPriceId[ENV],
+    yearlyStripePriceId: STRIPE_PLANS.business.yearlyPriceId[ENV],
     features: [
       "50,000 form submissions",
       "Unlimited endpoints",
