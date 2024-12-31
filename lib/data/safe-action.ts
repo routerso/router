@@ -10,7 +10,7 @@ class ActionError extends Error {}
  * Creates a client of next-safe-action to use in server actions
  */
 export const actionClient = createSafeActionClient({
-  handleReturnedServerError(e) {
+  handleServerError(e) {
     if (e instanceof ActionError) {
       return e.message;
     }

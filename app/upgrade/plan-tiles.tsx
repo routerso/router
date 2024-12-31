@@ -18,7 +18,7 @@ interface PlanProps {
   features?: string[];
 }
 
-const ENV = process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
+const ENV = process.env.NODE_ENV === "production" ? "prod" : "dev";
 
 const plans: PlanProps[] = [
   {

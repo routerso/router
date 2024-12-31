@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { STRIPE_PLANS } from "@/lib/constants/stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
@@ -32,22 +33,29 @@ export async function POST(request: Request) {
       const priceId = lineItems.data[0].price?.id;
 
       // Determine the plan based on price ID
-      let plan: "lite" | "pro" | "business" | "enterprise";
-      switch (priceId) {
-        case "price_1QVIiNCr7fYvZ7eq3SRX0YGS":
-        case "price_1QVIiNCr7fYvZ7eqmJT5DnJc":
-          plan = "lite";
-          break;
-        case "price_1QVIjDCr7fYvZ7eqYZ884nMA":
-        case "price_1QVIjDCr7fYvZ7eqcw53Mtin":
-          plan = "pro";
-          break;
-        case "price_1QVInWCr7fYvZ7eqZ3FSVlFE":
-        case "price_1QVInWCr7fYvZ7eqZg6AMiIv":
-          plan = "business";
-          break;
-        default:
-          throw new Error("Invalid price ID");
+      let plan: "lite" | "pro" | "business";
+
+      // Get all possible price IDs for each plan
+      const priceIdToPlan = {
+        [STRIPE_PLANS.lite.monthlyPriceId.dev]: "lite",
+        [STRIPE_PLANS.lite.monthlyPriceId.prod]: "lite",
+        [STRIPE_PLANS.lite.yearlyPriceId.dev]: "lite",
+        [STRIPE_PLANS.lite.yearlyPriceId.prod]: "lite",
+        [STRIPE_PLANS.pro.monthlyPriceId.dev]: "pro",
+        [STRIPE_PLANS.pro.monthlyPriceId.prod]: "pro",
+        [STRIPE_PLANS.pro.yearlyPriceId.dev]: "pro",
+        [STRIPE_PLANS.pro.yearlyPriceId.prod]: "pro",
+        [STRIPE_PLANS.business.monthlyPriceId.dev]: "business",
+        [STRIPE_PLANS.business.monthlyPriceId.prod]: "business",
+        [STRIPE_PLANS.business.yearlyPriceId.dev]: "business",
+        [STRIPE_PLANS.business.yearlyPriceId.prod]: "business",
+      } as const;
+
+      plan = priceIdToPlan[priceId as keyof typeof priceIdToPlan];
+
+      if (!plan) {
+        console.error(`Invalid price ID: ${priceId}`);
+        throw new Error(`Invalid price ID: ${priceId}`);
       }
 
       const customerEmail = session.customer_email;
@@ -70,22 +78,29 @@ export async function POST(request: Request) {
       const priceId = subscription.items.data[0].price.id;
 
       // Determine the new plan based on price ID
-      let plan: "lite" | "pro" | "business" | "enterprise";
-      switch (priceId) {
-        case "price_1QVIiNCr7fYvZ7eq3SRX0YGS":
-        case "price_1QVIiNCr7fYvZ7eqmJT5DnJc":
-          plan = "lite";
-          break;
-        case "price_1QVIjDCr7fYvZ7eqYZ884nMA":
-        case "price_1QVIjDCr7fYvZ7eqcw53Mtin":
-          plan = "pro";
-          break;
-        case "price_1QVInWCr7fYvZ7eqZ3FSVlFE":
-        case "price_1QVInWCr7fYvZ7eqZg6AMiIv":
-          plan = "business";
-          break;
-        default:
-          throw new Error("Invalid price ID");
+      let plan: "lite" | "pro" | "business";
+
+      // Get all possible price IDs for each plan
+      const priceIdToPlan = {
+        [STRIPE_PLANS.lite.monthlyPriceId.dev]: "lite",
+        [STRIPE_PLANS.lite.monthlyPriceId.prod]: "lite",
+        [STRIPE_PLANS.lite.yearlyPriceId.dev]: "lite",
+        [STRIPE_PLANS.lite.yearlyPriceId.prod]: "lite",
+        [STRIPE_PLANS.pro.monthlyPriceId.dev]: "pro",
+        [STRIPE_PLANS.pro.monthlyPriceId.prod]: "pro",
+        [STRIPE_PLANS.pro.yearlyPriceId.dev]: "pro",
+        [STRIPE_PLANS.pro.yearlyPriceId.prod]: "pro",
+        [STRIPE_PLANS.business.monthlyPriceId.dev]: "business",
+        [STRIPE_PLANS.business.monthlyPriceId.prod]: "business",
+        [STRIPE_PLANS.business.yearlyPriceId.dev]: "business",
+        [STRIPE_PLANS.business.yearlyPriceId.prod]: "business",
+      } as const;
+
+      plan = priceIdToPlan[priceId as keyof typeof priceIdToPlan];
+
+      if (!plan) {
+        console.error(`Invalid price ID: ${priceId}`);
+        throw new Error(`Invalid price ID: ${priceId}`);
       }
 
       await db
