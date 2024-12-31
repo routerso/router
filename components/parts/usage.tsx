@@ -69,7 +69,7 @@ export const Usage = ({
           </div>
         </div>
       </CardContent>
-      {plan === "Free" && (
+      {(plan === "free" || plan === "lite") && (
         <CardFooter className="mt-auto">
           <UpgradePlan />
         </CardFooter>
