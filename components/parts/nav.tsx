@@ -3,6 +3,8 @@ import AccountWidget from "../auth/widget";
 import Link from "next/link";
 import Image from "next/image";
 import { ModeToggle } from "@/components/parts/mode-toggle";
+import { getUsageForUser } from "@/lib/data/users";
+import { LucideProps } from "lucide-react";
 
 // Image Imports
 import Logo from "@/public/logo.svg";
@@ -22,7 +24,10 @@ const otherLinks = [
   { href: "/support", text: "Support", icon: LifeBuoy },
 ];
 
-export default function Nav() {
+export default async function Nav() {
+  const usage = await getUsageForUser();
+  const plan = usage?.data?.plan;
+
   return (
     <nav className="p-4 flex flex-col gap-4 justify-between h-screen">
       <Link
@@ -54,11 +59,11 @@ export default function Nav() {
         </div>
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-8">
-            <AccountWidget />
+            <AccountWidget plan={plan} />
             <div className="flex justify-between items-center gap-2">
               <ModeToggle />
               <p className="text-xs text-muted-foreground opacity-50">
-                © Router.so, 2024
+                &copy; Router.so, 2024
               </p>
             </div>
           </div>
@@ -68,10 +73,17 @@ export default function Nav() {
   );
 }
 
-const NavLink = ({ href, children, icon: Icon }: NavLinkProps) => {
+interface NavLinkProps {
+  href: string;
+  children: React.ReactNode;
+  icon: React.ComponentType<LucideProps>;
+  className?: string;
+}
+
+const NavLink = ({ href, children, icon: Icon, className }: NavLinkProps) => {
   return (
     <Link
-      className="flex items-center gap-2 group p-2 rounded-md -ml-2 transition-all"
+      className={`flex items-center gap-2 group p-2 rounded-md -ml-2 transition-all ${className}`}
       href={href}
     >
       <Icon

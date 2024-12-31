@@ -1,5 +1,6 @@
-import { auth } from "@/lib/auth";
 import SignOut from "./signout";
+import Link from "next/link";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,11 +10,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { auth } from "@/lib/auth";
 import { Button } from "../ui/button";
+import { ArrowUp } from "lucide-react";
 
-export default async function AccountWidget() {
+interface AccountWidgetProps {
+  plan?: "free" | "lite" | "pro" | "business" | "enterprise";
+}
+
+export default async function AccountWidget({ plan }: AccountWidgetProps) {
   const session = await auth();
   if (!session) return;
+
+  const showUpgrade = plan === "free" || plan === "lite";
 
   return (
     <DropdownMenu>
@@ -36,6 +45,25 @@ export default async function AccountWidget() {
           {session.user?.email}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
+        {showUpgrade && (
+          <>
+            <DropdownMenuItem asChild className="p-0">
+              <Link
+                href="/upgrade"
+                className="w-full p-2 flex items-center gap-2 text-green-500 hover:bg-green-500/15 hover:text-green-500"
+              >
+                <ArrowUp className="h-4 w-4" />
+                <div className="grid gap-0.5">
+                  <span className="font-medium">Upgrade Plan</span>
+                  <span className="text-xs text-muted-foreground">
+                    Capture more leads
+                  </span>
+                </div>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+          </>
+        )}
         <SignOut>
           <DropdownMenuItem className="cursor-pointer">
             Log out
