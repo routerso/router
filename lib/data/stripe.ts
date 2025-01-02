@@ -38,6 +38,7 @@ export const postStripeSession = authenticatedAction
       mode: "subscription",
       customer_email: email,
       success_url: `${protocol}://${host}/`,
+      allow_promotion_codes: true,
     });
 
     if (!session.url) {
@@ -77,5 +78,5 @@ export const createCustomerPortalSession = authenticatedAction.action(
     }
 
     redirect(session.url);
-  }
+  },
 );
