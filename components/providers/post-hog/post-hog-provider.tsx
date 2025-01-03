@@ -3,6 +3,7 @@
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
 import { useEffect } from "react";
+import PostHogPageView from "./post-hog-page-view";
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -18,5 +19,10 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  return <PHProvider client={posthog}>{children}</PHProvider>;
+  return (
+    <PHProvider client={posthog}>
+      <PostHogPageView />
+      {children}
+    </PHProvider>
+  );
 }
