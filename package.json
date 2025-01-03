@@ -64,6 +64,7 @@
     "next-safe-action": "^7.10.2",
     "next-themes": "^0.3.0",
     "pg": "^8.13.1",
+    "posthog-js": "^1.203.3",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
