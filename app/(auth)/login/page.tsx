@@ -28,13 +28,21 @@ export default async function LoginPage() {
       </div>
       <p className="mt-4 max-w-xs text-center text-sm text-muted-foreground md:mb-24">
         By using router.so, you agree to our{" "}
-        <Link className="underline underline-offset-4" href="/">
+        <a
+          className="underline underline-offset-4"
+          target="_blank"
+          href="https://router.so/privacy"
+        >
           Privacy Policy
-        </Link>{" "}
+        </a>{" "}
         and{" "}
-        <Link className="underline underline-offset-4" href="/">
+        <a
+          className="underline underline-offset-4"
+          target="_blank"
+          href="https://router.so/terms"
+        >
           Terms of Service
-        </Link>
+        </a>
         .
       </p>
     </section>
