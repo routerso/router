@@ -21,6 +21,17 @@ export const validationOptions: { name: ValidationType }[] = [
   { name: "zip_code" },
 ];
 
+export const normalizedValidationOption = {
+  phone: "Phone Number",
+  email: "E-Mail Address",
+  string: "String",
+  number: "Number",
+  date: "Date",
+  boolean: "Boolean",
+  url: "URL",
+  zip_code: "Zip Code",
+}
+
 /**
  * Zod validations for each validation type
  *
