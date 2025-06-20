@@ -22,8 +22,9 @@ export default async function LoginPage() {
         <div className="rounded-md border border-yellow-500 border-dashed">
           <p className="text-xs text-yellow-500 max-w-xs p-4">
             On 6/19/25, our account with an upstream database provider was
-            deleted, losing past data. If you are on a paid plan, please reach
-            out to 9d8dev@gmail.com. We are very sorry for the inconvenience.
+            deleted, losing past data. If you are on a paid plan, or have any
+            concerns, please reach out to 9d8dev@gmail.com. We are sincerely
+            sorry for the inconvenience.
           </p>
         </div>
         <p className="text-center text-muted-foreground">
